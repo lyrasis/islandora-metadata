@@ -1,5 +1,8 @@
 :toc:
 :toc-placement!:
+ifdef::env-github[]
+:imagesdir: https://raw.githubusercontent.com/lyrasis/islandora8-metadata/main/images
+endif::[]
 
 = Field type: typed_text_short
 
@@ -17,4 +20,6 @@ toc::[]
 
 == Field configuration
 
+Testing adding an image
 
+image::test.png[]
