@@ -1,0 +1,20 @@
+:toc:
+:toc-placement!:
+
+= Field type: typed_text_short
+
+toc::[]
+
+== Schema
+
+[cols=2*,options=header]
+|===
+| Property name | Data type
+| value | Text (plain)
+| label | Text (plain)
+| type  | Entity reference
+|===
+
+== Field configuration
+
+
