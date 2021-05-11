@@ -43,7 +43,7 @@ The distinctions bewteen these categories are made because:
 * Linked data may be emitted differently depending on the category
 * Eventually, different functionality may be added to assist in managing terms in different categories. For instance, perhaps updates for terms in Category 1 could at some point be automatically harvested and applied either automatically or after human review.
 
-Note that terms from all three categories may co-exist in the same Islandora taxonomy vocabulary.
+NOTE: Terms from all three categories may co-exist in the same Islandora taxonomy vocabulary.
 
 ==== 1. Externally managed vocabulary term
 
@@ -53,7 +53,7 @@ A representation within your Islandora instance of a term established, controlle
 * Claudel, Camille - http://vocab.getty.edu/page/ulan/500102192
 * is donor of - http://rdaregistry.info/Elements/u/P60012
 
-There is some working being done toward enabling an Islandora instance to publish its taxonomy vocabularies as linked data, so at some point in the future, this scenario may also be another type of externally managed vocabulary term, if used in the Islandora instance at http://islandora_repo.my_institution.edu:
+There are some discussions and some work being done toward enabling an Islandora instance to publish its taxonomy vocabularies as linked data, so at some point in the future, this scenario may also be another type of externally managed vocabulary term, if used in the Islandora instance at http://islandora_repo.my_institution.edu:
 
 * Important person in my state - http://islandora_vocab_server.state_consortium.org/taxonomy/term/101
 
@@ -87,29 +87,32 @@ Terms established and managed only in this instance of Islandora.
 TODO: Actually implement these fields on all vocabularies. Currently I have been working to build them out on the `identifier_types` vocabulary.
 
 ==== Name
-Defined by Core Drupal
 
-Plain text, limited to 255 characters.
+* Defined by Core Drupal
+* Plain text, limited to 255 characters.
+* Required field value (the only one on taxonomy terms)
 
 The primary value used to display the term within Islandora. 
 
 ==== Description
-Defined by Core Drupal
 
-Plain text or HTML
+* Defined by Core Drupal
+* Plain text or HTML
 
 Shown on the taxonomy term page. Use as an optional scope note or explanation of term meaning or usage
 
 ==== Term URI
-Defined by LYRASIS
 
-Should be populated only for terms in Category 1, and should always be populated for terms in Category 1
+* Defined by LYRASIS
+* Should be populated only for terms in Category 1, and should always be populated for terms in Category 1
 
 CAUTION:  The above is not required/validated by the system, which does not make a distinction between the term categories
 
 Indicates the URI for the term in its original external vocabulary
 
-Used as predicate in linked data emitted by Islandora if the term is used as a type value on a node description field. For instance:
+Used as predicate in linked data emitted by Islandora if the term is used as the type property value in a node description field. For instance:
+
+---
 
 .JSON-LD mapping for identifier_types term used as Identifier type in node description
 ====
@@ -139,5 +142,38 @@ The JSON-LD output for the Identifier field value should be:
 }
 ----
 ====
+
+---
+
+Used as object in linked data emitted by Islandora if the term is used as the value property value in a node description field. For instance:
+
+---
+
+.JSON-LD mapping for identifier_types term used as Identifier type in node description
+====
+Assuming:
+
+* There is a term in the subject vocabulary with name "Guineafowl" and field_term_uri_link value of https://id.loc.gov/authorities/subjects/sh85057790
+* The Subject field on a content type node is an instance of `typed_entity_relationship` field type
+* The Subject field is configured to use http://purl.org/dc/terms/subject as the predicate if no type value is chosen for the field
+* The Subject field is filled out as follows:
+** `type`: null
+** `value`: Guineafowl (from subject)
+
+The JSON-LD output for the Subject field value should be:
+
+[source,javascript]
+----
+{
+  "@graph": [{
+    "@id":"https:\/\/default.traefik.me\/node\/15",
+    "http://purl.org/dc/terms/subject":[{"@id":"https://id.loc.gov/authorities/subjects/sh85057790"}]
+  ]}
+}
+----
+====
+
+
+---
 
 
