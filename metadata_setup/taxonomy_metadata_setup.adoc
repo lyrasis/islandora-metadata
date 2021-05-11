@@ -82,9 +82,17 @@ Terms established and managed only in this instance of Islandora.
 
 
 == Taxonomy term fields
-=== All vocabularies
+=== All vocabularies (with a few exceptions noted)
 
-TODO: Actually implement these fields on all vocabularies. Currently I have been working to build them out on the `identifier_types` vocabulary.
+These fields are not implemented on the following vocabularies:
+
+Islandora Display:: Islandora internal use
+Islandora Model:: Islandora internal use
+Islandora Media Use:: Islandora internal use
+Vocabulary Sources:: this vocabulary supports a limited internal use case and does not need much of the functionality that will be built on these fields
+
+
+TODO: Actually implement these fields on all other vocabularies. Currently I have been working to build them out on the `identifier_types` vocabulary.
 
 ==== Name
 
@@ -104,6 +112,8 @@ Shown on the taxonomy term page. Use as an optional scope note or explanation of
 ==== Term URI
 
 * Defined by LYRASIS
+* Link field type
+* Only external links are allowed
 * Should be populated only for terms in Category 1, and should always be populated for terms in Category 1
 
 CAUTION:  The above is not required/validated by the system, which does not make a distinction between the term categories
@@ -173,7 +183,59 @@ The JSON-LD output for the Subject field value should be:
 ----
 ====
 
-
 ---
 
+FOR_DISCUSSION: @nigelgbanks - I created this and Term Synonym URI to replace the "Authority Link" field type fields previously in use. I got annoyed with not being able to format or index the "Authority Link" field type as I wanted, so a plain "Link" field type seemed more straightforward.
 
+What we lose (or gain?) with this is the centralized control over namespaces that can be used in linked data. If our field types just call the taxonomy term, ask for its field_term_uri value, and use that in building the linked data, maybe that is easier and more flexible? It puts control over linked data output in the hands of metadata folks, for better or for worse. 
+
+I think that process does need to automagically change `https:` to `http:` in URIs being serialized to JSON-LD/RDF (for obscure linked data reasons).
+
+==== External Vocabulary Source
+
+* Defined by LYRASIS
+* Entity reference, linked to Vocabulary Sources taxonomy
+* Should always be populated for terms in Category 2a. Optionally, may be populated for terms in Category 1.
+
+CAUTION:  The above is not required/validated by the system, which does not make a distinction between the term categories
+
+This field is intended to support metadata managers in the retrieval, review, and management of terms from external vocabularies.
+
+==== Alternate Term
+
+* Defined by LYRASIS
+* Text
+
+Variant forms of the term as recorded in the name field.
+
+Increase discoverability of the term. Included in entity reference view to ensure metadata creators can find the "ISBN" identifier type even if they start typing "International..." Included in Solr indexto help end users get to the term that is used in the repository.
+
+==== Term Synonym URI
+
+* Defined by LYRASIS
+* Link field type
+* Only external links are allowed
+
+May be used in linked data emitted by Islandora, depending on how fields using terms with Term Synonym URI values are configured.
+
+TODO: examples
+
+If used in linked data, enriches the linkages between repository data and the larger linked data ecosystem.
+
+==== Deprecated Term?
+
+* Defined by LYRASIS
+* Boolean/checkbox field type
+* Default value is false/0/unchecked/"No"
+
+Used to create an entity reference view that includes only non-deprecated fields. Fields that may be populated with links to taxonomy terms can be optionally configured to use this view, so that metadata creators cannot assign deprecated terms in new metadata or revisions of existing metadata.
+
+==== Superseded by Term
+
+* Defined by LYRASIS
+* Entity reference to taxonomy term, linked to the vocabulary each term belongs to
+* Only non-deprecated terms may be selected
+
+Recommended to populate this field when a term is deprecated in favor of a new term.
+
+Can provide guidance to metadata creators, and inform future metadata remediation activity or functionality.
