@@ -1,1 +1,3 @@
 = LYRASIS Islandora 8 metadata documentation
+
+Installing the browser plugin https://github.com/powerman/userjs-github-asciidoc[UserJS for GitHub] will improve the display of some of the pages in this repo. 
