@@ -1,8 +1,5 @@
 :toc:
 :toc-placement!:
-ifdef::env-github[]
-:imagesdir: https://raw.githubusercontent.com/lyrasis/islandora8-metadata/main/images
-endif::[]
 
 = Field type: typed_text_short
 
@@ -22,11 +19,11 @@ toc::[]
 
 == Field instance configuration options
 
-- `value` length (up to 255)
-- `label` length (up to 255)
-- field repeatability (1, a specific number of times, unlimited)
+* Storage
+** field repeatability (1, a specific number of times, unlimited)
+** `value` length (up to 255)
+** `label` length (up to 255)
+* Field Definition
+** `type` - see https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/_shared_aspects.adoc[All "typed" field types > Field configuration options]
+** `label`- see All "labeled" field types > Field configuration options (TODO @kspurgin)
 
-- type of entity reference (we are assuming this will be taxonomy term)
-
-
-image::test.png[]
