@@ -2,15 +2,11 @@
 :toc-placement!:
 :toclevels: 4
 
-= Field types: Aspects and assumptions shared across types
+= Field types: Stuff shared by all field types having `type` property
 
 toc::[]
 
-== All "typed" field types
-
-These are the field types with a `type` property
-
-=== About the `type` property
+== About the `type` property
 
 Is always an entity reference to a taxonomy term.
 
@@ -21,16 +17,16 @@ The presence of values in taxonomy term fields beyond `name` play into this fiel
 Because these terms have impact on system behavior, it does not seem unreasonable to require their creation to involve metadata manager role or at least a separate workflow process.
 
 
-=== Field configuration options
-==== Select which vocabulary (or vocabularies) may be used to populate `type`
+== Field configuration options
+=== Select which vocabulary (or vocabularies) may be used to populate `type`
 
 Standard enitity reference option
 
-==== Select default entity reference or filter by an entity reference view (e.g. Active taxonomy terms)
+=== Select default entity reference or filter by an entity reference view (e.g. Active taxonomy terms)
 
 Standard enitity reference option
 
-==== Default linked data predicate (?)
+=== Default linked data predicate (?)
 
 URI to be used as linked data predicate when field instance is populated but `type` property is null.
 
@@ -78,7 +74,7 @@ So it seems we could:
 
 I kind of lean towards the latter as it keeps the field behavior more in one place, but things being all in one place is kind of a laughable dream in I8, so...
 
-==== Linked data predicate for `type` value without `field_term_uri` value
+=== Linked data predicate for `type` value without `field_term_uri` value
 
 Options:
 
@@ -132,21 +128,21 @@ The JSON-LD output for the Identifier field value should be:
 
 ---
 
-==== Don't need
+=== Don't need
 No need to include "Create referenced entities if they don't already exist" option, as we want new terms to be created in the Taxonomy > Add terms interface
 
 If it's there, it's not super problematic, but it's not possible for it to have an effect if checked, given the rest of the assumptions made
 
 
-=== Form widget
+== Form widget
 
 - Most of the vocabularies that will populate the `type` property are relatively small, so a dropdown works better, as it shows the available choices
 
-=== Display formatter
+== Display formatter
 
 - Entity reference should be rendered as unlinked term name
 
 Example: in the case of identifier types, it is not helpful to click on "ISBN" and be taken to that taxonomy term page
 
-=== RDF mapping
+== RDF mapping
 See examples under https://github.com/lyrasis/islandora8-metadata/blob/main/metadata_setup/taxonomy_metadata_setup.adoc#all-vocabularies-with-a-few-exceptions-noted[Metadata setup and practices: Taxonomy vocabularies] and the field configuration section above
