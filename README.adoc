@@ -1,6 +1,12 @@
 = LYRASIS Islandora 8 metadata documentation
 
-== Quick links to find stuff
+== Structure overview
+
+field_types:: specs for custom field types to support cultural heritage metadata needs
+images:: storage for any images included in documents
+metadata_setup:: this needs a better name, but tries to lay out the decisions, patterns, practices behind how I'm setting up metadata stuff for our clients, with explanation of how it works mixed in
+
+== Quick links to find stuff (canned queries)
 
 * https://github.com/lyrasis/islandora8-metadata/search?q=FOR_DISCUSSION+nigelgbanks[Implementation notes/questions for Nigel]
 * https://github.com/lyrasis/islandora8-metadata/search?q=source%2Cjavascript[JSON-LD mapping examples]
