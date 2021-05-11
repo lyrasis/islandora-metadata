@@ -1,4 +1,8 @@
 = LYRASIS Islandora 8 metadata documentation
+== Hey hey hey
+* https://github.com/lyrasis/islandora8-metadata/search?q=FOR_DISCUSSION+nigelgbanks[Implementation notes/questions for Nigel]
+* https://github.com/lyrasis/islandora8-metadata/search?q=source%2Cjavascript[JSON-LD mapping examples]
+* https://github.com/lyrasis/islandora8-metadata/search?q=TODO+kspurgin[Kristina's to-dos]... the more immediate ones, anyway
 
 == Improving Github display of .adoc
 
