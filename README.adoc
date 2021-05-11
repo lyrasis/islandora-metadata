@@ -5,6 +5,7 @@
 field_types:: specs for custom field types to support cultural heritage metadata needs
 images:: storage for any images included in documents
 metadata_setup:: this needs a better name, but tries to lay out the decisions, patterns, practices behind how I'm setting up metadata stuff for our clients, with explanation of how it works mixed in
+mods_migration:: documents to support migrating MODS metadata for ~20 clients currently in I7 into I8
 
 == Quick links to find stuff (canned queries)
 
