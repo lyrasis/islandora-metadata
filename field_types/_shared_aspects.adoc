@@ -5,7 +5,11 @@
 
 toc::[]
 
-== `type` property
+== All "typed" field types
+
+These are the field types with a `type` property
+
+=== About the `type` property
 
 Is always an entity reference to a taxonomy term.
 
@@ -15,17 +19,129 @@ The presence of values in taxonomy term fields beyond `name` play into this fiel
 
 Because these terms have impact on system behavior, it does not seem unreasonable to require their creation to involve metadata manager role or at least a separate workflow process.
 
-=== Field configuration
 
-- Ability to select which vocabulary (or vocabularies) may be used
-- No need to include "Create referenced entities if they don't already exist" option
-- Ability to use default entity reference or filter by an entity reference view (e.g. Active taxonomy terms)
+=== Field configuration options
+==== Select which vocabulary (or vocabularies) may be used to populate `type`
+
+
+==== Select default entity reference or filter by an entity reference view (e.g. Active taxonomy terms)
+
+==== Default linked data predicate (?)
+
+URI to be used as linked data predicate when field instance is populated but `type` property is null.
+
+---
+
+.JSON-LD mapping for Identifier field with no `type` property selected
+====
+Assuming:
+
+* The Identifier field (`field_identifier`) on a node is an instance of https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/typed_text_short.adoc[`typed_text_short` field type]
+* Default predicate value for `field_identifier` is set to `dcterms:identifier` (or `http://purl.org/dc/terms/identifier`, depending on how we set this option) 
+* The Identifier field is filled out as follows:
+** `type`: [null]
+** `value`: 12345
+
+The JSON-LD output for the Identifier field value should be:
+
+[source,javascript]
+----
+{
+  "@graph": [{
+    "@id":"https:\/\/default.traefik.me\/node\/1",
+    "http://purl.org/dc/terms/identifier":[{"@value":"12345"}]
+  ]}
+}
+----
+====
+
+---
+
+FOR_DISCUSSION: @nigelgbanks - Our field types are already going to be dynamically overriding many specifications in the `rdf.mapping.node.lyrasis_repository_item.yml` config.
+
+So it seems we could:
+
+* specify the default predicate in the `rdf.mapping` config
+
+[source,yaml]
+----
+  field_identifier:
+    properties:
+     - 'dcterms:identifier'
+----
+
+* OR set this as part of the field instance configuration
+
+I kind of lean towards the latter as it keeps the field behavior more in one place, but things being all in one place is kind of a laughable dream in I8, so...
+
+==== Linked data predicate for `type` value without `field_term_uri` value
+
+Options:
+
+* Use first Term Synonym URI value if present, and use default linked data predicate if no Term Synonym URI values are present
+* Use default linked data predicate
+
+.JSON-LD mapping for Identifier field where `type` term has no `field_term_uri` value but does have a `field_term_synonym_uri` value
+====
+Assuming:
+
+* The Identifier field (`field_identifier`) on a node is an instance of https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/typed_text_short.adoc[`typed_text_short` field type]
+* Identifier Type vocabulary includes the following term:
+** `name`: ISSN
+** `term_uri`: null
+** `term_synonym_uri`: https://id.loc.gov/vocabulary/identifiers/issn
+* Default predicate value for `field_identifier` is set to `dcterms:identifier` (or `http://purl.org/dc/terms/identifier`, depending on how we set this option) 
+* The Identifier field is filled out as follows:
+** `type`: ISSN
+** `value`: 1234-5678
+
+*With "Use first synonym URI" option configured*
+
+The JSON-LD output for the Identifier field value should be:
+
+[source,javascript]
+----
+{
+  "@graph": [{
+    "@id":"https:\/\/default.traefik.me\/node\/1",
+    "http://id.loc.gov/vocabulary/identifiers/issn":[{"@value":"1234-5678"}]
+  ]}
+}
+----
+====
+
+*With "Use default linked data predicate" option configured*
+
+The JSON-LD output for the Identifier field value should be:
+
+[source,javascript]
+----
+{
+  "@graph": [{
+    "@id":"https:\/\/default.traefik.me\/node\/1",
+    "http://purl.org/dc/terms/identifier":[{"@value":"1234-5678"}]
+  ]}
+}
+----
+====
+
+---
+
+==== Don't need
+No need to include "Create referenced entities if they don't already exist" option, as we want new terms to be created in the Taxonomy > Add terms interface
+
+If it's there, it's not super problematic, but it's not possible for it to have an effect if checked, given the rest of the assumptions made
+
 
 === Form widget
 
-- Most of these vocabularies are relatively small, so a dropdown works better, as it shows the available choices
+- Most of the vocabularies that will populate the `type` property are relatively small, so a dropdown works better, as it shows the available choices
 
 === Display formatter
 
-- Entity reference should be rendered as unlinked term name (in the case of identifier types, it is not helpful to click on "ISBN" and be taken to that taxonomy term page)
+- Entity reference should be rendered as unlinked term name
 
+Example: in the case of identifier types, it is not helpful to click on "ISBN" and be taken to that taxonomy term page
+
+=== RDF mapping
+See examples under https://github.com/lyrasis/islandora8-metadata/blob/main/metadata_setup/taxonomy_metadata_setup.adoc#all-vocabularies-with-a-few-exceptions-noted[Metadata setup and practices: Taxonomy vocabularies] and the field configuration section above
