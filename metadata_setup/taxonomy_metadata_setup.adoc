@@ -1,5 +1,6 @@
 :toc:
 :toc-placement!:
+:toclevels: 4
 
 = Metadata setup and practices: Taxonomy vocabularies
 
