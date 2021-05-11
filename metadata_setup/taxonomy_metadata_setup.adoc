@@ -92,7 +92,7 @@ Islandora Media Use:: Islandora internal use
 Vocabulary Sources:: this vocabulary supports a limited internal use case and does not need much of the functionality that will be built on these fields
 
 
-TODO: Actually implement these fields on all other vocabularies. Currently I have been working to build them out on the `identifier_types` vocabulary.
+TODO: @kspurgin Actually implement these fields on all other vocabularies. Currently I have been working to build them out on the `identifier_types` vocabulary.
 
 ==== Name
 
@@ -218,7 +218,7 @@ Increase discoverability of the term. Included in entity reference view to ensur
 
 May be used in linked data emitted by Islandora, depending on how fields using terms with Term Synonym URI values are configured.
 
-TODO: examples
+TODO: @kspurgin examples
 
 If used in linked data, enriches the linkages between repository data and the larger linked data ecosystem.
 
