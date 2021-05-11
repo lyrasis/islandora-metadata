@@ -1,3 +1,25 @@
 = LYRASIS Islandora 8 metadata documentation
 
-Installing the browser plugin https://github.com/powerman/userjs-github-asciidoc[UserJS for GitHub] will improve the display of some of the pages in this repo. 
+== Improving Github display of .adoc
+
+Installing the browser plugin https://github.com/powerman/userjs-github-asciidoc[UserJS for GitHub] will improve the display of some of the pages in this repo.
+
+== Rendering images
+
+Put this in header:
+
+----
+ifdef::env-github[]
+:imagesdir: https://raw.githubusercontent.com/lyrasis/islandora8-metadata/main/images
+endif::[]
+----
+
+All images should be committed/pushed to that directory.
+
+Then they can be referenced in a file like:
+
+----
+image::test.png[]
+----
+
+
