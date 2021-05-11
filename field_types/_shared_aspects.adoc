@@ -1,5 +1,6 @@
 :toc:
 :toc-placement!:
+:toclevels: 4
 
 = Field types: Aspects and assumptions shared across types
 
