@@ -11,12 +11,14 @@ Is always an entity reference to a taxonomy term.
 
 Behaviors triggered by the `type` property assume its value is a taxonomy term.
 
-The presence of values in taxonomy term fields play into this field/property's behavior, so new terms should be created in the relevant taxonomies directly---not by typing them in as "types" in node metadata.
+The presence of values in taxonomy term fields beyond `name` play into this field/property's behavior, so new terms should be created in the relevant taxonomies directly---not by typing them in as "types" in node metadata.
+
+Because these terms have impact on system behavior, it does not seem unreasonable to require their creation to involve metadata manager role or at least a separate workflow process.
 
 === Field configuration
 
 - Ability to select which vocabulary (or vocabularies) may be used
-- No need "Create referenced entities if they don't already exist"
+- No need to include "Create referenced entities if they don't already exist" option
 - Ability to use default entity reference or filter by an entity reference view (e.g. Active taxonomy terms)
 
 === Form widget
