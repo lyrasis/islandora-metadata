@@ -15,11 +15,18 @@ toc::[]
 | Property name | Data type
 | value | Text (plain)
 | label | Text (plain)
-| type  | Entity reference
+| type  | Entity reference to taxonomy term
 |===
 
-== Field configuration
+`value` is a required property. When filling out a form with an instance of this field, a user should not be able to save the form with this field having a `type` or `label`, but no `value`
 
-Testing adding an image
+== Field instance configuration options
+
+- `value` length (up to 255)
+- `label` length (up to 255)
+- field repeatability (1, a specific number of times, unlimited)
+
+- type of entity reference (we are assuming this will be taxonomy term)
+
 
 image::test.png[]
