@@ -1,0 +1,142 @@
+:toc:
+:toc-placement!:
+
+= Metadata setup and practices: Taxonomy vocabularies
+
+toc::[]
+
+== Context, assumptions, definitions
+
+Taxonomy is a core Drupal entity type, meaning it is a basic model of a kind of information with certain properties and behaviors. Some basic Drupal assumptions and behaviors around taxonomies include:
+
+* Taxonomies are made up of terms
+* Taxonomy terms are sub-organized into Taxonomy vocabularies (Person, Islandora Models, Identifier Types, etc.)
+* Terms in a vocabulary may be hierarchically arranged
+* Terms have names --- the values that display in bold at the top of a term page
+* Term names don't have to be unique within a vocabulary. You can have two Person terms with the name "John Smith"
+
+IMPORTANT: While Drupal/Islandora taxonomy vocabularies are in some ways similar to the notion of taxonomies/controlled vocabularies/authority files as we know them in metadata work, they are different in some fundamental ways listed below:
+
+* Term name uniqueness is not enforced by the system
+* No built-in support of syndetic structure (see/see also references) beyond parent/child hierarchy
+* No built-in support of "preferred terms" versus alternate forms
+* No built-in support for managing the source of a term, whether that's an indication of the fact that it comes from an external vocabulary, or whether you need to record proof/decision process and sources for original authority work.
+
+The taxonomy configuration and best practices we have established are described here. The hope for these is that they will allow us to eventually better support metadata expectations of how vocabularies function. 
+
+=== About the term "term"
+
+I'm using "term" to mean a single entry in a taxonomy vocabulary. It may be a single word, a phrase, a name, or a relationship designator. 
+
+=== Types/functions for taxonomy vocabularies
+
+. Collocation/discovery of objects by subject, creator, form, etc. -- The taxonomy term is hyperlinked and serves as a way to navigate the repository and discover content
+. Metadata consistency/data entry and internal system behavior -- Do not serve a navigation function and should not be hyperlinked in public display. Internal system behavior may include things like:
+.. how the object is displayed (islandora_model)
+.. how the value of a field is mapped to linked data (identifier_types)
+
+=== Categories of taxonomy terms
+
+The distinctions bewteen these categories are made because:
+
+* Linked data may be emitted differently depending on the category
+* Eventually, different functionality may be added to assist in managing terms in different categories. For instance, perhaps updates for terms in Category 1 could at some point be automatically harvested and applied either automatically or after human review.
+
+Note that terms from all three categories may co-exist in the same Islandora taxonomy vocabulary.
+
+==== 1. Externally managed vocabulary term
+
+A representation within your Islandora instance of a term established, controlled, and assigned a unique URI in a vocabulary outside of your Islandora instance. Examples:
+
+* Guineafowl - https://id.loc.gov/authorities/subjects/sh85057790.html
+* Claudel, Camille - http://vocab.getty.edu/page/ulan/500102192
+* is donor of - http://rdaregistry.info/Elements/u/P60012
+
+There is some working being done toward enabling an Islandora instance to publish its taxonomy vocabularies as linked data, so at some point in the future, this scenario may also be another type of externally managed vocabulary term, if used in the Islandora instance at http://islandora_repo.my_institution.edu:
+
+* Important person in my state - http://islandora_vocab_server.state_consortium.org/taxonomy/term/101
+
+Whether the type/function of a vocabulary is _collocation/discovery_ or _consistency/internal system behavior_, the vocabulary's terms must exist in Islandora for those functions to be supported.
+
+Currently that looks like manually entering the needed terms from extenal vocabularies, but there are discussions and ideas for other ways to support the use of terms from external vocabularies. 
+
+IMPORTANT: Where this documentation uses the shorthand "external term" or "external vocabulary term", remember that it literally means "a representation **in this Islandora instance** of a term from an external vocabulary".
+
+==== 2. Locally managed vocabulary term
+
+A term established and managed within your Islandora instance. There are two subcategories:
+
+===== 2a. External vocabulary terms with no URI
+
+A representation within your Islandora instance of a term established and controlled in a vocabulary outside of your Islandora instance, where the external vocabulary does not assign a URI to each term. Examples:
+
+- Acquired Brain Injury (ABI) -- from https://nccdd.org/welcome/glossary-and-terms/category/glossary-of-disability-terms.html[North Carolina Council on Developmental Disabilities Glossary of Disability Terms], which is available online, but which does not provide a URI for each term listed
+- CONSTITUTION (CANADA) AND FIRST NATIONS -- from Brian Deer Classification scheme, available https://xwi7xwa-library-10nov2016.sites.olt.ubc.ca/files/2019/06/Xwi7xwa-Classification-ver-04March2013P.pdf[as PDF]
+
+This can also include terms from local vocabularies that are managed outside Islandora. For instance, perhaps there is a shared Word document with a local genre vocabulary, and terms from this Word document are used in Islandora.
+
+===== 2b. Local terms established and managed purely in your Islandora instance
+
+Terms established and managed only in this instance of Islandora.
+
+
+== Taxonomy term fields
+=== All vocabularies
+
+TODO: Actually implement these fields on all vocabularies. Currently I have been working to build them out on the `identifier_types` vocabulary.
+
+==== Name
+Defined by Core Drupal
+
+Plain text, limited to 255 characters.
+
+The primary value used to display the term within Islandora. 
+
+==== Description
+Defined by Core Drupal
+
+Plain text or HTML
+
+Shown on the taxonomy term page. Use as an optional scope note or explanation of term meaning or usage
+
+==== Term URI
+Defined by LYRASIS
+
+Should be populated only for terms in Category 1, and should always be populated for terms in Category 1
+
+CAUTION:  The above is not required/validated by the system, which does not make a distinction between the term categories
+
+Indicates the URI for the term in its original external vocabulary
+
+Used as predicate in linked data emitted by Islandora if the term is used as a type value on a node description field. For instance:
+
+.JSON-LD mapping for identifier_types term used as Identifier type in node description
+====
+Assuming:
+
+* There is a term in the identifier_types vocabulary with name "ISBN" and field_term_uri_link value of https://schema.org/isbn
+* There is a term in the identifier_types vocabulary with name "Digital Object Identifier" and field_term_uri_link value of https://id.loc.gov/vocabulary/identifiers/doi.html
+* The Identifier field on a node is an instance of https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/typed_text_short.adoc[`typed_text_short` field type]
+* The Identifier field is filled out as follows:
+** first occurrence
+*** `type`: ISBN (from identifier_types)
+*** `value`: 1234567890
+** second occurrence
+*** `type`: Digital Object Identifier (from identifier_types)
+*** `value`: 10.1000/xyz123
+
+The JSON-LD output for the Identifier field value should be:
+
+[source,javascript]
+----
+{
+  "@graph": [{
+    "@id":"https:\/\/default.traefik.me\/node\/15",
+    "http://schema.org/isbn":[{"@value":"1234567890"}],
+    "http://id.loc.gov/vocabulary/identifiers/doi.html":[{"@value":"10.1000/xyz123"}]
+  ]}
+}
+----
+====
+
+
