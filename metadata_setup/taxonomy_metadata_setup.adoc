@@ -159,7 +159,7 @@ Used as object in linked data emitted by Islandora if the term is used as the va
 
 ---
 
-.JSON-LD mapping for identifier_types term used as Identifier type in node description
+.JSON-LD mapping for identifier_types term used as value in node description
 ====
 Assuming:
 
