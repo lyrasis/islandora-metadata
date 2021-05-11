@@ -24,6 +24,6 @@ toc::[]
 ** `value` length (up to 255)
 ** `label` length (up to 255)
 * Field Definition
-** `type` - see https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/_shared_aspects.adoc[All "typed" field types > Field configuration options]
+** `type` - see https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/_all_typed_fields.adoc[All "typed" field types > Field configuration options]
 ** `label`- see All "labeled" field types > Field configuration options (TODO @kspurgin)
 
