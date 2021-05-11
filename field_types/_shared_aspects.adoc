@@ -24,8 +24,11 @@ Because these terms have impact on system behavior, it does not seem unreasonabl
 === Field configuration options
 ==== Select which vocabulary (or vocabularies) may be used to populate `type`
 
+Standard enitity reference option
 
 ==== Select default entity reference or filter by an entity reference view (e.g. Active taxonomy terms)
+
+Standard enitity reference option
 
 ==== Default linked data predicate (?)
 
@@ -82,6 +85,8 @@ Options:
 * Use first Term Synonym URI value if present, and use default linked data predicate if no Term Synonym URI values are present
 * Use default linked data predicate
 
+---
+
 .JSON-LD mapping for Identifier field where `type` term has no `field_term_uri` value but does have a `field_term_synonym_uri` value
 ====
 Assuming:
@@ -109,7 +114,6 @@ The JSON-LD output for the Identifier field value should be:
   ]}
 }
 ----
-====
 
 *With "Use default linked data predicate" option configured*
 
