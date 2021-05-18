@@ -9,13 +9,20 @@ toc::[]
 == Display formatter options
 
 === Field label source
-This value will be used as the label for the field in the default display view.
+This value will be used as the label for the field in the default display view. Select one of the following:
 
 - Field name
 - Type value
 - Label value
 
-If the selected value (Type value or Label value) is null in a given field instance, 
+If the selected value (Type value or Label value) is null in a given field instance, the field label source cascades up that list.
+
+=== Field value label source
+==== Ideally:
+* You can never choose Field name
+* If `Field label source` = Field name, you get to pick: Type value, Label value, or none
+* If `Field label source` = Type value, you get to pick: Label value or none
+* If `Field label source` = Label value, you get to pick: Type value or none
 
 
 The following examples all share the following assumptions about field configuration:
@@ -32,24 +39,32 @@ Convention for expressing display:
 * Normal = field value
 
 
-==== Examples: Field label source = Label value
-===== `label` value populated
+==== Example: Field label source = Label value, Field value label source = Type value
 
 .Field values
 [cols=3*,options=header]
 |===
 | type | label | value
+| ISBN | | 999999999 (vol. 1)
 | ISBN | Invalid identifier | 123456789X (vol. 1)
+| ISBN | | 888888888 (vol. 2)
 | ISBN | Invalid identifier | 1234567889 (vol. 2)
 | Local identifier | Sierra record number | b123456x
+| | DOI | 10.1000/xyz123
+| | | BQW982
 |===
 
 .Display
 [cols=2*]
 |===
+| *ISBN* | 999999999 (vol. 1)
+
+888888888 (vol. 2)
 | *INVALID IDENTIFIER* | _ISBN:_ 123456789X (vol. 1)
 
 _ISBN:_ 1234567889 (vol. 2)
 | *SIERRA RECORD NUMBER* | _Local identifier:_ b123456x
+| *DOI* | 10.1000/xyz123
+| *IDENTIFIER* | BQW982
 |===
 
