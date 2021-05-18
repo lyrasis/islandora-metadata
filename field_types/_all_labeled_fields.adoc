@@ -13,15 +13,13 @@ Is always a short plain text type.
 
 This property supports the metadata pattern of providing identifying or contextualizing information for data recorded in a field, primarily for public display.
 
-Examples of support for this pattern in several metadata schema: 
+Examples of support for this general pattern in several metadata schema: 
 
 - http://www.loc.gov/standards/mods/userguide/attributes.html#displayLabel[MODS displayLabel attribute]
 - https://folgerpedia.folger.edu/MARC_%C7%823_Materials_specified[MARC subfield 3 (Materials specified)]
 - https://www.loc.gov/ead/EAD3taglib/EAD3.html#attr-label[EAD label attribute]
 
 There are use cases where such a label should be displayed as the main label of the field in which it is used.
-
-There are other use cases where such a label should be prepended to and visually distinguished from a value in a field, but where the main/default label for the field should be retained.
 
 ---
 
@@ -42,6 +40,37 @@ There are other use cases where such a label should be prepended to and visually
 image::physicalDescription_note_plain_display.png[]
 
 image::physicalDescription_note_displayLabel_display.png[]
+====
+
+---
+
+There are other use cases where such a label should be prepended to and visually distinguished from a value in a field, but where the main/default label for the field should be retained.
+
+---
+
+.Example from LYRASIS Islandora 7 behavior
+====
+[source,xml]
+----
+<titleInfo>
+  <title>
+    Tigard-Tualatin School District enrollment forecasts
+  </title>
+</titleInfo>
+<titleInfo type="alternative" displayLabel="Issues for 2008/09 to 2011/12- have title:">
+  <title>
+    Tigard-Tualatin School District enrollment forecast update
+  </title>
+</titleInfo>
+<titleInfo type="alternative" displayLabel="Issue for 2008/09 to 2017/18 has title:">
+  <title>
+    Tigard-Tualatin School District long-range enrollment forecasts
+  </title>
+</titleInfo>
+----
+
+image::titleInfo_displayLabel_display.png[]
+
 ====
 
 ---
