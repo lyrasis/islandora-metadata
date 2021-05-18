@@ -1,0 +1,55 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+= Field types: Stuff shared by all field types having both `type` and `label` properties
+
+toc::[]
+
+== Display formatter options
+
+=== Field label source
+This value will be used as the label for the field in the default display view.
+
+- Field name
+- Type value
+- Label value
+
+If the selected value (Type value or Label value) is null in a given field instance, 
+
+
+The following examples all share the following assumptions about field configuration:
+
+* field type = typed_text_short
+* field instance name/label = Identifier
+* `type` property set to link to terms in `identifier_types` vocabulary
+* There are `identifier_types` taxonomy terms with `name` property = `ISBN` and `Local identifier`
+
+Convention for expressing display:
+
+* *BOLD CAPS* = Main field label, which appears above or inline with the value as set in the basic field display formatter
+* _*Bold italics*_ = Visually distinguished field value label
+* Normal = field value
+
+
+==== Examples: Field label source = Label value
+===== `label` value populated
+
+*Field values*
+
+[cols=3*,options=header
+|===
+| type | label | value
+| ISBN | Invalid identifier | 123456789X (vol. 1)
+| ISBN | Invalid identifier | 1234567889 (vol. 2)
+| Local identifier | Sierra record number | b123456x
+|===
+
+
+[cols=2*
+|===
+| *INVALID IDENTIFIER* | _*ISBN:*_ 123456789X (vol. 1)
+| | 1234567889 (vol. 2)
+| *SIERRA RECORD NUMBER* | _*Local identifier:*_ b123456x
+|===
+

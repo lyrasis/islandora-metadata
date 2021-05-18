@@ -26,6 +26,7 @@ Standard enitity reference option
 
 Standard enitity reference option
 
+
 === Default linked data predicate (?)
 
 URI to be used as linked data predicate when field instance is populated but `type` property is null.
@@ -140,9 +141,7 @@ If it's there, it's not super problematic, but it's not possible for it to have 
 
 == Display formatter
 
-- Entity reference should be rendered as unlinked term name
-
-Example: in the case of identifier types, it is not helpful to click on "ISBN" and be taken to that taxonomy term page
+- Entity reference should be rendered as unlinked term name. Reasoning: using the example of identifier types, it is not helpful to click on "ISBN" and be taken to that taxonomy term page, where you may be able to find all other objects having an ISBN. 
 
 == RDF mapping
 See examples under https://github.com/lyrasis/islandora8-metadata/blob/main/metadata_setup/taxonomy_metadata_setup.adoc#all-vocabularies-with-a-few-exceptions-noted[Metadata setup and practices: Taxonomy vocabularies] and the field configuration section above
