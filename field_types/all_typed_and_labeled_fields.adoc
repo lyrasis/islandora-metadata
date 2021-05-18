@@ -37,7 +37,7 @@ Convention for expressing display:
 
 *Field values*
 
-[cols=3*,options=header
+[cols=3*,options=header]
 |===
 | type | label | value
 | ISBN | Invalid identifier | 123456789X (vol. 1)
@@ -46,7 +46,7 @@ Convention for expressing display:
 |===
 
 
-[cols=2*
+[cols=2*]
 |===
 | *INVALID IDENTIFIER* | _*ISBN:*_ 123456789X (vol. 1)
 | | 1234567889 (vol. 2)
