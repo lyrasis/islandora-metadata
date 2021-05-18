@@ -28,15 +28,14 @@ The following examples all share the following assumptions about field configura
 Convention for expressing display:
 
 * *BOLD CAPS* = Main field label, which appears above or inline with the value as set in the basic field display formatter
-* _*Bold italics*_ = Visually distinguished field value label
+* _Emphasized_ = Visually distinguished field value label
 * Normal = field value
 
 
 ==== Examples: Field label source = Label value
 ===== `label` value populated
 
-*Field values*
-
+.Field values
 [cols=3*,options=header]
 |===
 | type | label | value
@@ -45,11 +44,11 @@ Convention for expressing display:
 | Local identifier | Sierra record number | b123456x
 |===
 
-
+.Display
 [cols=2*]
 |===
-| *INVALID IDENTIFIER* | _*ISBN:*_ 123456789X (vol. 1)
+| *INVALID IDENTIFIER* | _ISBN:_ 123456789X (vol. 1)
 | | 1234567889 (vol. 2)
-| *SIERRA RECORD NUMBER* | _*Local identifier:*_ b123456x
+| *SIERRA RECORD NUMBER* | _Local identifier:_ b123456x
 |===
 
