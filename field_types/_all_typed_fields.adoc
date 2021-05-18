@@ -137,11 +137,25 @@ If it's there, it's not super problematic, but it's not possible for it to have 
 
 == Form widget
 
-- Most of the vocabularies that will populate the `type` property are relatively small, so a dropdown works better, as it shows the available choices
+- Most of the vocabularies that will populate the `type` property are relatively small, so a dropdown works better for populating this property, as it shows all the available choices
 
 == Display formatter
 
-- Entity reference should be rendered as unlinked term name. Reasoning: using the example of identifier types, it is not helpful to click on "ISBN" and be taken to that taxonomy term page, where you may be able to find all other objects having an ISBN. 
+* Entity reference should be rendered as unlinked term name. Reasoning: using the example of identifier types, it is not helpful to click on "ISBN" and be taken to that taxonomy term page, where you may be able to find all other objects having an ISBN.
+* For fields that have both `type` and `label` properties see https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/all_typed_and_labeled_fields.adoc[Field types: Stuff shared by all field types having both `type` and `label` properties]
+* If field has `type` property, but no `label` property, include the display formatter options as described in https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/all_typed_and_labeled_fields.adoc[Field types: Stuff shared by all field types having both `type` and `label` properties], with the following modifications to the available values:
+** Field label source:
+*** Field name
+*** Type value
+** Field value label source:
+*** Type value
+*** none
+
+== Indexing
+
+- For fields that have both `type` and `label` properties see https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/all_typed_and_labeled_fields.adoc[Field types: Stuff shared by all field types having both `type` and `label` properties]
+
+- If field has `type` property, but no `label` property, include only the `Index under field + type` and `Include field value label in indexed value?` options as described in https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/all_typed_and_labeled_fields.adoc[Field types: Stuff shared by all field types having both `type` and `label` properties]
 
 == RDF mapping
 See examples under https://github.com/lyrasis/islandora8-metadata/blob/main/metadata_setup/taxonomy_metadata_setup.adoc#all-vocabularies-with-a-few-exceptions-noted[Metadata setup and practices: Taxonomy vocabularies] and the field configuration section above

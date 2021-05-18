@@ -17,6 +17,8 @@ This value will be used as the label for the field in the default display view. 
 
 If the selected value (Type value or Label value) is null in a given field instance, the field label source cascades up that list.
 
+*Recommended default value:* Type value
+
 === Field value label source
 
 *Ideally:*
@@ -31,10 +33,14 @@ If the selected value (Type value or Label value) is null in a given field insta
 We can live with just always having the choices:
 
 - Type value
+- Type value + Label value
 - Label value
+- Label value + Type value
 - none
 
 If folks configure a weirdly redundant display, that's on them?
+
+*Recommended default value:* Label value
 
 == Display formatter examples
 
@@ -130,7 +136,7 @@ _ISBN:_ 1234567889 (vol. 2)
 | | | BQW982
 |===
 
-==== Example: Field label source = Type value, Field value label source = Label value
+==== Example: Field label source = Type value, Field value label source = Label value (Recommended default)
 
 .Display
 [cols=2*,stripes=none,valign=top]
@@ -295,3 +301,129 @@ b123456x
 
 BQW982
 |===
+
+== Indexing options
+
+These are easier to demonstrate with examples so I'm not going to try to write out descriptions of the options. I will just enumerate them here.
+
+[IMPORTANT]
+====
+Make sure whatever logic is used to create the field names incorporating `type` and/or `label` values do some kind of smart parameterization/normalization of those values.
+
+One problem we have in I7 is that the XSLT that created Solr fields from MODS was not smart about this, a client who wasn't consistent about entering `type` attribute values in the `note` element ends up with separate Solr fields such as:
+
+- note_bibliographic_history_*
+- note_bibliographic history_*
+- note_Bibliographic_history_*
+- note_bibliographic_history _*
+
+The ones with spaces don't even work at all in Solr!
+====
+
+=== Index under field + type?
+
+Boolean/checkbox
+
+*Recommended default value:* 1/true/Yes
+
+=== Index under field + label?
+
+Boolean/checkbox
+
+*Recommended default value:* 0/false/No
+
+=== Index under field + type + label?
+
+Boolean/checkbox
+
+*Recommended default value:* 0/false/No
+
+=== Include field value label in indexed value?
+
+Boolean/checkbox
+
+*Recommended default value:* 0/false/No
+
+IMPORTANT: make sure "rendered_view" of content type for indexing does include field value labels, so that phrase searching of the "whole node" will find these even with this option turned off. (This option will only really affect stuff using advanced search-y stuff anyway.)
+
+== Indexing option examples
+
+Each context below shows the Solr fields (-ish) that would be output, given the outlined settings
+
+.Field values
+[cols=3*,options=header]
+|===
+| type | label | value
+| ISBN | Vol. 1 | 999
+| | Vol. 2 | 888
+| ISBN | | 777
+| | 666
+| Local identifier | Vol. 1 | 555
+| Local identifier | | 444
+|===
+
+=== With recommended defaults
+
+identifier_*: "999", "888", "777", "666", "555", "444"
+
+identifier_isbn_*: "999", "777"
+
+identifier_local_identifier_*: "555", "444"
+
+identifier_nulltype_*: "888", "666"
+
+=== Defaults, except do include field value label in indexed value
+
+This can re-use whatever logic/internal field property gets set for handling the display. Whatever gets displayed as field value label (_emphasized_ in the display formatter option examples) is used here.
+
+The following assumes we've used the recommended default display formatter values:
+
+- Field label source: Type value
+- Field value label source: Label value
+
+identifier_*: "Vol. 1: 999", "Vol. 2: 888", "777", "666", "Vol. 1: 555", "444"
+
+identifier_isbn_*: "Vol. 1: 999", "777"
+
+identifier_local_identifier_*: "Vol. 1: 555", "444"
+
+identifier_nulltype_*: "Vol. 2: 888", "666"
+
+=== Defaults, except also index under field + label
+
+
+identifier_*: "999", "888", "777", "666", "555", "444"
+
+identifier_vol_1_*: "999", "555"
+
+identifier_vol_2_*: "888"
+
+identifier_null_label_*: "777", "666", "444"
+
+=== Yes to everything except inclusion of field label value in indexed value
+
+identifier_*: "999", "888", "777", "666", "555", "444"
+
+identifier_isbn_*: "999", "777"
+
+identifier_local_identifier_*: "555", "444"
+
+identifier_null_type_*: "888", "666"
+
+identifier_vol_1_*: "999", "555"
+
+identifier_vol_2_*: "888"
+
+identifier_null_label_*: "777", "666", "444"
+
+identifier_isbn_vol_1_*: "999"
+
+identifier_isbn_null_label_*: "777"
+
+identifier_local_identifier_vol_1_*: "555"
+
+identifier_local_identifier_null_label_*: "444"
+
+identifier_null_type_vol_2_*: "888"
+
+identifier_null_type_null_label_*: "666"
