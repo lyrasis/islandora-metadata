@@ -96,6 +96,10 @@ image::note_displayLabel_facet.png[]
 
 ---
 
+== Field configuration options
+
+* Text maximum length. (Default to 255)
+
 == Display formatter
 
 * For fields that have both `type` and `label` properties see https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/all_typed_and_labeled_fields.adoc[Field types: Stuff shared by all field types having both `type` and `label` properties]

@@ -17,13 +17,24 @@ toc::[]
 
 `value` is a required property. When filling out a form with an instance of this field, a user should not be able to save the form with this field having a `type` or `label`, but no `value`
 
-== Field instance configuration options
+== Field configuration options
+
+* See https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/_all_typed_fields.adoc[All "typed" field types > Field configuration options]
+* See https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/_all_labeled_fields.adoc[All "labeled" field types > Field configuration options]
 
 * Storage
 ** field repeatability (1, a specific number of times, unlimited)
 ** `value` length (up to 255)
-** `label` length (up to 255)
-* Field Definition
-** `type` - see https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/_all_typed_fields.adoc[All "typed" field types > Field configuration options]
-** `label`- see All "labeled" field types > Field configuration options (TODO @kspurgin)
+* Other field configuration options
+** nothing extra beyond what comes with typed and labeled field types
+
+== Display formatter options
+
+* See https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/all_typed_and_labeled_fields.adoc[Field types: Stuff shared by all field types having both type and label properties > Display formatter options & examples]
+
+== Indexing options
+
+* See https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/all_typed_and_labeled_fields.adoc[Field types: Stuff shared by all field types having both type and label properties > Indexing options & examples]
+
+
 

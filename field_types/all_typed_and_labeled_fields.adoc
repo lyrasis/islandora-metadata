@@ -344,7 +344,7 @@ Boolean/checkbox
 
 *Recommended default value:* 0/false/No
 
-IMPORTANT: make sure "rendered_view" of content type for indexing does include field value labels, so that phrase searching of the "whole node" will find these even with this option turned off. (This option will only really affect stuff using advanced search-y stuff anyway.)
+IMPORTANT: Make sure "rendered_view" of content type for indexing does include field value labels, so that phrase searching of the "whole node" will find these even with this option turned off. (This option will only really affect stuff using advanced search-y stuff anyway.)
 
 == Indexing option examples
 
