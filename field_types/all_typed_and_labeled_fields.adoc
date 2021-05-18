@@ -55,7 +55,7 @@ Convention for expressing display:
 |===
 
 .Display
-[cols=2*]
+[cols=2*,stripes=none,valign=top]
 |===
 | *ISBN* | 999999999 (vol. 1)
 
