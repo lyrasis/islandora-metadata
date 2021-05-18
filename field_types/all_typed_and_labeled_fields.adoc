@@ -357,7 +357,7 @@ Each context below shows the Solr fields (-ish) that would be output, given the 
 | ISBN | Vol. 1 | 999
 | | Vol. 2 | 888
 | ISBN | | 777
-| | 666
+| | | 666
 | Local identifier | Vol. 1 | 555
 | Local identifier | | 444
 |===
