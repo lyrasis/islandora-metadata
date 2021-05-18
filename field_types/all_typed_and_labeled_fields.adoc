@@ -48,6 +48,7 @@ Convention for expressing display:
 [cols=2*]
 |===
 | *INVALID IDENTIFIER* | _ISBN:_ 123456789X (vol. 1)
+
 _ISBN:_ 1234567889 (vol. 2)
 | *SIERRA RECORD NUMBER* | _Local identifier:_ b123456x
 |===
