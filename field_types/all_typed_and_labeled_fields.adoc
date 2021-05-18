@@ -22,7 +22,7 @@ If the selected value (Type value or Label value) is null in a given field insta
 *Ideally:*
 
 * You can never choose Field name
-* If `Field label source` = Field name, you get to pick: Type value, Label value, or none
+* If `Field label source` = Field name, you get to pick: Type value, Label value, Type value + Label value, Label value + Type value, or none
 * If `Field label source` = Type value, you get to pick: Label value or none
 * If `Field label source` = Label value, you get to pick: Type value or none
 
@@ -166,6 +166,132 @@ BQW982
 7777777 (set)
 | *LOCAL IDENTIFIER* |  b123456x
 | *IDENTIFIER* | 10.1000/xyz123
+
+BQW982
+|===
+
+=== Examples: Field label source = Field name
+
+.Field values
+[cols=3*,options=header]
+|===
+| type | label | value
+| ISBN | Vol. 1 | 999999999
+| ISBN | Invalid identifier | 123456789X (vol. 1)
+| ISBN | Vol. 2 | 888888888
+| ISBN | Invalid identifier | 1234567889 (vol. 2)
+| ISBN | | 7777777 (set)
+| Local identifier | Sierra record number | b123456x
+| | DOI | 10.1000/xyz123
+| | | BQW982
+|===
+
+==== Example: Field label source = Field name, Field value label source = Type value
+
+.Display
+[cols=2*,stripes=none,valign=top]
+|===
+| *IDENTIFIER* | _ISBN:_ 999999999
+
+_ISBN:_ 123456789X (vol. 1)
+
+_ISBN:_ 888888888
+
+_ISBN:_  1234567889 (vol. 2)
+
+_ISBN:_ 7777777 (set)
+
+_Local identifier:_ b123456x
+
+10.1000/xyz123
+
+BQW982
+|===
+
+==== Example: Field label source = Field name, Field value label source = Type value + Label value
+
+.Display
+[cols=2*,stripes=none,valign=top]
+|===
+| *IDENTIFIER* | _ISBN: Vol. 1:_ 999999999
+
+_ISBN: Invalid identifier:_ 123456789X (vol. 1)
+
+_ISBN: Vol. 2:_ 888888888
+
+_ISBN: Invalid identifier:_  1234567889 (vol. 2)
+
+_ISBN:_ 7777777 (set)
+
+_Local identifier: Sierra record number:_ b123456x
+
+_DOI:_ 10.1000/xyz123
+
+BQW982
+|===
+
+==== Example: Field label source = Field name, Field value label source = Label value
+
+.Display
+[cols=2*,stripes=none,valign=top]
+|===
+| *IDENTIFIER* | _Vol. 1:_ 999999999
+
+_Invalid identifier:_ 123456789X (vol. 1)
+
+_Vol. 2:_ 888888888
+
+_Invalid identifier:_  1234567889 (vol. 2)
+
+7777777 (set)
+
+_Sierra record number:_ b123456x
+
+_DOI:_ 10.1000/xyz123
+
+BQW982
+|===
+
+==== Example: Field label source = Field name, Field value label source = Label value + Type value
+
+.Display
+[cols=2*,stripes=none,valign=top]
+|===
+| *IDENTIFIER* | _Vol. 1: ISBN:_ 999999999
+
+_Invalid identifier: ISBN:_ 123456789X (vol. 1)
+
+_Vol. 2: ISBN:_ 888888888
+
+_Invalid identifier: ISBN:_  1234567889 (vol. 2)
+
+_ISBN:_ 7777777 (set)
+
+_Sierra record number: Local identifier:_ b123456x
+
+_DOI:_ 10.1000/xyz123
+
+BQW982
+|===
+
+==== Example: Field label source = Field name, Field value label source = none
+
+.Display
+[cols=2*,stripes=none,valign=top]
+|===
+| *IDENTIFIER* | 999999999
+
+123456789X (vol. 1)
+
+888888888
+
+1234567889 (vol. 2)
+
+7777777 (set)
+
+b123456x
+
+10.1000/xyz123
 
 BQW982
 |===
