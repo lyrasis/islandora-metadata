@@ -83,6 +83,8 @@ _ISBN:_ 1234567889 (vol. 2)
 | *IDENTIFIER* | BQW982
 |===
 
+---
+
 ==== Example: Field label source = Label value, Field value label source = none
 
 .Field values
@@ -112,3 +114,35 @@ _ISBN:_ 1234567889 (vol. 2)
 | *IDENTIFIER* | BQW982
 |===
 
+=== Examples: Field label source = Type value
+
+==== Example: Field label source = Type value, Field value label source = Label value
+
+.Field values
+[cols=3*,options=header]
+|===
+| type | label | value
+| ISBN | | 999999999 (vol. 1)
+| ISBN | Invalid identifier | 123456789X (vol. 1)
+| ISBN | | 888888888 (vol. 2)
+| ISBN | Invalid identifier | 1234567889 (vol. 2)
+| Local identifier | Sierra record number | b123456x
+| | DOI | 10.1000/xyz123
+| | | BQW982
+|===
+
+.Display
+[cols=2*,stripes=none,valign=top]
+|===
+| *ISBN* | 999999999 (vol. 1)
+
+_Invalid identifier:_ 123456789X (vol. 1)
+
+888888888 (vol. 2)
+
+_Invalid identifier:_  1234567889 (vol. 2)
+| *LOCAL IDENTIFIER* | _Sierra record number:_ b123456x
+| *IDENTIFIER* | _DOI:_ 10.1000/xyz123
+
+BQW982
+|===
