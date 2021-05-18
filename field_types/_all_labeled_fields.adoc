@@ -19,7 +19,12 @@ Examples of support for this general pattern in several metadata schema:
 - https://folgerpedia.folger.edu/MARC_%C7%823_Materials_specified[MARC subfield 3 (Materials specified)]
 - https://www.loc.gov/ead/EAD3taglib/EAD3.html#attr-label[EAD label attribute]
 
-There are use cases where such a label should be displayed as the main label of the field in which it is used.
+There are use cases where such a label should be displayed as the main label of the field in which it is used (Example 1 below).
+
+There are other use cases where such a label should be prepended to and visually distinguished from a value in a field, but where the main/default label for the field should be retained. (Example 2 below).
+
+One can imagine a case where an institution wanted to be able to search its "Digitization Process" notes separately from other notes about physical description footnote:[In which case an argument can be made for defining a new field instance `field_digitization_process` might make more sense. But some institutions have made extremely liberal use of displayLabels, which could lead to large numbers of fields to manage.], but other cases where an institution is happy to have all alternative titles simply indexed as titles, regardless of the displayLabel values. 
+
 
 ---
 
@@ -41,10 +46,6 @@ image::physicalDescription_note_plain_display.png[]
 
 image::physicalDescription_note_displayLabel_display.png[]
 ====
-
----
-
-There are other use cases where such a label should be prepended to and visually distinguished from a value in a field, but where the main/default label for the field should be retained.
 
 ---
 
