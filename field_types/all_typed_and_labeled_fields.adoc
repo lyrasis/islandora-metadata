@@ -54,8 +54,6 @@ Convention for expressing display:
 
 === Examples: Field label source = Label value
 
-==== Example: Field label source = Label value, Field value label source = Type value
-
 .Field values
 [cols=3*,options=header]
 |===
@@ -68,6 +66,8 @@ Convention for expressing display:
 | | DOI | 10.1000/xyz123
 | | | BQW982
 |===
+
+==== Example: Field label source = Label value, Field value label source = Type value
 
 .Display
 [cols=2*,stripes=none,valign=top]
@@ -116,33 +116,56 @@ _ISBN:_ 1234567889 (vol. 2)
 
 === Examples: Field label source = Type value
 
-==== Example: Field label source = Type value, Field value label source = Label value
-
 .Field values
 [cols=3*,options=header]
 |===
 | type | label | value
-| ISBN | | 999999999 (vol. 1)
+| ISBN | Vol. 1 | 999999999
 | ISBN | Invalid identifier | 123456789X (vol. 1)
-| ISBN | | 888888888 (vol. 2)
+| ISBN | Vol. 2 | 888888888
 | ISBN | Invalid identifier | 1234567889 (vol. 2)
+| ISBN | | 7777777 (set)
 | Local identifier | Sierra record number | b123456x
 | | DOI | 10.1000/xyz123
 | | | BQW982
 |===
 
+==== Example: Field label source = Type value, Field value label source = Label value
+
 .Display
 [cols=2*,stripes=none,valign=top]
 |===
-| *ISBN* | 999999999 (vol. 1)
+| *ISBN* | _Vol. 1:_ 999999999
 
 _Invalid identifier:_ 123456789X (vol. 1)
 
-888888888 (vol. 2)
+_Vol. 2:_ 888888888
 
 _Invalid identifier:_  1234567889 (vol. 2)
+
+7777777 (set)
 | *LOCAL IDENTIFIER* | _Sierra record number:_ b123456x
 | *IDENTIFIER* | _DOI:_ 10.1000/xyz123
+
+BQW982
+|===
+
+==== Example: Field label source = Type value, Field value label source = none
+
+.Display
+[cols=2*,stripes=none,valign=top]
+|===
+| *ISBN* | 999999999
+
+123456789X (vol. 1)
+
+888888888
+
+1234567889 (vol. 2)
+
+7777777 (set)
+| *LOCAL IDENTIFIER* |  b123456x
+| *IDENTIFIER* | 10.1000/xyz123
 
 BQW982
 |===
