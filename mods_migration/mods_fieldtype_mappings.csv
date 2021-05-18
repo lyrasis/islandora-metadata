@@ -1,329 +1,329 @@
-"element"|"field_type"|"property_name?"|"property_type"|"required"|"notes"|"migration notes"
-"abstract"|"typed long text"|"value"|"long text"|"y"||
-"abstract/@altRepGroup"|"typed long text"|"?"|"?"|"?"||
-"abstract/@displayLabel"|"typed long text"|"label"|"text"|"n"||
-"abstract/@script"|"typed long text"|"?"|"?"|"?"||
-"abstract/@type"|"typed long text"|"type"|"entity reference"|"n"|"link to term in Abstract Types vocabulary"|
-"accessCondition"||||||
-"accessCondition/@displayLabel"||||||
-"accessCondition/@href"||||||
-"accessCondition/@type"||||||
-"classification"|"typed short text"|"value"|"text"|"y"||
-"classification/@authority"|"typed short text"|"type"|"entity reference"|"n"|"link to term in Classification Authorities vocabulary"|
-"classification/@displayLabel"|"typed short text"|"label"|"text"|"n"||
-"classification/@edition"|"typed short text"|"n/a"|"n/a"|"n/a"|"captured in Classification Authorities vocabulary term"|
-"extension"||||||
-"extension/admin/accessConditions"||||||
-"extension/admin/captureDate"||||||
-"extension/admin/captureDate/@encoding"||||||
-"extension/admin/captureDevice"||||||
-"extension/admin/captureOperator"||||||
-"extension/admin/ocr"||||||
-"extension/admin/ppi"||||||
-"extension/degree/discipline"||||||
-"extension/degree/level"||||||
-"extension/degree/name"||||||
-"extension/dpla/stateLocatedIn"||||||
-"genre"|"er/er"|"value"|"entity reference"|"y"|"link to term in Genre vocabulary"|
-"genre/@authority"|"er/er"|"n/a"|"n/a"|"n/a"|"captured in Genre vocabulary term"|
-"genre/@authorityURI"|"er/er"|"n/a"|"n/a"|"n/a"|"captured in Genre vocabulary term"|
-"genre/@displayLabel"|"er/er"|"label"|"text"|"n"||
-"genre/@type"|"er/er"|"type"|"entity reference"|"n"|"link to term in Genre Types vocabulary"|
-"genre/@valueURI"|"er/er"|"n/a"|"n/a"|"n/a"|"captured in Genre vocabulary term"|
-"identifier"|"typed short text"|"value"|"text"|"y"||
-"identifier/@displayLabel"|"typed short text"|"label"|"text"|"n"||
-"identifier/@invalid"|"typed short text"|"n/a"|"n/a"|"n/a"|"captured in Identifier types vocabulary"|
-"identifier/@type"|"typed short text"|"type"|"entity reference"|"n"|"link to term in Identifier types vocabulary"|
-"language"|"er+display label"|"n/a"|"n/a"|"n/a"|"container element; contains no value"|
-"language/@objectPart"|"er+display label"|"label"|"text"|"n"||
-"language/languageTerm"|"er+display label"|"value"|"entity reference"|"y"|"link to term in Languages vocabulary"|"reconcile codes and terms used to ISO639-2 terms and remove duplication"
-"language/languageTerm/@authority"|"er+display label"|"n/a"|"n/a"|"n/a"|"captured in Languages vocabulary term"|
-"language/languageTerm/@authorityURI"|"er+display label"|"n/a"|"n/a"|"n/a"|"captured in Languages vocabulary term"|
-"language/languageTerm/@type"|"er+display label"|"n/a"|"n/a"|"n/a"|"can only be “text” or “code”; discarded as we will have mapped all text terms and codes to ISO639-2 terms "|
-"language/languageTerm/@valueURI"|"er+display label"|"n/a"|"n/a"|"n/a"|"captured in Languages vocabulary term"|
-"location/@authority"||||||
-"location/@displayLabel"||||||
-"location/holdingSimple/copyInformation/enumerationAndChronology"||||||
-"location/holdingSimple/copyInformation/enumerationAndChronology/@unitType"||||||
-"location/holdingSimple/copyInformation/itemIdentifier"||||||
-"location/holdingSimple/copyInformation/itemIdentifier/@type"||||||
-"location/holdingSimple/copyInformation/shelfLocator"||||||
-"location/holdingSimple/copyInformation/subLocation"||||||
-"location/physicalLocation"||||||
-"location/physicalLocation/@authority"||||||
-"location/physicalLocation/@authorityURI"||||||
-"location/physicalLocation/@displayLabel"||||||
-"location/physicalLocation/@href"||||||
-"location/physicalLocation/@type"||||||
-"location/physicalLocation/@valueURI"||||||
-"location/shelfLocator"||||||
-"location/url"||||||
-"location/url/@access"||||||
-"location/url/@displayLabel"||||||
-"location/url/@note"||||||
-"location/url/@usage"||||||
-"name"|"er/er + primary indication"|"n/a"|"n/a"|"n/a"|"container element; contains no value"|
-"name/@altRepGroup"|"er/er + primary indication"|"?"|"?"|"?"||
-"name/@authority"|"er/er + primary indication"|"n/a"|"n/a"|"n/a"|"captured in Person, Corporate Body, or Family vocabulary term"|
-"name/@authorityURI"|"er/er + primary indication"|"n/a"|"n/a"|"n/a"|"captured in Person, Corporate Body, or Family vocabulary term"|
-"name/@nameTitleGroup"|"er/er + primary indication"|"n/a"|"n/a"|"n/a"|"names that are part of nameTitleGroups will not be recorded in this field"|"the name and title from a nameTitleGroup will be combined and created as a term in Works vocabulary"
-"name/@script"|"er/er + primary indication"|"?"|"?"|"?"||
-"name/@type"|"er/er + primary indication"|"n/a"|"n/a"|"n/a"|"captured in Person, Corporate Body, or Family vocabulary term"|
-"name/@usage"|"er/er + primary indication"|"primary"|"boolean"|"n"||
-"name/@valueURI"|"er/er + primary indication"|"n/a"|"n/a"|"n/a"|"captured in Person, Corporate Body, or Family vocabulary term"|
-"name/affiliation"|"er/er + primary indication"|"n/a"|"n/a"|"n/a"|"captured in Person vocabulary term"|
-"name/@displayLabel"|"er/er + primary indication"|"label"|"text"|"n"|"not used in current client MODS but is valid MODS"|
-"name/namePart"|"er/er + primary indication"|"value"|"entity reference"|"y"|"link to term in Person, Corporate Body, or Family vocabulary"|
-"name/namePart/@type"|"er/er + primary indication"|"n/a"|"n/a"|"n/a"|"captured in Person, Corporate Body, or Family vocabulary term"|
-"name/role"|"er/er + primary indication"|"n/a"|"n/a"|"n/a"||
-"name/role/roleTerm"|"er/er + primary indication"|"type"|"entity reference"|"n"|"link to term in Agent/Object Relationship Types vocabulary"|
-"name/role/roleTerm/@authority"|"er/er + primary indication"|"n/a"|"n/a"|"n/a"|"captured in Agent/Object Relationship Types vocabulary term"|
-"name/role/roleTerm/@authorityURI"|"er/er + primary indication"|"n/a"|"n/a"|"n/a"|"captured in Agent/Object Relationship Types vocabulary term"|
-"name/role/roleTerm/@type"|"er/er + primary indication"|"n/a"|"n/a"|"n/a"|"can only be “text” or “code”; discarded as we will have any code to textual terms"|
-"name/role/roleTerm/@valueURI"|"er/er + primary indication"|"n/a"|"n/a"|"n/a"|"captured in Agent/Object Relationship Types vocabulary term"|
-"note"|"typed long text"|"value"|"text"|||
-"note/@altRepGroup"|"typed long text"|"?"|"?"|||
-"note/@displayLabel"|"typed long text"|"label"|"text"|||
-"note/@displayLabel (when @href present)"|"typed URL"|"label"|"text"|"n"||
-"note (when @href present)"|"typed URL"|"label"|"text"|"n"||"map content of element as @displayLabel or append it to existing @displayLabel"
-"note/@type (when @href present)"|"typed URL"|"type"|"entity reference"|"n"|"link to term in Note Types vocabulary"|
-"note/@href"|"typed URL"|"value"|"URL"|"y"||
-"note/@script"|"typed long text"||"?"|||
-"note/@type"|"typed long text"|"type"|"entity reference"|"n"|"link to term in Note Types vocabulary"|
-"originInfo"||||||
-"originInfo/@altRepGroup"|||"?"|||
-"originInfo/@displayLabel"||||||
-"originInfo/@eventType"||||||
-"originInfo/@script"|||"?"|||
-"originInfo/copyrightDate"||||||
-"originInfo/copyrightDate/@encoding"||||||
-"originInfo/dateCaptured"||||||
-"originInfo/dateCaptured/@encoding"||||||
-"originInfo/dateCaptured/@keyDate"||||||
-"originInfo/dateCreated"||||||
-"originInfo/dateCreated/@encoding"||||||
-"originInfo/dateCreated/@keyDate"||||||
-"originInfo/dateCreated/@point"||||||
-"originInfo/dateCreated/@qualifier"||||||
-"originInfo/dateIssued"||||||
-"originInfo/dateIssued/@encoding"||||||
-"originInfo/dateIssued/@keyDate"||||||
-"originInfo/dateIssued/@point"||||||
-"originInfo/dateIssued/@qualifier"||||||
-"originInfo/dateModified"||||||
-"originInfo/dateOther"||||||
-"originInfo/dateOther/@encoding"||||||
-"originInfo/dateOther/@keyDate"||||||
-"originInfo/dateOther/@type"||||||
-"originInfo/dateValid"||||||
-"originInfo/edition"||||||
-"originInfo/frequency"||||||
-"originInfo/frequency/@authority"||||||
-"originInfo/issuance"||||||
-"originInfo/place"||||||
-"originInfo/place/placeTerm"||||||
-"originInfo/place/placeTerm/@authority"||||||
-"originInfo/place/placeTerm/@type"||||||
-"originInfo/publisher"||||||
-"part/date"||||||
-"part/detail"||||||
-"part/detail/@type"||||||
-"part/detail/number"||||||
-"part/extent/@unit"||||||
-"part/extent/end"||||||
-"part/extent/start"||||||
-"physicalDescription"||||||
-"physicalDescription/digitalOrigin"||||||
-"physicalDescription/extent"||||||
-"physicalDescription/extent/@unit"||||||
-"physicalDescription/form"||||||
-"physicalDescription/form/@authority"||||||
-"physicalDescription/form/@type"||||||
-"physicalDescription/internetMediaType"||||||
-"physicalDescription/note"||||||
-"physicalDescription/note/@displayLabel"||||||
-"physicalDescription/note/@type"||||||
-"physicalDescription/reformattingQuality"||||||
-"recordInfo/descriptionStandard"||||||
-"recordInfo/languageOfCataloging"||||||
-"recordInfo/languageOfCataloging/languageTerm"||||||
-"recordInfo/languageOfCataloging/languageTerm/@authority"||||||
-"recordInfo/languageofCataloging/languageTerm/@authorityURI"||||||
-"recordInfo/languageOfCataloging/languageTerm/@type"||||||
-"recordInfo/languageofCataloging/languageTerm/@valueURI"||||||
-"recordInfo/recordChangeDate"||||||
-"recordInfo/recordChangeDate/@encoding"||||||
-"recordInfo/recordContentSource"||||||
-"recordInfo/recordContentSource/@authority"||||||
-"recordInfo/recordCreationDate"||||||
-"recordInfo/recordCreationDate/@encoding"||||||
-"recordInfo/recordIdentifier"||||||
-"recordInfo/recordIdentifier/@source"||||||
-"recordInfo/recordInfoNote"||||||
-"recordInfo/recordOrigin"||||||
-"relatedItem/@displayLabel"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/@otherType"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/@type"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/abstract"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/abstract/@lang"|"same field_types as main MODS, but on separate “related item description” content type"||"?"|||
-"relatedItem/abstract/@type"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/classification"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/classification/@authority"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/genre"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/genre/@authority"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/identifier"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/identifier/@type"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/language/languageTerm"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/language/languageTerm/@authority"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/language/languageTerm/@type"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/location/physicalLocation"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/location/url"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/location/url/@displayLabel"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/name/@authority"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/name/@lang"|"same field_types as main MODS, but on separate “related item description” content type"||"?"|||
-"relatedItem/name/@script"|"same field_types as main MODS, but on separate “related item description” content type"||"?"|||
-"relatedItem/name/@type"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/name/namePart"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/name/namePart/@type"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/name/role/roleTerm"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/name/role/roleTerm/@authority"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/name/role/roleTerm/@type"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/note"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/note/@lang"|"same field_types as main MODS, but on separate “related item description” content type"||"?"|||
-"relatedItem/note/@script"|"same field_types as main MODS, but on separate “related item description” content type"||"?"|||
-"relatedItem/note/@type"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/originInfo/dateCreated"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/originInfo/dateCreated/@encoding"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/originInfo/dateCreated/@keyDate"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/originInfo/dateIssued"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/originInfo/dateIssued/@encoding"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/originInfo/dateIssued/@keyDate"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/originInfo/dateIssued/@point"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/originInfo/edition"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/originInfo/issuance"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/originInfo/place/placeTerm"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/originInfo/place/placeTerm/@authority"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/originInfo/place/placeTerm/@type"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/originInfo/publisher"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/part/date"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/part/detail/@type"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/part/detail/caption"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/part/detail/number"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/part/extent/@unit"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/part/extent/end"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/part/extent/start"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/part/text"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/physicalDescription/extent"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/physicalDescription/form"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/physicalDescription/form/@authority"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/recordInfo/languageOfCataloging/languageTerm"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/recordInfo/languageOfCataloging/languageTerm/@authority"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/recordInfo/languageOfCataloging/languageTerm/@type"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/recordInfo/recordChangeDate"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/recordInfo/recordChangeDate/@encoding"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/recordInfo/recordContentSource/@authority"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/recordInfo/recordCreationDate"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/recordInfo/recordCreationDate/@encoding"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/recordInfo/recordIdentifier"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/relatedItem/@type"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/relatedItem/name/namePart"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/relatedItem/part/text"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/relatedItem/titleInfo/title"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/subject/@authority"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/subject/genre"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/subject/hierarchicalGeographic/city"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/subject/hierarchicalGeographic/country"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/subject/name/@authority"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/subject/name/@type"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/subject/name/namePart"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/subject/name/namePart/@type"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/subject/name/role/roleTerm"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/subject/name/role/roleTerm/@authority"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/subject/name/role/roleTerm/@type"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/subject/topic"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/titleInfo"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/titleInfo/@displayLabel"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/titleInfo/@lang"|"same field_types as main MODS, but on separate “related item description” content type"||"?"|||
-"relatedItem/titleInfo/@script"|"same field_types as main MODS, but on separate “related item description” content type"||"?"|||
-"relatedItem/titleInfo/@transliteration"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/titleInfo/@type"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/titleInfo/nonSort"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/titleInfo/partName"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/titleInfo/partNumber"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/titleInfo/subTitle"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/titleInfo/title"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/typeOfResource"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"relatedItem/typeOfResource/@collection"|"same field_types as main MODS, but on separate “related item description” content type"|||||
-"subject"||||||
-"subject/@altRepGroup"|||"?"|||
-"subject/@authority"||||||
-"subject/@authorityURI"||||||
-"subject/@displayLabel"||||||
-"subject/@script"|||"?"|||
-"subject/@valueURI"||||||
-"subject/cartographics/coordinates"||||||
-"subject/cartographics/projection"||||||
-"subject/cartographics/scale"||||||
-"subject/genre"||||||
-"subject/genre/@authority"||||||
-"subject/genre/@authorityURI"||||||
-"subject/genre/@valueURI"||||||
-"subject/geographic"||||||
-"subject/geographic/@authority"||||||
-"subject/geographic/@authorityURI"||||||
-"subject/geographic/@valueURI"||||||
-"subject/geographicCode"||||||
-"subject/geographicCode/@authority"||||||
-"subject/hierarchicalGeographic/city"||||||
-"subject/hierarchicalGeographic/citySection"||||||
-"subject/hierarchicalGeographic/country"||||||
-"subject/hierarchicalGeographic/county"||||||
-"subject/hierarchicalGeographic/state"||||||
-"subject/name/@authority"||||||
-"subject/name/@authorityURI"||||||
-"subject/name/@type"||||||
-"subject/name/@valueURI"||||||
-"subject/name/namePart"||||||
-"subject/name/namePart/@type"||||||
-"subject/name/role/roleTerm"||||||
-"subject/name/role/roleTerm/@authority"||||||
-"subject/name/role/roleTerm/@type"||||||
-"subject/occupation"||||||
-"subject/temporal"||||||
-"subject/temporal/@encoding"||||||
-"subject/titleInfo/partName"||||||
-"subject/titleInfo/partNumber"||||||
-"subject/titleInfo/subTitle"||||||
-"subject/titleInfo/title"||||||
-"subject/topic"||||||
-"subject/topic/@authority"||||||
-"subject/topic/@authorityURI"||||||
-"subject/topic/@valueURI"||||||
-"tableOfContents"|"labeled long text"|"value"|"long text"|"y"||
-"tableOfContents/@altRepGroup"|"labeled long text"|"?"|"?"|"?"||
-"tableOfContents/@displayLabel"|"labeled long text"|"label"|"text"|"n"||
-"tableOfContents/@script"|"labeled long text"|"?"|"?"|"?"||
-"tableOfContents/@type"|"labeled long text"|"label"|"text"|"n"||"if value of @type contains “partial”, display label becomes “Partial contents”"
-"targetAudience"|"labeled entity reference"|"value"|"entity reference"|"y"|"link to term in Target Audiences vocabulary"|
-"targetAudience/@authority"|"labeled entity reference"|"n/a"|"n/a"|"n/a"|"captured in Target Audiences vocabulary term"|
-"targetAudience/@displayLabel"|"labeled entity reference"|"label"|"text"|"n"||
-"titleInfo/@altRepGroup"|"title_details"|||||
-"titleInfo/@authority"|||||"verify only used in name titles"|
-"titleInfo/@displayLabel"|||||"text"|
-"titleInfo/@lang"|||"?"|||
-"titleInfo/@nameTitleGroup"|"x"|||||
-"titleInfo/@script"|"?"||"?"|||
-"titleInfo/@transliteration"|"?"||||"only used by JTS, recorded ""yes,"" not transliteration method"|
-"titleInfo/@type"|||||"er"|
-"titleInfo/@usage"|||||"boolean"|
-"titleInfo/nonSort"|||||"text"|
-"titleInfo/nonSort/@space"|"na"|||||
-"titleInfo/partName"|||||"text"|
-"titleInfo/partNumber"|||||"text"|
-"titleInfo/subTitle"|||||"text"|
-"titleInfo/title"|||||"text"|
-"typeOfResource"|"labeled entity reference"|"value"|"entity reference"||"link to term in Resource Type vocabulary"|
-"typeOfResource/@authorityURI"|"labeled entity reference"|"n/a"|"n/a"|"n/a"|"captured in Resource Type vocabulary term"|
-"typeOfResource/@collection"|"labeled entity reference"|"n/a"|"n/a"|"n/a"||"If @collection=”yes”, assign additional Resource Type term “Collection”"
-"typeOfResource/@manuscript"|"labeled entity reference"|"n/a"|"n/a"|"n/a"||"If @manuscript=”yes”, assign additional Resource Type term “Manuscript”"
-"typeOfResource/@valueURI"|"labeled entity reference"|"n/a"|"n/a"|"n/a"|"captured in Resource Type vocabulary term"|
+"element","field_type","property_name?","property_type","required","notes","migration notes"
+"abstract","typed long text","value","long text","y",,
+"abstract/@altRepGroup","typed long text","?","?","?",,
+"abstract/@displayLabel","typed long text","label","text","n",,
+"abstract/@script","typed long text","?","?","?",,
+"abstract/@type","typed long text","type","entity reference","n","link to term in Abstract Types vocabulary",
+"accessCondition",,,,,,
+"accessCondition/@displayLabel",,,,,,
+"accessCondition/@href",,,,,,
+"accessCondition/@type",,,,,,
+"classification","typed short text","value","text","y",,
+"classification/@authority","typed short text","type","entity reference","n","link to term in Classification Authorities vocabulary",
+"classification/@displayLabel","typed short text","label","text","n",,
+"classification/@edition","typed short text","n/a","n/a","n/a","captured in Classification Authorities vocabulary term",
+"extension",,,,,,
+"extension/admin/accessConditions",,,,,,
+"extension/admin/captureDate",,,,,,
+"extension/admin/captureDate/@encoding",,,,,,
+"extension/admin/captureDevice",,,,,,
+"extension/admin/captureOperator",,,,,,
+"extension/admin/ocr",,,,,,
+"extension/admin/ppi",,,,,,
+"extension/degree/discipline",,,,,,
+"extension/degree/level",,,,,,
+"extension/degree/name",,,,,,
+"extension/dpla/stateLocatedIn",,,,,,
+"genre","er/er","value","entity reference","y","link to term in Genre vocabulary",
+"genre/@authority","er/er","n/a","n/a","n/a","captured in Genre vocabulary term",
+"genre/@authorityURI","er/er","n/a","n/a","n/a","captured in Genre vocabulary term",
+"genre/@displayLabel","er/er","label","text","n",,
+"genre/@type","er/er","type","entity reference","n","link to term in Genre Types vocabulary",
+"genre/@valueURI","er/er","n/a","n/a","n/a","captured in Genre vocabulary term",
+"identifier","typed short text","value","text","y",,
+"identifier/@displayLabel","typed short text","label","text","n",,
+"identifier/@invalid","typed short text","n/a","n/a","n/a","captured in Identifier types vocabulary",
+"identifier/@type","typed short text","type","entity reference","n","link to term in Identifier types vocabulary",
+"language","er+display label","n/a","n/a","n/a","container element; contains no value",
+"language/@objectPart","er+display label","label","text","n",,
+"language/languageTerm","er+display label","value","entity reference","y","link to term in Languages vocabulary","reconcile codes and terms used to ISO639-2 terms and remove duplication"
+"language/languageTerm/@authority","er+display label","n/a","n/a","n/a","captured in Languages vocabulary term",
+"language/languageTerm/@authorityURI","er+display label","n/a","n/a","n/a","captured in Languages vocabulary term",
+"language/languageTerm/@type","er+display label","n/a","n/a","n/a","can only be “text” or “code”; discarded as we will have mapped all text terms and codes to ISO639-2 terms ",
+"language/languageTerm/@valueURI","er+display label","n/a","n/a","n/a","captured in Languages vocabulary term",
+"location/@authority",,,,,,
+"location/@displayLabel",,,,,,
+"location/holdingSimple/copyInformation/enumerationAndChronology",,,,,,
+"location/holdingSimple/copyInformation/enumerationAndChronology/@unitType",,,,,,
+"location/holdingSimple/copyInformation/itemIdentifier",,,,,,
+"location/holdingSimple/copyInformation/itemIdentifier/@type",,,,,,
+"location/holdingSimple/copyInformation/shelfLocator",,,,,,
+"location/holdingSimple/copyInformation/subLocation",,,,,,
+"location/physicalLocation",,,,,,
+"location/physicalLocation/@authority",,,,,,
+"location/physicalLocation/@authorityURI",,,,,,
+"location/physicalLocation/@displayLabel",,,,,,
+"location/physicalLocation/@href",,,,,,
+"location/physicalLocation/@type",,,,,,
+"location/physicalLocation/@valueURI",,,,,,
+"location/shelfLocator",,,,,,
+"location/url",,,,,,
+"location/url/@access",,,,,,
+"location/url/@displayLabel",,,,,,
+"location/url/@note",,,,,,
+"location/url/@usage",,,,,,
+"name","er/er + primary indication","n/a","n/a","n/a","container element; contains no value",
+"name/@altRepGroup","er/er + primary indication","?","?","?",,
+"name/@authority","er/er + primary indication","n/a","n/a","n/a","captured in Person, Corporate Body, or Family vocabulary term",
+"name/@authorityURI","er/er + primary indication","n/a","n/a","n/a","captured in Person, Corporate Body, or Family vocabulary term",
+"name/@nameTitleGroup","er/er + primary indication","n/a","n/a","n/a","names that are part of nameTitleGroups will not be recorded in this field","the name and title from a nameTitleGroup will be combined and created as a term in Works vocabulary"
+"name/@script","er/er + primary indication","?","?","?",,
+"name/@type","er/er + primary indication","n/a","n/a","n/a","captured in Person, Corporate Body, or Family vocabulary term",
+"name/@usage","er/er + primary indication","primary","boolean","n",,
+"name/@valueURI","er/er + primary indication","n/a","n/a","n/a","captured in Person, Corporate Body, or Family vocabulary term",
+"name/affiliation","er/er + primary indication","n/a","n/a","n/a","captured in Person vocabulary term",
+"name/@displayLabel","er/er + primary indication","label","text","n","not used in current client MODS but is valid MODS",
+"name/namePart","er/er + primary indication","value","entity reference","y","link to term in Person, Corporate Body, or Family vocabulary",
+"name/namePart/@type","er/er + primary indication","n/a","n/a","n/a","captured in Person, Corporate Body, or Family vocabulary term",
+"name/role","er/er + primary indication","n/a","n/a","n/a",,
+"name/role/roleTerm","er/er + primary indication","type","entity reference","n","link to term in Agent/Object Relationship Types vocabulary",
+"name/role/roleTerm/@authority","er/er + primary indication","n/a","n/a","n/a","captured in Agent/Object Relationship Types vocabulary term",
+"name/role/roleTerm/@authorityURI","er/er + primary indication","n/a","n/a","n/a","captured in Agent/Object Relationship Types vocabulary term",
+"name/role/roleTerm/@type","er/er + primary indication","n/a","n/a","n/a","can only be “text” or “code”; discarded as we will have any code to textual terms",
+"name/role/roleTerm/@valueURI","er/er + primary indication","n/a","n/a","n/a","captured in Agent/Object Relationship Types vocabulary term",
+"note","typed long text","value","text",,,
+"note/@altRepGroup","typed long text","?","?",,,
+"note/@displayLabel","typed long text","label","text",,,
+"note/@displayLabel (when @href present)","typed URL","label","text","n",,
+"note (when @href present)","typed URL","label","text","n",,"map content of element as @displayLabel or append it to existing @displayLabel"
+"note/@type (when @href present)","typed URL","type","entity reference","n","link to term in Note Types vocabulary",
+"note/@href","typed URL","value","URL","y",,
+"note/@script","typed long text",,"?",,,
+"note/@type","typed long text","type","entity reference","n","link to term in Note Types vocabulary",
+"originInfo",,,,,,
+"originInfo/@altRepGroup",,,"?",,,
+"originInfo/@displayLabel",,,,,,
+"originInfo/@eventType",,,,,,
+"originInfo/@script",,,"?",,,
+"originInfo/copyrightDate",,,,,,
+"originInfo/copyrightDate/@encoding",,,,,,
+"originInfo/dateCaptured",,,,,,
+"originInfo/dateCaptured/@encoding",,,,,,
+"originInfo/dateCaptured/@keyDate",,,,,,
+"originInfo/dateCreated",,,,,,
+"originInfo/dateCreated/@encoding",,,,,,
+"originInfo/dateCreated/@keyDate",,,,,,
+"originInfo/dateCreated/@point",,,,,,
+"originInfo/dateCreated/@qualifier",,,,,,
+"originInfo/dateIssued",,,,,,
+"originInfo/dateIssued/@encoding",,,,,,
+"originInfo/dateIssued/@keyDate",,,,,,
+"originInfo/dateIssued/@point",,,,,,
+"originInfo/dateIssued/@qualifier",,,,,,
+"originInfo/dateModified",,,,,,
+"originInfo/dateOther",,,,,,
+"originInfo/dateOther/@encoding",,,,,,
+"originInfo/dateOther/@keyDate",,,,,,
+"originInfo/dateOther/@type",,,,,,
+"originInfo/dateValid",,,,,,
+"originInfo/edition",,,,,,
+"originInfo/frequency",,,,,,
+"originInfo/frequency/@authority",,,,,,
+"originInfo/issuance",,,,,,
+"originInfo/place",,,,,,
+"originInfo/place/placeTerm",,,,,,
+"originInfo/place/placeTerm/@authority",,,,,,
+"originInfo/place/placeTerm/@type",,,,,,
+"originInfo/publisher",,,,,,
+"part/date",,,,,,
+"part/detail",,,,,,
+"part/detail/@type",,,,,,
+"part/detail/number",,,,,,
+"part/extent/@unit",,,,,,
+"part/extent/end",,,,,,
+"part/extent/start",,,,,,
+"physicalDescription",,,,,,
+"physicalDescription/digitalOrigin",,,,,,
+"physicalDescription/extent",,,,,,
+"physicalDescription/extent/@unit",,,,,,
+"physicalDescription/form",,,,,,
+"physicalDescription/form/@authority",,,,,,
+"physicalDescription/form/@type",,,,,,
+"physicalDescription/internetMediaType",,,,,,
+"physicalDescription/note",,,,,,
+"physicalDescription/note/@displayLabel",,,,,,
+"physicalDescription/note/@type",,,,,,
+"physicalDescription/reformattingQuality",,,,,,
+"recordInfo/descriptionStandard",,,,,,
+"recordInfo/languageOfCataloging",,,,,,
+"recordInfo/languageOfCataloging/languageTerm",,,,,,
+"recordInfo/languageOfCataloging/languageTerm/@authority",,,,,,
+"recordInfo/languageofCataloging/languageTerm/@authorityURI",,,,,,
+"recordInfo/languageOfCataloging/languageTerm/@type",,,,,,
+"recordInfo/languageofCataloging/languageTerm/@valueURI",,,,,,
+"recordInfo/recordChangeDate",,,,,,
+"recordInfo/recordChangeDate/@encoding",,,,,,
+"recordInfo/recordContentSource",,,,,,
+"recordInfo/recordContentSource/@authority",,,,,,
+"recordInfo/recordCreationDate",,,,,,
+"recordInfo/recordCreationDate/@encoding",,,,,,
+"recordInfo/recordIdentifier",,,,,,
+"recordInfo/recordIdentifier/@source",,,,,,
+"recordInfo/recordInfoNote",,,,,,
+"recordInfo/recordOrigin",,,,,,
+"relatedItem/@displayLabel","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/@otherType","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/@type","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/abstract","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/abstract/@lang","same field_types as main MODS, but on separate “related item description” content type",,"?",,,
+"relatedItem/abstract/@type","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/classification","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/classification/@authority","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/genre","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/genre/@authority","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/identifier","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/identifier/@type","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/language/languageTerm","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/language/languageTerm/@authority","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/language/languageTerm/@type","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/location/physicalLocation","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/location/url","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/location/url/@displayLabel","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/name/@authority","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/name/@lang","same field_types as main MODS, but on separate “related item description” content type",,"?",,,
+"relatedItem/name/@script","same field_types as main MODS, but on separate “related item description” content type",,"?",,,
+"relatedItem/name/@type","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/name/namePart","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/name/namePart/@type","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/name/role/roleTerm","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/name/role/roleTerm/@authority","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/name/role/roleTerm/@type","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/note","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/note/@lang","same field_types as main MODS, but on separate “related item description” content type",,"?",,,
+"relatedItem/note/@script","same field_types as main MODS, but on separate “related item description” content type",,"?",,,
+"relatedItem/note/@type","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/originInfo/dateCreated","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/originInfo/dateCreated/@encoding","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/originInfo/dateCreated/@keyDate","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/originInfo/dateIssued","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/originInfo/dateIssued/@encoding","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/originInfo/dateIssued/@keyDate","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/originInfo/dateIssued/@point","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/originInfo/edition","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/originInfo/issuance","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/originInfo/place/placeTerm","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/originInfo/place/placeTerm/@authority","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/originInfo/place/placeTerm/@type","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/originInfo/publisher","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/part/date","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/part/detail/@type","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/part/detail/caption","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/part/detail/number","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/part/extent/@unit","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/part/extent/end","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/part/extent/start","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/part/text","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/physicalDescription/extent","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/physicalDescription/form","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/physicalDescription/form/@authority","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/recordInfo/languageOfCataloging/languageTerm","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/recordInfo/languageOfCataloging/languageTerm/@authority","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/recordInfo/languageOfCataloging/languageTerm/@type","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/recordInfo/recordChangeDate","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/recordInfo/recordChangeDate/@encoding","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/recordInfo/recordContentSource/@authority","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/recordInfo/recordCreationDate","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/recordInfo/recordCreationDate/@encoding","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/recordInfo/recordIdentifier","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/relatedItem/@type","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/relatedItem/name/namePart","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/relatedItem/part/text","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/relatedItem/titleInfo/title","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/subject/@authority","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/subject/genre","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/subject/hierarchicalGeographic/city","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/subject/hierarchicalGeographic/country","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/subject/name/@authority","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/subject/name/@type","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/subject/name/namePart","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/subject/name/namePart/@type","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/subject/name/role/roleTerm","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/subject/name/role/roleTerm/@authority","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/subject/name/role/roleTerm/@type","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/subject/topic","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/titleInfo","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/titleInfo/@displayLabel","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/titleInfo/@lang","same field_types as main MODS, but on separate “related item description” content type",,"?",,,
+"relatedItem/titleInfo/@script","same field_types as main MODS, but on separate “related item description” content type",,"?",,,
+"relatedItem/titleInfo/@transliteration","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/titleInfo/@type","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/titleInfo/nonSort","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/titleInfo/partName","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/titleInfo/partNumber","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/titleInfo/subTitle","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/titleInfo/title","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/typeOfResource","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"relatedItem/typeOfResource/@collection","same field_types as main MODS, but on separate “related item description” content type",,,,,
+"subject",,,,,,
+"subject/@altRepGroup",,,"?",,,
+"subject/@authority",,,,,,
+"subject/@authorityURI",,,,,,
+"subject/@displayLabel",,,,,,
+"subject/@script",,,"?",,,
+"subject/@valueURI",,,,,,
+"subject/cartographics/coordinates",,,,,,
+"subject/cartographics/projection",,,,,,
+"subject/cartographics/scale",,,,,,
+"subject/genre",,,,,,
+"subject/genre/@authority",,,,,,
+"subject/genre/@authorityURI",,,,,,
+"subject/genre/@valueURI",,,,,,
+"subject/geographic",,,,,,
+"subject/geographic/@authority",,,,,,
+"subject/geographic/@authorityURI",,,,,,
+"subject/geographic/@valueURI",,,,,,
+"subject/geographicCode",,,,,,
+"subject/geographicCode/@authority",,,,,,
+"subject/hierarchicalGeographic/city",,,,,,
+"subject/hierarchicalGeographic/citySection",,,,,,
+"subject/hierarchicalGeographic/country",,,,,,
+"subject/hierarchicalGeographic/county",,,,,,
+"subject/hierarchicalGeographic/state",,,,,,
+"subject/name/@authority",,,,,,
+"subject/name/@authorityURI",,,,,,
+"subject/name/@type",,,,,,
+"subject/name/@valueURI",,,,,,
+"subject/name/namePart",,,,,,
+"subject/name/namePart/@type",,,,,,
+"subject/name/role/roleTerm",,,,,,
+"subject/name/role/roleTerm/@authority",,,,,,
+"subject/name/role/roleTerm/@type",,,,,,
+"subject/occupation",,,,,,
+"subject/temporal",,,,,,
+"subject/temporal/@encoding",,,,,,
+"subject/titleInfo/partName",,,,,,
+"subject/titleInfo/partNumber",,,,,,
+"subject/titleInfo/subTitle",,,,,,
+"subject/titleInfo/title",,,,,,
+"subject/topic",,,,,,
+"subject/topic/@authority",,,,,,
+"subject/topic/@authorityURI",,,,,,
+"subject/topic/@valueURI",,,,,,
+"tableOfContents","labeled long text","value","long text","y",,
+"tableOfContents/@altRepGroup","labeled long text","?","?","?",,
+"tableOfContents/@displayLabel","labeled long text","label","text","n",,
+"tableOfContents/@script","labeled long text","?","?","?",,
+"tableOfContents/@type","labeled long text","label","text","n",,"if value of @type contains “partial”, display label becomes “Partial contents”"
+"targetAudience","labeled entity reference","value","entity reference","y","link to term in Target Audiences vocabulary",
+"targetAudience/@authority","labeled entity reference","n/a","n/a","n/a","captured in Target Audiences vocabulary term",
+"targetAudience/@displayLabel","labeled entity reference","label","text","n",,
+"titleInfo/@altRepGroup","title_details",,,,,
+"titleInfo/@authority",,,,,"verify only used in name titles",
+"titleInfo/@displayLabel",,,,,"text",
+"titleInfo/@lang",,,"?",,,
+"titleInfo/@nameTitleGroup","x",,,,,
+"titleInfo/@script","?",,"?",,,
+"titleInfo/@transliteration","?",,,,"only used by JTS, recorded ""yes,"" not transliteration method",
+"titleInfo/@type",,,,,"er",
+"titleInfo/@usage",,,,,"boolean",
+"titleInfo/nonSort",,,,,"text",
+"titleInfo/nonSort/@space","na",,,,,
+"titleInfo/partName",,,,,"text",
+"titleInfo/partNumber",,,,,"text",
+"titleInfo/subTitle",,,,,"text",
+"titleInfo/title",,,,,"text",
+"typeOfResource","labeled entity reference","value","entity reference",,"link to term in Resource Type vocabulary",
+"typeOfResource/@authorityURI","labeled entity reference","n/a","n/a","n/a","captured in Resource Type vocabulary term",
+"typeOfResource/@collection","labeled entity reference","n/a","n/a","n/a",,"If @collection=”yes”, assign additional Resource Type term “Collection”"
+"typeOfResource/@manuscript","labeled entity reference","n/a","n/a","n/a",,"If @manuscript=”yes”, assign additional Resource Type term “Manuscript”"
+"typeOfResource/@valueURI","labeled entity reference","n/a","n/a","n/a","captured in Resource Type vocabulary term",
