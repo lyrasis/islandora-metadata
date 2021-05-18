@@ -1,0 +1,47 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+:imagesdir: https://raw.githubusercontent.com/lyrasis/islandora8-metadata/main/images
+
+= Field types: Stuff shared by all field types having `label` property
+
+toc::[]
+
+== About the `label` property
+
+Is always a short plain text type.
+
+This property supports the metadata pattern of providing identifying or contextualizing information for data recorded in a field, primarily for public display.
+
+Examples of support for this pattern in several metadata schema: 
+
+- http://www.loc.gov/standards/mods/userguide/attributes.html#displayLabel[MODS displayLabel attribute]
+- https://folgerpedia.folger.edu/MARC_%C7%823_Materials_specified[MARC subfield 3 (Materials specified)]
+- https://www.loc.gov/ead/EAD3taglib/EAD3.html#attr-label[EAD label attribute]
+
+There are use cases where such a label should be displayed as the main label of the field in which it is used.
+
+There are other use cases where such a label should be prepended to and visually distinguished from a value in a field, but where the main/default label for the field should be retained.
+
+---
+
+.Example from LYRASIS Islandora 7 behavior
+====
+[source,xml]
+----
+<physicalDescription>
+  <note>
+    Artificial penumothorax apparatus with wood base and back. Two blocks of wood hold a framework of steel tubes, to which are attached nozzles, a barometer, hoses, and tubes connecting two large glass vessels with pressurized caps. Each glass vessel has markings of capacity from 0 to 2000cc, and has a valve at the top which is connected to the gauge and other bottle with a tightly clamping handle. Connecting hoses are made of rubber. The gauge on the left hand side of the apparatus reads from 22 at the top and bottom to Zero at the middle of the gauge mechanism. Tubes are made of rubber.
+  </note>
+  <note displayLabel="Digitization Process">
+    Scanned with Epson Expression 10000 XL, at 24-RBG color, 600 dpi.
+  </note>
+</physicalDescription>
+----
+
+image::physicalDescription_note_plain_display.png[]
+
+image::physicalDescription_note_displayLabel_display.png[]
+====
+
+---
