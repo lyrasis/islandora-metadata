@@ -18,12 +18,25 @@ This value will be used as the label for the field in the default display view. 
 If the selected value (Type value or Label value) is null in a given field instance, the field label source cascades up that list.
 
 === Field value label source
-==== Ideally:
+
+*Ideally:*
+
 * You can never choose Field name
 * If `Field label source` = Field name, you get to pick: Type value, Label value, or none
 * If `Field label source` = Type value, you get to pick: Label value or none
 * If `Field label source` = Label value, you get to pick: Type value or none
 
+*If that's just too much:*
+
+We can live with just always having the choices:
+
+- Type value
+- Label value
+- none
+
+If folks configure a weirdly redundant display, that's on them?
+
+== Display formatter examples
 
 The following examples all share the following assumptions about field configuration:
 
@@ -38,6 +51,8 @@ Convention for expressing display:
 * _Emphasized_ = Visually distinguished field value label
 * Normal = field value
 
+
+=== Examples: Field label source = Label value
 
 ==== Example: Field label source = Label value, Field value label source = Type value
 
