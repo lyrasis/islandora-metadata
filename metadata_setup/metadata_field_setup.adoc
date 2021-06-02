@@ -33,7 +33,7 @@ image::field_setup_all_terms_from_vocab.png[]
 
 All terms from the `Abstract Type` vocabulary are available in the drop-down.
 
-image::field_setup_active_terms.png[]
+image::field_setup_all_terms_effect.png[]
 
 === To accept only active (non-deprecated) terms from one or more vocabularies
 
