@@ -9,11 +9,16 @@ toc::[]
 
 == Entity reference fields linking to taxonomy terms
 
-=== To accept all terms from one or more vocabularies
-
-Here we are configuring `field_abstract` on the `lyrasis_repository_item` content type. This field has field type: Typed Text (plain, long).
+Here we are configuring `field_abstract` on the `lyrasis_repository_item` content type. This field has field type: `Typed Text (plain, long)`.
 
 Specifically, we are interested in what terms can be used as abstract types.
+
+In this example, we have a number of terms in our `Abstract Type` vocabulary. One of these terms---`Contents and scope`---is marked as a deprecated term.
+
+=== To accept all terms from one or more vocabularies
+
+
+==== Defining the field
 
 If we want to allow all terms from the Abstract Type vocabulary, including deprecated terms, then:
 
@@ -24,15 +29,23 @@ If you wanted to accept all terms from multiple vocabularies, you would check al
 
 image::field_setup_all_terms_from_vocab.png[]
 
+==== Effect in form
+
+All terms from the `Abstract Type` vocabulary are available in the drop-down.
+
+image::field_setup_active_terms.png[]
+
 === To accept only active (non-deprecated) terms from one or more vocabularies
 
 There is an Entity Reference Source View named `Active taxonomy terms` (machine name: `taxonomy_terms_active`).
 
 This view limits the terms that are available to populate a field to (1) terms that are published; and (2) terms where the `Term Deprecated?` field value is `No`.
 
-This view is not constrained to a particular vocabulary, but will only provide results from vocabularies having a `Term Deprecated?` field defined for its terms.
+This view is not constrained to a particular vocabulary, but will only provide results from vocabularies having a https://github.com/lyrasis/islandora8-metadata/blob/main/metadata_setup/taxonomy_metadata_setup.adoc#deprecated-term[`Deprecated Term?`] field defined for its terms.
 
 This view has a contextual filter configured using vocabulary. If no vocabulary(-ies) are specified in the field definition, all terms from all eligible vocabularies will be in the list.
+
+==== Defining the field
 
 To show only active terms from the Abstract Type vocabulary:
 
@@ -47,5 +60,13 @@ image::field_setup_active_terms.png[]
 If you wanted to allow all active terms from more than one vocabulary, you need to specify all the vocabularies (by machine name) in `View arguments`, separated by `+`:
 
 `abstract_types+identifier_types`
+
+==== Effect in form
+
+This example assumes we've set `View arguments` to `abstract_types` when defining the field.
+
+All *active* terms from the `Abstract Type` vocabulary are available in the drop-down. We can no longer select `Contents and scope` as an abstract type value.
+
+image::field_setup_active_terms_effect.png[]
 
 
