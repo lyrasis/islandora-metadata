@@ -28,6 +28,9 @@ I was thinking I'd create a node migration with the the field values to test, bu
 Installing the browser plugin https://github.com/powerman/userjs-github-asciidoc[UserJS for GitHub] will improve the display of some of the pages in this repo.
 
 == Notes for authoring in this repo
+=== To-dos
+* Why this instead of Paragraphs?
+* Field types with `type` and/or `label` properties: write up RDF Mapping config option: `Include field value label in linked data statement object value (strings only)
 
 === Rendering images
 

@@ -1,0 +1,51 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+:imagesdir: https://raw.githubusercontent.com/lyrasis/islandora8-metadata/main/images
+
+= Metadata field setup and practices
+
+toc::[]
+
+== Entity reference fields linking to taxonomy terms
+
+=== To accept all terms from one or more vocabularies
+
+Here we are configuring `field_abstract` on the `lyrasis_repository_item` content type. This field has field type: Typed Text (plain, long).
+
+Specifically, we are interested in what terms can be used as abstract types.
+
+If we want to allow all terms from the Abstract Type vocabulary, including deprecated terms, then:
+
+* Reference method: Default
+* Vocabulary: Abstract Type
+
+If you wanted to accept all terms from multiple vocabularies, you would check all vocabularies that apply.
+
+image::field_setup_all_terms_from_vocab.png[]
+
+=== To accept only active (non-deprecated) terms from one or more vocabularies
+
+There is an Entity Reference Source View named `Active taxonomy terms` (machine name: `taxonomy_terms_active`).
+
+This view limits the terms that are available to populate a field to (1) terms that are published; and (2) terms where the `Term Deprecated?` field value is `No`.
+
+This view is not constrained to a particular vocabulary, but will only provide results from vocabularies having a `Term Deprecated?` field defined for its terms.
+
+This view has a contextual filter configured using vocabulary. If no vocabulary(-ies) are specified in the field definition, all terms from all eligible vocabularies will be in the list.
+
+To show only active terms from the Abstract Type vocabulary:
+
+* Reference method: Views: Filter by an entity reference view
+* View used to select the entities: taxonomy_terms_active - Entity Reference
+* View arguments: abstract_types 
+
+`abstract_types` is the machine name for the Abstract Type vocabulary
+
+image::field_setup_active_terms.png[]
+
+If you wanted to allow all active terms from more than one vocabulary, you need to specify all the vocabularies (by machine name) in `View arguments`, separated by `+`:
+
+`abstract_types+identifier_types`
+
+
