@@ -1,0 +1,85 @@
+:toc:
+:toc-placement!:
+
+= Field type: Typed, labeled title
+
+toc::[]
+
+== Schema
+
+[cols=3*,options=header]
+|===
+| Property name | Data type | Required?
+| nonsort | Text (plain) | n
+| title | Text (plain) | y
+| subtitle | Text (plain) | n
+| partname | Text (plain) | n
+| partnumber | Text (plain) | n
+| label | Text (plain) | n
+| type  | Entity reference to taxonomy term | n
+|===
+
+`title` is the only required property. When filling out a form with an instance of this field, a user can leave every part blank except `title`.
+
+We can rename the `title` property to something else if it is too confusing...
+
+=== Behavior
+Think of this as basically a version of the Typed, labeled text fields. The difference is the `value` property is broken down into some more granular parts: nonsort, title, subtitle, partname, partnumber.
+
+The parts need to be concatenated together (with appropriate punctuation in between) in two slightly different ways for indexing the sort title and display.
+
+
+
+=== Property data types (length)
+
+Maximum length of valid values in each MODS element that will map to our field type properties.
+
+* nonsort - 8
+* title - 639
+* subtitle - 407
+* partnumber - 114
+* partname - 415
+
+Takeaway: These do not have to allow full on paragraphs of text, but title, subtitle, and partname need to be longer than 255 characters.
+
+=== Omission of `primary` property
+
+We had discussed the need to include a boolean `primary` property in our Typed, labeled title field type. This property would be required if more than one value were entered in the field, and you could only check it on one value in a given field.
+
+The value marked primary would be used as the sort title, would be output as the main title in OAI-PMH/generated citations, and basically get special treatment whenever one title was needed to be used for some functionality.
+
+After reviewing all our clients' current MODS data, only 3 records (out of 252,147) have tagged the not-recorded-first title as primary. After reviewing those 3 records, I see no reason why the primary title isn't the first one in the record.
+
+*We will assume the first title value recorded is to be treated as the primary title in any parts of the system that require such a thing.*
+
+[IMPORTANT]
+====
+If a user changes the order of title values in a record, the change of which title is primary should cascade through all the places that indication matters: indexing for sort, etc.
+====
+
+== Field configuration options
+
+* See https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/_all_typed_fields.adoc[All "typed" field types > Field configuration options]
+* See https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/_all_labeled_fields.adoc[All "labeled" field types > Field configuration options]
+
+* Storage
+** field repeatability (1, a specific number of times, unlimited)
+** `value` length (up to 255)
+* Other field configuration options
+** nothing extra beyond what comes with typed and labeled field types
+
+== Form view options
+None initially required, but I really like the Name Field's compact (inline) option.
+
+The "Widget settings" (stacked vs. inline) are https://default.traefik.me/admin/structure/taxonomy/manage/person/overview/fields/taxonomy_term.person.field_person_preferred_name[here]. See the effect https://default.traefik.me/admin/structure/taxonomy/manage/person/add[here] (expand Name Details section).
+
+== Display formatter options
+
+* See https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/all_typed_and_labeled_fields.adoc[Field types: Stuff shared by all field types having both type and label properties > Display formatter options & examples]
+
+== Indexing options
+
+* See https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/all_typed_and_labeled_fields.adoc[Field types: Stuff shared by all field types having both type and label properties > Indexing options & examples]
+
+
+

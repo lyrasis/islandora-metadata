@@ -1,0 +1,25 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+:imagesdir: https://raw.githubusercontent.com/lyrasis/islandora8-metadata/main/images
+
+= Decision and migration notes
+
+toc::[]
+
+== Title
+
+=== "Primary" title
+
+MODS provided the `usage` attribute which could be set to `primary` in any `titleInfo` element in a record. This was useful in records with multiple titles recorded, as the primary title could be clearly indicated for use in sorting, generating a brief display or citation, and other functions in a system which accept/assume a single title value.
+
+The title field type we are creating for Islandora 8 does not include a way to indicate that one of several recorded titles is primary.
+
+*The first title entered will be treated as the primary title*.
+
+You can always change the order of recorded titles and this should update which title is treated as the primary one.
+
+This decision was made after review of the 252,147 MODS records currently in our clients' Islandora 7 instances. Out of all those records, only 3 contain multiple title values where the title tagged as primary was *not* the first listed title. Review of those records shows there is no real reason why the primary title could not be displayed first.
+
+
+=== Treatment of titles with `type='uniform'`
