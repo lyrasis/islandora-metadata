@@ -7,6 +7,16 @@
 
 toc::[]
 
+== General things to handle before/during metadata migration
+
+=== MODS structure/validation
+* Some forms in use have been adding blank elements/attributes that cause the MODS to be invalid, or the proper XSLT hasn't been being run on some MODS created by forms on form save. *Need to run XSLT to remove these blank values across all MODS*
+* Clients have created/added MODS records where the root element is `modsCollection` instead of `mods`. These are sort of randomly sprinkled through the repositories, and no one seems to have noticed the metadata display is currently not working. Need to experiment with whether we can automagically change `modsCollection` to `mods` and then delete the child `mods` element (or do something else) to fix these. All xpaths and validation are messed up when the wrong root element is used
+* Since I7 did nothing to actually require valid MODS, there are actual invalid MODS files not caused by the previous two issues that will not migrate properly. These will need to be identified and remediated by someone.
+
+=== Data oddities
+* strip ZERO WIDTH SPACE (U+200B) characters from end of elements
+
 == Title
 
 === "Primary" title
@@ -23,3 +33,17 @@ This decision was made after review of the 252,147 MODS records currently in our
 
 
 === Treatment of titles with `type='uniform'`
+
+=== Empty `titleInfo/title` element
+
+Things to account for/fix in migration:
+
+*Issue 1:*
+
+79 records in current client MODS have empty `titleInfo/title` element (and all other elements in `titleInfo`)
+
+Looks like at least some are due to unexpected MODS stucture, such as the root element being `modsCollection` rather than `mods`.
+
+*Issue 2:*
+
+11 records have no value in `titleInfo/title`, but do have a value in `subTitle`, `partNumber`, and/or `partName` elements.

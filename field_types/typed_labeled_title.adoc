@@ -3,6 +3,12 @@
 
 = Field type: Typed, labeled title
 
+Think of this as basically a version of the Typed, labeled text fields. The difference is the `value` property is broken down into some more granular parts: nonsort, title, subtitle, partname, partnumber.
+
+The parts need to be concatenated together (with appropriate punctuation in between) in two slightly different ways for indexing the sort title and display.
+
+I am not currently seeing much extra behavior dependent upon the properties in Islandora. The need for this structure is more about not losing metadata granularity (keeping it interoperable with common standard metadata schema) and for ease of migration.
+
 toc::[]
 
 == Schema
@@ -23,13 +29,6 @@ toc::[]
 
 We can rename the `title` property to something else if it is too confusing...
 
-=== Behavior
-Think of this as basically a version of the Typed, labeled text fields. The difference is the `value` property is broken down into some more granular parts: nonsort, title, subtitle, partname, partnumber.
-
-The parts need to be concatenated together (with appropriate punctuation in between) in two slightly different ways for indexing the sort title and display.
-
-
-
 === Property data types (length)
 
 Maximum length of valid values in each MODS element that will map to our field type properties.
@@ -41,6 +40,12 @@ Maximum length of valid values in each MODS element that will map to our field t
 * partname - 415
 
 Takeaway: These do not have to allow full on paragraphs of text, but title, subtitle, and partname need to be longer than 255 characters.
+
+=== Nonsort - no stripping of trailing spaces
+
+If there are trailing spaces on the nonsort values, they must be maintained.
+
+It is ok (but not necessarily required) to strip trailing spaces off the other properties.
 
 === Omission of `primary` property
 
@@ -76,6 +81,105 @@ The "Widget settings" (stacked vs. inline) are https://default.traefik.me/admin/
 == Display formatter options
 
 * See https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/all_typed_and_labeled_fields.adoc[Field types: Stuff shared by all field types having both type and label properties > Display formatter options & examples]
+
+=== Rules for concatenating properties for display
+
+* Order of concatenation: `nonsort`, `title`, `subtitle`, `partnumber`, `partname`
+* No characters or spaces inserted between `nonsort` and `title`
+
+.Example 1a
+[source,xml]
+----
+<titleInfo>
+  <nonSort>The ... </nonSort>
+  <title>Oregon population survey</title>
+</titleInfo>
+----
+
+Should become:
+
+`The ... Oregon population survey`
+
+NOT:
+
+`The ...Oregon population survey`
+
+.Example 1b
+[source,xml]
+----
+<titleInfo>
+  <nonSort>The "</nonSort>
+  <title>Red Hill" soils of western Oregon and their utilization</title>
+</titleInfo>
+----
+
+Should become:
+
+`The "Red Hill" soils of western Oregon and their utilization`
+
+NOT:
+
+`The " Red Hill" soils of western Oregon and their utilization`
+
+* If there is a `subtitle` value, prepend `: `, but handle the case that sometimes the `:` may have been hard-coded onto the end of the `title` value
+
+.Example 2a
+[source,xml]
+----
+<titleInfo>
+  <nonSort>An </nonSort>
+  <title>essay on electricity</title>
+  <subTitle>being an enquiry into the nature, cause and properties thereof, on the principles of Sir Issac Newton's theory of vibrating motion, light and fire ; and the various phænomena of fourty-two capitl experiments ; with some observations relative to the uses that may be made of this wonderful power of nature</subTitle>
+</titleInfo>
+----
+
+Should become:
+
+`An essay on electricity: being an enquiry into the nature, cause and properties thereof, on the principles of Sir Issac Newton's theory of vibrating motion, light and fire ; and the various phænomena of fourty-two capitl experiments ; with some observations relative to the uses that may be made of this wonderful power of nature`
+
+.Example 2b
+[source,xml]
+----
+<titleInfo type="alternative">
+  <title>Research project work plan for multi-modal intersections :</title>
+  <subTitle>resolving conflicts between trains, motor vehicles, bicyclists and pedestrians</subTitle>
+</titleInfo>
+----
+
+Should become:
+
+`Research project work plan for multi-modal intersections: resolving conflicts between trains, motor vehicles, bicyclists and pedestrians`
+
+* If there is a `partnumber` value...
+** And the final non-space character of preceding string is: `…`, `.`, `!`, `-`, or `?`, prepend a space to `partnumber`
+** And the final non-space character of preceding string is anything else, prepend `. ` to `partnumber`
+
+.Example 3a
+[source,xml]
+----
+<titleInfo>
+  <title>Water primrose, Ludwigia spp., aquatic invader!</title>
+  <partNumber>Series 2</partNumber>
+</titleInfo>
+----
+
+Should become:
+
+`Water primrose, Ludwigia spp., aquatic invader! Series 2`
+
+.Example 3b
+[source,xml]
+----
+<titleInfo usage="primary">
+  <title>Rear, left and right side elevations</title>
+  <subTitle>Residential house plans</subTitle>
+  <partNumber>3 of 3</partNumber>
+</titleInfo>
+----
+
+Should become:
+
+`Rear, left and right side elevations: Residential house plans. 3 of 3`
 
 == Indexing options
 
