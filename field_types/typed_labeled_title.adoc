@@ -152,7 +152,10 @@ Should become:
 
 NOT:
 
- Research project work plan for multi-modal intersections \\:: resolving conflicts between trains, motor vehicles, bicyclists and pedestrians
+[source]
+----
+Research project work plan for multi-modal intersections :: resolving conflicts between trains, motor vehicles, bicyclists and pedestrians
+----
 
 * If there is a `partnumber` value...
 ** And the final non-space character of preceding string is: `…`, `.`, `!`, `-`, or `?`, prepend a space to `partnumber`
