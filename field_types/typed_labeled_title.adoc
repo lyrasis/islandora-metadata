@@ -121,7 +121,7 @@ NOT:
 
 `The " Red Hill" soils of western Oregon and their utilization`
 
-* If there is a `subtitle` value, prepend `: `, but handle the case that sometimes the `:` may have been hard-coded onto the end of the `title` value
+* If there is a `subtitle` value, prepend ``: ``, but handle the case that sometimes the ``:``  may have been hard-coded onto the end of the `title` value
 
 .Example 2a
 [source,xml]
@@ -152,7 +152,7 @@ Should become:
 
 * If there is a `partnumber` value...
 ** And the final non-space character of preceding string is: `…`, `.`, `!`, `-`, or `?`, prepend a space to `partnumber`
-** And the final non-space character of preceding string is anything else, prepend `. ` to `partnumber`
+** And the final non-space character of preceding string is anything else, prepend ``. `` to `partnumber`
 
 .Example 3a
 [source,xml]
