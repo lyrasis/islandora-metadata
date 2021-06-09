@@ -1,0 +1,233 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+= MODS originInfo migration examples
+
+toc::[]
+
+Here I'm trying to verify that my field type and data mapping plans are workable. I'm finding the most complex and sometimes weird MODS originInfo data that I can and verifying that I can map it as expected.
+
+== General setup assumptions
+=== Taxonomy vocabularies
+
+* Origin event types
+* Date types
+* Place types
+* Agent roles
+* Modes of issuance
+* Frequencies
+* Place
+** has field: External vocabulary code
+* Organization
+* Person
+* Family
+
+== Field definition assumptions
+=== Field: Origin statement
+
+Field type: origin_statement
+
+Field type properties:
+
+* type - entity reference (Origin event types)
+* label - text
+* place - text
+* agent - text
+* date - text
+* addtl - text
+
+=== Field: Origin agent
+
+Field type: typed, labeled entity reference
+
+Field type properties:
+
+* type - entity reference (Agent roles)
+* label - text
+* value - entity reference (Organization, Person, or Family)
+
+=== Field: Origin place
+
+Field type: typed, labeled entity reference
+
+Field type properties:
+
+* type - entity reference (Place types)
+* label - text
+* value - entity reference (Place)
+
+=== Field: Mode of issuance
+
+Field type: labeled entity reference
+
+Field type properties:
+
+* label - text
+* value - entity reference (Modes of issuance)
+
+=== Field: Frequency
+
+Field type: labeled entity reference
+
+Field type properties:
+
+* label - text
+* value - entity reference (Frequencies)
+
+=== Field: Issued date
+
+Field type: EDTF date
+
+== Examples
+
+=== osu:51569
+
+[source,xml]
+----
+<originInfo>
+  <place>
+    <placeTerm type="code" authority="marccountry">oru</placeTerm>
+  </place>
+  <dateIssued encoding="marc" point="start">uuuu</dateIssued>
+  <dateIssued encoding="marc" point="end">9999</dateIssued>
+  <issuance>serial</issuance>
+  <frequency authority="marcfrequency">Annual</frequency>
+  <frequency>Annual</frequency>
+</originInfo>
+<originInfo displayLabel="publisher">
+  <place>
+    <placeTerm type="text">&lt;2004&gt;-2010:[Portland, Oregon] :[Oregon Center for Health Statistics]</placeTerm>
+  </place>
+  <publisher>[Oregon Center for Health Statistics]</publisher>
+  <dateIssued/>
+</originInfo>
+<originInfo displayLabel="publisher">
+  <place>
+    <placeTerm type="text">2011- :[Portland, Oregon] :[Health Statistics Unit, Vital Records]</placeTerm>
+  </place>
+  <publisher>[Health Statistics Unit, Vital Records]</publisher>
+  <dateIssued/>
+</originInfo>
+----
+
+Origin statement:
+
+* [0]
+** type: Publication
+** label: <2004>-2010
+** place: [Portland, Oregon]
+** agent: [Oregon Center for Health Statistics]
+* [1]
+** type: Publication
+** label: 2011-
+** place: [Portland, Oregon]
+** agent: [Health Statistics Unit, Vital Records]
+
+Origin place:
+
+* [0]
+** value: Oregon
+* [1]
+** type: Place of publication
+** Portland, Oregon
+
+Issued date:
+
+* [0]
+** value: /..
+
+Mode of issuance:
+
+* [0]
+** value: serial
+
+Frequency:
+
+* [0]
+** value: annual
+
+
+<originInfo>
+  <issuance>serial</issuance>
+  <frequency authority="marcfrequency">Annual</frequency>
+  <frequency>Annual</frequency>
+</originInfo>
+
+
+== Pre-migration data transformation algorithm notes
+
+These are completely untested at this point, but I want to start capturing ideas about what the required logic might be.
+
+I expect these to definitely be client-specific, and likely at least sometimes collection-specific. If we are lucky, most of the complex stuff will follow patterns of how data was mapped to MODS in migration to I7, but there will probably also be all manner of fun variation in practice to account for.
+
+=== originInfo/placeTerm -> origin statement
+==== extract place from placeTerm
+
+applies to example(s): osu:51569
+
+* within a given `originInfo` element, clean up `placeTerm` value by:
+** remove the `publisher` value from the `placeTerm` value
+** remove any date element value from the `placeTerm` value
+** strip trailing : and space from `placeTerm` value
+** split `placeTerm` value on `:`
+** if length of resulting array >= 2
+*** element[0] = label value
+*** other elements, joined back together with `:` = place value
+** if length of resulting array < 2
+*** the sole element = place value
+
+=== originInfo/placeTerm (type = text or blank) -> Place taxonomy term
+
+applies to example(s): osu:51569
+
+* remove square brackets from around value
+* remove any trailing funky punctuation
+
+=== originInfo/placeTerm (type = code and authority = marccountry) -> Place taxonomy term
+
+applies to example(s): osu:51569
+
+Gotta make some decisions. I do *not* want to maintain a separate MARC countries code vocabulary as comes with controlled_access_terms
+
+I *may* just prepopulate the default Places taxonomy with the entire MARC countries vocabulary term set, transformed from the current available data set + a migration.
+
+If not, during migration, the first step will be to populate Places taxonomy with all needed terms:
+
+* look up code value (oru) in LC marccountries API
+* get textual label (Oregon)
+* get term URI (http://id.loc.gov/vocabulary/countries/oru)
+* create taxonomy term with the following mappings:
+** name: textual label (Oregon)
+** field_term_uri: http://id.loc.gov/vocabulary/countries/oru
+** field_external_vocabulary_source: MARC Countries
+** field_external_vocabulary_code: oru
+
+Then, while migrating the data for each node:
+
+* migration looks up taxonomy term from Places vocabulary using `originInfo/placeTerm` value = `field_external_vocabulary_code` value
+* entity reference to term Oregon is made in the node field
+
+=== originInfo/date values (point attribute, uuuu-9999)
+
+applies to example(s): osu:51569
+
+Not sure how these come out in the CSV being emitted by Nigel's migrate-from-Fedora tool.
+
+I'm getting these out of MODS in CSV using my script like:
+
+@encoding	@keyDate	@point	@qualifier	dateIssued
+marc;;; marc	;;; 	start;;; end	;;; 	uuuu;;; 9999
+
+I will need a process that knows converts CSV format patterns into the suggested I7 date patterns we gave our pilot client, which I can run through https://github.com/kspurgin/emendate[emendate]. In this case, something like:
+
+ uuuu to 9999
+
+Emendate will return the EDTF expression `/..` (Time interval with unknown start, open end -- This is currently as of 2021-06-09 being accepted by the controlled_access_terms EDTF date type as valid EDTF with strict checking and ranges enabled. It is rendered as "open start to open end", which is incorrect.)
+
+
+=== originInfo/frequency values
+
+applies to example(s): osu:51569
+
+* deduplicate identical values before doing taxonomy term lookups
