@@ -82,7 +82,13 @@ The "Widget settings" (stacked vs. inline) are https://default.traefik.me/admin/
 
 * See https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/all_typed_and_labeled_fields.adoc[Field types: Stuff shared by all field types having both type and label properties > Display formatter options & examples]
 
-=== Rules for concatenating properties for display
+== Indexing options
+
+* See https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/all_typed_and_labeled_fields.adoc[Field types: Stuff shared by all field types having both type and label properties > Indexing options & examples]
+
+== Field behavior
+
+=== Concatenating properties for display
 
 * Order of concatenation: `nonsort`, `title`, `subtitle`, `partnumber`, `partname`
 * No characters or spaces inserted between `nonsort` and `title`
@@ -121,7 +127,7 @@ NOT:
 
 `The " Red Hill" soils of western Oregon and their utilization`
 
-* If there is a `subtitle` value, prepend ``: ``, but handle the case that sometimes the ``:``  may have been hard-coded onto the end of the `title` value
+* If there is a `subtitle` value, prepend ``: `` (2a), but handle the case that sometimes the ``:``  may have been hard-coded onto the end of the `title` value (2b)
 
 .Example 2a
 [source,xml]
@@ -158,8 +164,8 @@ Research project work plan for multi-modal intersections :: resolving conflicts 
 ----
 
 * If there is a `partnumber` value...
-** And the final non-space character of preceding string is: `…`, `.`, `!`, `-`, or `?`, prepend a space to `partnumber`
-** And the final non-space character of preceding string is anything else, prepend ``. `` to `partnumber`
+** And the final non-space character of preceding string is: `…`, `.`, `!`, `-`, or `?`, prepend a space to `partnumber` (3a)
+** And the final non-space character of preceding string is anything else, prepend ``. `` to `partnumber` (3b)
 
 .Example 3a
 [source,xml]
@@ -188,9 +194,91 @@ Should become:
 
 `Rear, left and right side elevations: Residential house plans. 3 of 3`
 
-== Indexing options
+* If there is a `partname` value...
+** And there is a `partnumber` value...
+*** And the final non-space character of `partnumber` is `,`, prepend a space to `partname` (4a)
+*** And the final non-space character of `partnumber` is not `,`, prepend ``, `` to `partname` (4b)
+** And there is not a `partnumber` value...
+** And the final non-space character of preceding string is: `…`, `.`, `!`, `-`, or `?`, prepend a space to `partname` (4c)
+** And the final non-space character of preceding string is anything else, prepend ``. `` to `partname` (4d)
 
-* See https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/all_typed_and_labeled_fields.adoc[Field types: Stuff shared by all field types having both type and label properties > Indexing options & examples]
+.Example 4a
+[source,xml]
+----
+<titleInfo>
+  <title>UST Program case study</title>
+  <subTitle>Seaside BP maritime fuel</subTitle>
+  <partNumber>Part 1,</partNumber>
+  <partName>Gasoline vapors in building</partName>
+</titleInfo>
+----
+
+Should become:
+
+ UST Program case study: Seaside BP maritime fuel. Part 1, Gasoline vapors in building
+
+.Example 4b
+[source,xml]
+----
+<titleInfo>
+  <title>UST Program case study</title>
+  <subTitle>Seaside BP maritime fuel</subTitle>
+  <partNumber>Part 1</partNumber>
+  <partName>Gasoline vapors in building</partName>
+</titleInfo>
+----
+
+Should become:
+
+ UST Program case study: Seaside BP maritime fuel. Part 1, Gasoline vapors in building
+
+.Example 4c
+[source,xml]
+----
+<titleInfo>
+  <title>How do I eradicate noxious plants?</title>
+  <partName>Ailanthus altissima</partName>
+</titleInfo>
+----
+
+Should become:
+ How do I eradicate noxious plants? Ailanthus altissima
+
+.Example 4d
+[source,xml]
+----
+<titleInfo>
+  <title>Eradicating noxious plants</title>
+  <partName>Ailanthus altissima</partName>
+</titleInfo>
+----
+
+Should become:
+ Eradicating noxious plants. Ailanthus altissima
 
 
+=== Indexing behavior
+This adds on to https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/all_typed_and_labeled_fields.adoc#indexing-options[the default indexing behavior for typed, labeled fields].
 
+==== Populating title sort field
+
+* The first value in the field is used for the title sort field
+* The title sort field value is built by concatenating in the same way as for display, except the `nonsort` value is omitted.
+
+.Example 5
+[source,xml]
+----
+<titleInfo>
+  <nonSort>The</nonSort>
+  <title>toolbox</title>
+</titleInfo>
+<titleInfo type="alternative">
+  <title>Construction Contractors Board newsletter</title>
+</titleInfo>
+<titleInfo type="alternative">
+  <nonSort>The</nonSort>
+  <title>tool box</title>
+</titleInfo>
+----
+
+`title_sort_ss` = `toolbox`
