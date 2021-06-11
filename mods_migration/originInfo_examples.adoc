@@ -227,7 +227,7 @@ Primary date field value:
   <dateIssued encoding="marc">2006</dateIssued>
   <issuance>monographic</issuance>
 </originInfo>
----
+----
 
 Origin statement:
 
