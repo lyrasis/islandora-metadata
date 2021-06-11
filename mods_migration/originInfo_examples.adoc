@@ -165,9 +165,6 @@ Origin place:
 
 * [0]
 ** value: Oregon
-* [1]
-** type: Place of publication
-** value: Portland, Oregon
 
 Origin agent:
 
@@ -234,28 +231,24 @@ Origin statement:
 * [0]
 ** place: [Moscow, Idaho]
 ** agent: University of Idaho Cooperative Extension System
+** date: 2006
 * [1]
 ** place: [Corvallis, Or.]
 ** agent: Oregon State University Extension Service
+** date: 2006
 * [2]
 ** place: [Pullman, Wash.]
 ** agent: Washington State University Cooperative Extension
+** date: 2006
 * [3]
 ** place: [Washington, D.C.]
 ** agent: U.S. Dept. of Agriculture
+** date: 2006
 
 Origin place:
 
 * [0]
 ** value: Idaho
-* [1]
-** value: Moscow, Idaho
-* [2]
-** value: Corvallis, Or.
-* [3]
-** value: Pullman, Wash.
-* [4]
-** value: Washington, D.C.
 
 Origin agent:
 
@@ -306,11 +299,7 @@ Origin statement:
 * [0]
 ** place: Richmond, Va
 ** agent: Acme Publisher
-
-Origin place:
-
-* [0]
-** value: Richmond, Va
+** date: 1973-04
 
 Origin agent:
 
@@ -373,7 +362,7 @@ Primary date field value:
 
 * 1916~
 
-=== ?
+=== client10:390051
 
 [source,xml]
 ----
@@ -398,34 +387,40 @@ Primary date field value:
 </originInfo>
 ----
 
+Origin statement:
 
-=== client12:?
+* [0]
+** place: [ואדי אלחגארה
+** agent: שלמה אלקבץ
+** date: רמ"ב, 1482]
+* [1]
+** place: Ṿadi Alḥagarah
+** agent: Shelomoh Alḳabets
+** date: 242, 1482]
 
-[source,xml]
-----
-<originInfo>
-  <place>
-    <placeTerm type="code" authority="marccountry">oru</placeTerm>
-  </place>
-  <dateIssued encoding="marc">1911</dateIssued>
-  <issuance>monographic</issuance>
-</originInfo>
-<originInfo displayLabel="publisher">
-  <place>
-    <placeTerm type="text">[Salem, Oregon] :[Office of the Governor],[1911]</placeTerm>
-  </place>
-  <publisher>[Office of the Governor],</publisher>
-  <dateIssued>[1911]</dateIssued>
-</originInfo>
-<originInfo displayLabel="manufacturer">
-  <place>
-    <placeTerm>Salem, Oregon :</placeTerm>
-  </place>
-  <publisher>Willis S. Duniway, State Printer,</publisher>
-  <dateOther type="manufacture">1911</dateOther>
-</originInfo>
-----
+Origin place:
 
+* [0]
+** value: Spain
+
+Origin agent:
+
+* [0]
+** value: שלמה אלקבץ
+
+Issued date:
+
+* [0]
+** value: 1482
+
+Mode of issuance:
+
+* [0]
+** value: monographic
+
+Primary date field value:
+
+* 1482
 
 == Pre-migration data transformation algorithm notes
 
@@ -470,7 +465,12 @@ applies to example(s): client12:51569
 
 === originInfo/placeTerm (type = text or blank) -> Place taxonomy term
 
-applies to example(s): client12:51569
+[NOTE]
+====
+I decided against a default decision to map textual `placeTerm` values to taxonomy terms.
+
+This decision might be revisited for some clients with more consistent data, so I'm keeping the logic below. But in general, I'm afraid it would create a big mess of an inconsistent taxonomy that clients might not care to deal with.
+====
 
 * remove square brackets from around value
 * remove any trailing funky punctuation
@@ -515,14 +515,34 @@ Not sure how these come out in the CSV being emitted by Nigel's migrate-from-Fed
 
 I'm getting these out of MODS in CSV using my script like:
 
-@encoding	@keyDate	@point	@qualifier	dateIssued
-marc;;; marc	;;; 	start;;; end	;;; 	uuuu;;; 9999
+[source]
+----
+@encoding     @keyDate  @point        @qualifier  dateIssued
+marc;;; marc  ;;;       start;;; end  ;;; 	  uuuu;;; 9999
+----
 
 I will need a process that knows converts CSV format patterns into the suggested I7 date patterns we gave our pilot client, which I can run through https://github.com/kspurgin/emendate[emendate]. In this case, something like:
 
  uuuu to 9999
 
 Emendate will return the EDTF expression `/..` (Time interval with unknown start, open end -- This is currently as of 2021-06-09 being accepted by the controlled_access_terms EDTF date type as valid EDTF with strict checking and ranges enabled. It is rendered as "open start to open end", which is incorrect.)
+
+==== two `dateIssued` values in same `originInfo` element that is getting mapped to Origin statement field
+
+Source metadata migrated into I7 sometimes followed schema where multiple date formats were recorded in a record for different uses. A more textual date would be included for human-readable display (which is the intent of the Origin statement field), and a more consistent date format would be recorded for system use (intent of the Date issued field)
+
+===== Which to use in Origin statement: date property?
+
+applies to example(s): client10:390051
+
+* if only one `dateIssued` value lacks `encoding` attribute, use that one as the textual Origin statement: date property
+
+===== Which to use in Issued date field?
+
+applies to example(s): client10:390051
+
+* if only one `dateIssued` value has an `encoding` attribute, use that one as the dateIssued value
+
 
 ==== date with `c` prefix recorded as `dateIssued` value
 
