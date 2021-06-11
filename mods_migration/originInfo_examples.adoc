@@ -373,6 +373,59 @@ Primary date field value:
 
 * 1916~
 
+=== ?
+
+[source,xml]
+----
+<originInfo script="Latn" altRepGroup="02">
+  <place>
+    <placeTerm type="code" authority="marccountry">sp</placeTerm>
+  </place>
+  <place>
+    <placeTerm type="text">Ṿadi Alḥagarah</placeTerm>
+  </place>
+  <publisher>Shelomoh Alḳabets</publisher>
+  <dateIssued>242, 1482]</dateIssued>
+  <dateIssued encoding="marc">1482</dateIssued>
+  <issuance>monographic</issuance>
+</originInfo>
+<originInfo script="Hebr" altRepGroup="02">
+  <place>
+    <placeTerm type="text">[ואדי אלחגארה :</placeTerm>
+  </place>
+  <publisher>שלמה אלקבץ,</publisher>
+  <dateIssued>רמ"ב, 1482]</dateIssued>
+</originInfo>
+----
+
+
+=== client12:?
+
+[source,xml]
+----
+<originInfo>
+  <place>
+    <placeTerm type="code" authority="marccountry">oru</placeTerm>
+  </place>
+  <dateIssued encoding="marc">1911</dateIssued>
+  <issuance>monographic</issuance>
+</originInfo>
+<originInfo displayLabel="publisher">
+  <place>
+    <placeTerm type="text">[Salem, Oregon] :[Office of the Governor],[1911]</placeTerm>
+  </place>
+  <publisher>[Office of the Governor],</publisher>
+  <dateIssued>[1911]</dateIssued>
+</originInfo>
+<originInfo displayLabel="manufacturer">
+  <place>
+    <placeTerm>Salem, Oregon :</placeTerm>
+  </place>
+  <publisher>Willis S. Duniway, State Printer,</publisher>
+  <dateOther type="manufacture">1911</dateOther>
+</originInfo>
+----
+
 
 == Pre-migration data transformation algorithm notes
 
