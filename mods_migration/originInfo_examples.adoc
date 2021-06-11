@@ -10,6 +10,8 @@ Here I'm trying to verify that my field type and data mapping plans are workable
 
 To look up client number references, see internal metadata_profiling_details.xlsx -> profiling tab.
 
+Some values in the example MODS have been changed so it's less obvious who the data belongs to.
+
 == General setup assumptions
 === Taxonomy vocabularies
 
@@ -94,11 +96,23 @@ Field type properties:
 
 Field type: EDTF date
 
+=== Field: Creation date
+
+Field type: EDTF date
+
 === Field: Copyright date
 
 Field type: EDTF date
 
 === Field: Capture date
+
+May be renamed "Digitization date"
+
+Field type: EDTF date
+
+=== Field: Donated date
+
+Likely a client-specific field
 
 Field type: EDTF date
 
@@ -317,6 +331,49 @@ Primary date field value:
 
 * 1973-04
 
+=== client6:9685
+
+[source,xml]
+----
+<originInfo>
+  <publisher>Super Publisher</publisher>
+  <copyrightDate>March 28, 1916</copyrightDate>
+  <dateCaptured>Digitized:  04/27/2004</dateCaptured>
+  <dateOther>Donated:  05/08/1997</dateOther>
+  <dateCreated>c. 1916</dateCreated>
+</originInfo>
+----
+
+Origin agent:
+
+* [0]
+** value: Super Agent
+
+Copyright date:
+
+* [0]
+** value: 1916-03-28
+
+Capture date:
+
+* [0]
+** value: 2004-04-27
+
+Donated date:
+
+* [0]
+** value: 1997-05-08
+
+Creation date:
+
+* [0]
+** value: 1916~
+
+Primary date field value:
+
+* 1916~
+
+
 == Pre-migration data transformation algorithm notes
 
 These are completely untested at this point, but I want to start capturing ideas about what the required logic might be.
@@ -324,7 +381,7 @@ These are completely untested at this point, but I want to start capturing ideas
 I expect these to definitely be client-specific, and likely at least sometimes collection-specific. If we are lucky, most of the complex stuff will follow patterns of how data was mapped to MODS in migration to I7, but there will probably also be all manner of fun variation in practice to account for.
 
 === population of origin statement field
-==== within one `originInfo` element, at least two of the following: `placeTerm` with `type = text`, `publisher`, date element
+==== within one `originInfo` element, at least two of the following: `placeTerm` with `type = text`, `publisher`, `dateIssued`
 
 Applies to example(s): client12:51569, client12:23046
 
@@ -335,6 +392,13 @@ Populate origin statement field
 Applies to example(s): client12:23046
 
 Match `placeTerm` and `publisher` element values by order/position to populate multiple origin statements
+
+==== not populating origin statement field
+
+applies to example(s):
+
+* client6:9685 - only one of the required elements present
+
 
 === originInfo/placeTerm -> origin statement - extract place from placeTerm
 
@@ -407,11 +471,25 @@ I will need a process that knows converts CSV format patterns into the suggested
 
 Emendate will return the EDTF expression `/..` (Time interval with unknown start, open end -- This is currently as of 2021-06-09 being accepted by the controlled_access_terms EDTF date type as valid EDTF with strict checking and ranges enabled. It is rendered as "open start to open end", which is incorrect.)
 
-==== date with `c` prefix recorded as dateIssued
+==== date with `c` prefix recorded as `dateIssued` value
 
 applies to example(s): client12:23046
 
 Strip `c` prefix and map to Copyright date field
+
+==== "Digitized" label provided on `captureDate` value
+
+applies to example(s):
+
+* client6:9685 (probably site-wide issue)
+
+This label is redundant. It should be stripped out of `captureDate`
+
+==== `dateOther` value with label included
+
+Will be used to define client-specific date or note fields (depending on usage throughout site data) to map data into.
+
+Will need to be stripped out of values after affecting field mapping 
 
 === originInfo/frequency values
 
