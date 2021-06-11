@@ -1,0 +1,115 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+= Migrating data with MODS altRepGroup, script, and lang attributes into Drupal fields
+
+toc::[]
+
+== Background
+=== Drupal multilingual assumptions
+
+A Drupal site has one or more languages.
+
+If the site has multiple languages, the user interface and/or content may be translated into those languages.
+
+Assumption is that the user chooses which language to see the site in (English or Hebrew). If choosing Hebrew, user is shown only content in Hebrew.
+
+If a site's default language is English, all non-translated content gets explicitly tagged in linked data as being in English. It also gets indexed as English, which may or may not have bad implications for retrieval. For example, without special tokenization, CJK content cannot reliably be found via full text search.
+
+This makes sense for a grocery store website, but because of the following, it does not work well for the metadata.
+
+=== Metadata multilingual assumptions
+
+==== Basic
+
+Cultural heritage institutions collect and describe resources in a wide array of languages. We do not typically translate our entire discovery systems or the records that populate them into all those languages. Yet many of those languages are in our discovery systems and need to be displayed and retrieved in ways that make sense. 
+
+A metadata record has a "language of cataloging." This indicates the language used to record all data in the record that was not transcribed literally from the item.
+
+If you are at a typical American library, your language of cataloging is English. Yet, you may be cataloging a French book:
+
+ Thé: une histoire compliquée
+
+You are going to transcribe the title as-is, in French.
+
+The transcribed title is not a translation of anything.
+
+You probably are not going to translate the title into English, though if "Tea: a complicated history" appears prominently on the book, you are going to record it somewhere in the record.
+
+You are _certainly_ not going to translate the entire record into French.
+
+Outputting this title in linked data as follows is wrong:
+
+[source,javascript]
+----
+ "http://purl.org/dc/terms/title":[{"@value":"Thé: une histoire compliquée","@language":"en"}]
+----
+
+Indexing it with English rules is possibly problematic, _especially_ if you are using English stopwords.
+
+User does not want to see an English view of the record that doesn't include the title, and switch to a French view of the record that only has the title.
+
+==== (not that) Advanced
+
+History detour...
+
+Given that MODS is XML, I assume it was developed with UTF-8 support required/in mind. However, there are things about MODS that are basically directly related to the history of the MARC 21 format, and the fact that much MODS metadata was created from MARC metadata.
+
+MARC dates back to the 1960s way before Unicode/UTF-8 existed. Many bibliographic data systems (including, as of a couple years ago at least, LC's database for storing authority data) still do not have full support for storing and/or displaying UTF-8.
+
+For a deep dive on this and the mess that has ensued, enjoy https://www.loc.gov/marc/specifications/speccharintro.html[MARC 21 Specifications for Record Structure, Character Sets, and Exchange Media: CHARACTER SETS AND ENCODING OPTIONS]
+
+This history is why you see Russian, Hebrew, Arabic, Persian (etc) titles recorded in records in painful romanization, as seen in the first `titleInfo` element below. When your catalog system only allowed https://www.loc.gov/marc/specifications/speccharmarc8.html[MARC-8 encoding], this was the only way to record or search for a Russian title: known which https://www.loc.gov/catdir/cpso/roman.html[romanization system] was used, transliterate the title accordingly, and search for the transliterated title.
+
+Later, when systems began supporting UTF-8, we needed a way to record vernacular (non-romanized) data so that it could be used in systems that could use it. However, lots of systems still couldn't use it, so we needed to retain the romanized data.
+
+Some systems that could deal with UTF-8 might just want to ignore the romanized version (or perhaps index it but not display it). Some systems might want to display both with clear indication that one was a different script version of the other.
+
+That's how we ended up with `altRepGroup`. With the MODS below, you could say, "Use the second `titleInfo` value for display of the main title. Index it and give it the highest relevance rank boost. Index the first `titleInfo` value as main title, but with slightly lower relevance boost. Do not display it." Because the second `titleInfo` is tagged as being Russian language in Cyrillic script, our system should be able to apply the correct indexing/query processing to that value. 
+
+The third `titleInfo` value is a uniform title (separate explanation of _that_ required), so it is not transcribed from the item and appears in our language of cataloging. It gets displayed separately, and it's clear it's not related to main title.
+
+[source,xml]
+----
+  <titleInfo altRepGroup="01" script="Latn" lang="rus">
+    <title>Chasto zadavaemye voprosy o provedenii vakt︠s︡inat︠s︡ii protiv COVID-19 v shtate Oregon</title>
+  </titleInfo>
+  <titleInfo altRepGroup="01" script="Cyrl" lang="rus">
+    <title>Часто задаваемые вопросы о проведении вакцинации против COVID-19 в штате Орегон</title>
+  </titleInfo>
+  <titleInfo type="uniform">
+    <title>Frequently asked questions about COVID-19 vaccines in Oregon. Russian</title>
+  </titleInfo>
+----
+
+== In LYRASIS-hosted Islandora 7
+
+Data from the `altRepGroup`, `script`, and `lang` attributes are not actually being leveraged for any useful system behavior.
+
+Everything gets indexed as English, so good luck searching for any Chinese titles with vernacular characters.
+
+Element values are displayed in the order they appear.
+
+However, this data was retained in the MODS, so it would have been possible, with significant effort, to build better support for this into the indexing logic or display. Possibly more importantly from a data perspective, the MODS could be harvested for use in other systems that can leverage this data more intelligently.
+
+== In LYRASIS-hosted Islandora 8
+
+In Islandora 8, metadata is stored in the Drupal database, not MODS records.footnote:[If you are an existing I7 LYRASIS hosting client, your I7 MODS will be migrated into I8 as a media file on the object, but it will not be involved in display or search in I8. If you update the metadata on the object/node in I8, the MODS media file will not be updated to reflect the changes.]
+
+This is involves a _*big*_ change in the underlying methods of modeling and storing data. Drupal does this in Drupal ways that make strong assumptions. Attempting to subvert those assumptions is technically complicated and requires a lot of work. More importantly, a site subverting these assumptions would no longer be making assumptions that hold for the larger Islandora and Drupal communities, which means there would likely be unexpected problems in upgrading your site or extending it with useful community modules. 
+
+This, in combination with the _very opinionated_ asssumptions Drupal makes about handling multilingual content, means that we currently see no feasible way to retain the following when migrating I7 data into the I8 data model:
+
+* explicit `altRepGroup` indication - all representations of a value will be retained, but the fact that these are expressions of the same language value in a different script/romanization scheme will be lost
+* per-field indication of language and/or script recorded in that field - the fact that the first two titles from the above example are in Russian will be lost, as will the indication of script used.
+
+On the upside, it currently appears that the Islandora 8 stack could make it easier than I7's for someone to develop improved per-field language detection and indexing rule application, should that become a development priority down the line.
+
+=== How will this content migrate?
+
+* All the values in these elements will be migrated.
+* For values that have an `altRepGroup` attribute:
+** When `script` attribute(s) exist on the elements, the first value using a vernacular script will be used as the first value. The remaining values will be used in the order in which they appear. E.g. If you have a vernacular title in one or more scripts, and one or more romanized transliterations of that title, the vernacular title that appears first in the MODS record will be the first, main title in I8.
+** When no `script` attribute(s) exist on the elements, we will run basic script recognition on the first part of each value and the first value that is identified as a non-Latin script will be used as the first value. 
+
