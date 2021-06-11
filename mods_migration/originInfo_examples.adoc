@@ -8,6 +8,8 @@ toc::[]
 
 Here I'm trying to verify that my field type and data mapping plans are workable. I'm finding the most complex and sometimes weird MODS originInfo data that I can and verifying that I can map it as expected.
 
+To look up client number references, see internal metadata_profiling_details.xlsx -> profiling tab.
+
 == General setup assumptions
 === Taxonomy vocabularies
 
@@ -24,6 +26,14 @@ Here I'm trying to verify that my field type and data mapping plans are workable
 * Family
 
 == Field definition assumptions
+
+[IMPORTANT]
+====
+There is a conditional `Primary date field` displayed in form when more than one date field is populated.
+
+The first value from the field selected as `Primary date field` will be used as sort date and for any other system functions requiring a single date value per record.
+====
+
 === Field: Origin statement
 
 Field type: origin_statement
@@ -37,7 +47,7 @@ Field type properties:
 * date - text
 * addtl - text
 
-=== Field: Origin agent
+=== Field: Publisher
 
 Field type: typed, labeled entity reference
 
@@ -46,6 +56,11 @@ Field type properties:
 * type - entity reference (Agent roles)
 * label - text
 * value - entity reference (Organization, Person, or Family)
+
+[NOTE]
+====
+If type is set to Distributor or Manufacturer, the field label will change to say that instead of Publisher.
+====
 
 === Field: Origin place
 
@@ -79,9 +94,17 @@ Field type properties:
 
 Field type: EDTF date
 
+=== Field: Copyright date
+
+Field type: EDTF date
+
+=== Field: Capture date
+
+Field type: EDTF date
+
 == Examples
 
-=== osu:51569
+=== client12:51569
 
 [source,xml]
 ----
@@ -130,7 +153,17 @@ Origin place:
 ** value: Oregon
 * [1]
 ** type: Place of publication
-** Portland, Oregon
+** value: Portland, Oregon
+
+Origin agent:
+
+* [0]
+** type: Publisher
+** value: Oregon Center for Health Statistics
+* [1]
+** type: Publisher
+** value: Health Statistics Unit, Vital Records
+
 
 Issued date:
 
@@ -147,13 +180,142 @@ Frequency:
 * [0]
 ** value: annual
 
+Primary date field value:
 
+* /..
+
+
+=== client12:23046
+
+[source,xml]
+----
 <originInfo>
-  <issuance>serial</issuance>
-  <frequency authority="marcfrequency">Annual</frequency>
-  <frequency>Annual</frequency>
+  <place>
+    <placeTerm type="code" authority="marccountry">idu</placeTerm>
+  </place>
+  <place>
+    <placeTerm type="text">[Moscow, Idaho]</placeTerm>
+  </place>
+  <place>
+    <placeTerm type="text">[Corvallis, Or.]</placeTerm>
+  </place>
+  <place>
+    <placeTerm type="text">[Pullman, Wash.]</placeTerm>
+  </place>
+  <place>
+    <placeTerm type="text">[Washington, D.C.]</placeTerm>
+  </place>
+  <publisher>University of Idaho Cooperative Extension System</publisher>
+  <publisher>Oregon State University Extension Service</publisher>
+  <publisher>Washington State University Cooperative Extension</publisher>
+  <publisher>U.S. Dept. of Agriculture</publisher>
+  <dateIssued>c2006</dateIssued>
+  <dateIssued encoding="marc">2006</dateIssued>
+  <issuance>monographic</issuance>
 </originInfo>
+---
 
+Origin statement:
+
+* [0]
+** place: [Moscow, Idaho]
+** agent: University of Idaho Cooperative Extension System
+* [1]
+** place: [Corvallis, Or.]
+** agent: Oregon State University Extension Service
+* [2]
+** place: [Pullman, Wash.]
+** agent: Washington State University Cooperative Extension
+* [3]
+** place: [Washington, D.C.]
+** agent: U.S. Dept. of Agriculture
+
+Origin place:
+
+* [0]
+** value: Idaho
+* [1]
+** value: Moscow, Idaho
+* [2]
+** value: Corvallis, Or.
+* [3]
+** value: Pullman, Wash.
+* [4]
+** value: Washington, D.C.
+
+Origin agent:
+
+* [0]
+** value: University of Idaho Cooperative Extension System
+* [1]
+** value: Oregon State University Extension Service
+* [2]
+** value: Washington State University Cooperative Extension
+* [3]
+** value: U.S. Dept. of Agriculture
+
+Copyright date:
+
+* [0]
+** value: 2006
+
+Issued date:
+
+* [0]
+** value: 2006
+
+Mode of issuance:
+
+* [0]
+** value: monograph
+
+Primary date field value:
+
+* 2006
+
+=== client21:38537
+
+[source,xml]
+----
+<originInfo>
+  <dateCaptured>2008</dateCaptured>
+  <dateIssued keyDate="yes">1973-04</dateIssued>
+  <publisher>Acme Publisher</publisher>
+  <place>
+    <placeTerm type="text">Richmond, Va</placeTerm>
+  </place>
+</originInfo>
+----
+
+Origin statement:
+
+* [0]
+** place: Richmond, Va
+** agent: Acme Publisher
+
+Origin place:
+
+* [0]
+** value: Richmond, Va
+
+Origin agent:
+
+* [0]
+** value: Acme Publisher
+
+Issued date:
+
+* [0]
+** value: 1973-04
+
+Capture date:
+
+* [0]
+** value: 2008
+
+Primary date field value:
+
+* 1973-04
 
 == Pre-migration data transformation algorithm notes
 
@@ -161,10 +323,22 @@ These are completely untested at this point, but I want to start capturing ideas
 
 I expect these to definitely be client-specific, and likely at least sometimes collection-specific. If we are lucky, most of the complex stuff will follow patterns of how data was mapped to MODS in migration to I7, but there will probably also be all manner of fun variation in practice to account for.
 
-=== originInfo/placeTerm -> origin statement
-==== extract place from placeTerm
+=== population of origin statement field
+==== within one `originInfo` element, at least two of the following: `placeTerm` with `type = text`, `publisher`, date element
 
-applies to example(s): osu:51569
+Applies to example(s): client12:51569, client12:23046
+
+Populate origin statement field
+
+==== within one `originInfo` element, multiple `placeTerm` and `publisher` elements with equal count for each
+
+Applies to example(s): client12:23046
+
+Match `placeTerm` and `publisher` element values by order/position to populate multiple origin statements
+
+=== originInfo/placeTerm -> origin statement - extract place from placeTerm
+
+applies to example(s): client12:51569
 
 * within a given `originInfo` element, clean up `placeTerm` value by:
 ** remove the `publisher` value from the `placeTerm` value
@@ -179,14 +353,14 @@ applies to example(s): osu:51569
 
 === originInfo/placeTerm (type = text or blank) -> Place taxonomy term
 
-applies to example(s): osu:51569
+applies to example(s): client12:51569
 
 * remove square brackets from around value
 * remove any trailing funky punctuation
 
 === originInfo/placeTerm (type = code and authority = marccountry) -> Place taxonomy term
 
-applies to example(s): osu:51569
+applies to example(s): client12:51569
 
 Gotta make some decisions. I do *not* want to maintain a separate MARC countries code vocabulary as comes with controlled_access_terms
 
@@ -208,9 +382,17 @@ Then, while migrating the data for each node:
 * migration looks up taxonomy term from Places vocabulary using `originInfo/placeTerm` value = `field_external_vocabulary_code` value
 * entity reference to term Oregon is made in the node field
 
-=== originInfo/date values (point attribute, uuuu-9999)
+=== originInfo/date values
 
-applies to example(s): osu:51569
+==== how to set conditional `Primary date field` value in migration?
+
+applies to example(s): any with more than one date field populated
+
+NOTE: It is clear which date field to use as `Primary date field` when `keyDate` attribute is set in MODS. We will need to come up with a priority ranking to automatically set this value when no `keyDate` attribute was used. 
+
+==== (point attribute, uuuu-9999)
+
+applies to example(s): client12:51569
 
 Not sure how these come out in the CSV being emitted by Nigel's migrate-from-Fedora tool.
 
@@ -225,9 +407,20 @@ I will need a process that knows converts CSV format patterns into the suggested
 
 Emendate will return the EDTF expression `/..` (Time interval with unknown start, open end -- This is currently as of 2021-06-09 being accepted by the controlled_access_terms EDTF date type as valid EDTF with strict checking and ranges enabled. It is rendered as "open start to open end", which is incorrect.)
 
+==== date with `c` prefix recorded as dateIssued
+
+applies to example(s): client12:23046
+
+Strip `c` prefix and map to Copyright date field
 
 === originInfo/frequency values
 
-applies to example(s): osu:51569
+applies to example(s): client12:51569
 
 * deduplicate identical values before doing taxonomy term lookups
+
+=== originInfo/issuance values
+
+applies to example(s): client12:23046
+
+Map variants to LC issuance vocabulary
