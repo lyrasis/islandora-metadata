@@ -1,0 +1,154 @@
+:toc:
+:toc-placement!:
+
+= Field type: Typed, labeled origin statement
+
+Like Typed, labeled title, this is basically a version of the Typed, labeled text fields. The difference is the `value` property is broken down into some more granular parts: place, agent, date, additional.
+
+The parts need to be concatenated together (with appropriate punctuation in between) for display and indexed separately (and together as displayed).
+
+I am not currently seeing much extra behavior dependent upon the properties in Islandora. The need for this structure is more about not losing metadata granularity (keeping it interoperable with common standard metadata schema) and for ease of migration.
+
+toc::[]
+
+== Schema
+
+[cols=3*,options=header]
+|===
+| Property name | Data type | Required?
+| type  | Entity reference to taxonomy term | n
+| label | Text (plain) | n
+| place | Text (plain) | one of these
+| agent | Text (plain) | one of these
+| date | Text (plain) | one of these
+| additional | Text (plain) | n
+|===
+
+No single property is always required. Ideally we will be able to make it complain if nothing is entered in `place`, `agent`, OR `date`, as having one or more of these present is the point of the field. (But it is common that not all three are present)
+
+
+=== Property data types (length)
+
+Maximum length of valid values in each MODS element that will map to our field type properties.
+
+* place - 296
+* agent - 233
+* date - 115
+* additional - unclear, but could be as long as the combination of place + agent + date
+
+
+== Field configuration options
+
+* See https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/_all_typed_fields.adoc[All "typed" field types > Field configuration options]
+* See https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/_all_labeled_fields.adoc[All "labeled" field types > Field configuration options]
+
+* Storage
+** field repeatability (1, a specific number of times, unlimited)
+** `value` length (up to 255)
+* Other field configuration options
+** nothing extra beyond what comes with typed and labeled field types
+
+== Form view options
+None initially required, but I really like the Name Field's compact (inline) option.
+
+The "Widget settings" (stacked vs. inline) are https://default.traefik.me/admin/structure/taxonomy/manage/person/overview/fields/taxonomy_term.person.field_person_preferred_name[here]. See the effect https://default.traefik.me/admin/structure/taxonomy/manage/person/add[here] (expand Name Details section).
+
+== Display formatter options
+
+* See https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/all_typed_and_labeled_fields.adoc[Field types: Stuff shared by all field types having both type and label properties > Display formatter options & examples]
+
+== Indexing options
+
+* See https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/all_typed_and_labeled_fields.adoc[Field types: Stuff shared by all field types having both type and label properties > Indexing options & examples]
+
+== Field behavior
+
+=== Concatenating properties for display
+
+* Order of concatenation: `place`, `agent`, `date`, `additional`
+* If both `place` and `agent` are populated, separate with `` : ``
+* If `date` is populated and so is `place` and/or `agent`, prepend ``, `` to `date`
+* If `additional` is populated, wrap it in parentheses and prepend with space if it follows other info
+
+.Example 1
+[source]
+----
+place: Silk Hope, NC
+agent: Acme Publisher
+----
+
+Should become:
+
+ Silk Hope, NC : Acme Publisher
+
+.Example 2
+[source]
+----
+agent: Acme Publisher
+date: approximately 1970?
+----
+
+Should become:
+
+ Acme Publisher, approximately 1970?
+
+.Example 3
+[source]
+----
+place: Silk Hope, NC
+agent: Acme Publisher
+date: approximately 1970?
+additional: extra info here
+----
+
+Should become:
+
+ Silk Hope, NC : Acme Publisher, approximately 1970? (extra info here)
+
+.Example 4
+[source]
+----
+place: Silk Hope, NC
+----
+
+Should become:
+
+ Silk Hope, NC
+
+
+=== Indexing behavior
+This adds on to https://github.com/lyrasis/islandora8-metadata/blob/main/field_types/all_typed_and_labeled_fields.adoc#indexing-options[the default indexing behavior for typed, labeled fields].
+
+* entire statement as displayed should be indexable as a full text string
+* each property should be indexable as its own Solr field (up to config to specify which?)
+
+.Example 5
+[source]
+----
+place: Silk Hope, NC
+agent: Acme Publisher
+date: approximately 1970?
+additional: extra info here
+----
+
+
+Should be able to be indexed as:
+
+ origin_statement_mt: "Silk Hope, NC : Acme Publisher, approximately 1970? (extra info here)"
+ origin_statement_place_mt: "Silk Hope, NC"
+
+Rationale:
+
+* `agent` value expected to be controlled by taxonomy in another field, but `place` value is generally messier and will not be mapped to taxonomy. This will allow a way to text search those places.
+* more structured/better indexable date values will be recorded in other fields
+* `additional` can be searched as part of full origin statement
+
+Of course, there might be use cases where a client's data does not lend itself to `agent` being in taxonomy, so maybe they'd want this to be a searchable/separately indexed field.
+
+=== RDF mapping
+
+As with indexing, we need to be able to map the whole statement, as well as set mappings for individual elements.
+
+This is mainly due to current lack of support for blank nodes in I8's generated linked data.
+
+(I need to deep dive into JSON-LD format more fully before saying more about this)
