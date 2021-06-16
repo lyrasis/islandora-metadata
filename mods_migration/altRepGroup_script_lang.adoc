@@ -25,9 +25,9 @@ One of our clients has metadata fields tagged as being in French, German, Hebrew
 
 === Metadata multilingual assumptions
 
-Cultural heritage institutions collect and describe resources in a wide array of languages. LYRASIS Islandora clients have not historically translated our entire discovery systems or the records that populate them into all those languages.
+Cultural heritage institutions collect and describe resources in a wide array of languages. LYRASIS Islandora clients have not historically translated their entire discovery systems or the records that populate them into all the languages represented in the titles and other metadata fields describing their collections.
 
-The kinds of data systems from which our clients tend to come into Islandora do not tend to support separate, entire records in different languages for the same resource. Interesting work is being done to leverage auto-translation services to generate full metadata in multiple languages in the migration process footnote:[This was mentioned in the 2021-06-16 Islandora Tech Call (I believe by Don Richards) as something Mark Jordan is experimenting with supporting in Islandora Workbench], however we are not in a position to pay for translation services, require our clients to do so, or make decisions about whether the translation quality is acceptable to our clients.
+The kinds of data systems from which our clients tend to come into Islandora do not tend to support separate, entire records in different languages for the same resource. Interesting work is being done to leverage auto-translation services to generate full metadata in multiple languages in the migration-into-I8 process footnote:[This was mentioned in the 2021-06-16 Islandora Tech Call (I believe by Don Richards) as something Mark Jordan is experimenting with supporting in Islandora Workbench], however we are not in a position to pay for translation services, require our clients to do so, or make decisions about whether the translation quality is acceptable to our clients.
 
 The metadata we are responsible for migrating to I8 for our clients is covered by the assumptions of more traditional metadata management and discovery systems as outlined below. 
 
