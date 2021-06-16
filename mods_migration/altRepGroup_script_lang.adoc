@@ -9,21 +9,29 @@ toc::[]
 == Background
 === Drupal multilingual assumptions
 
-A Drupal site has one or more languages.
+A Drupal site is configured to support one or more languages (or to be in "unknown language").
 
-If the site has multiple languages, the user interface and/or content may be translated into those languages.
+One language is the default language. For all of our current clients, that will be English.
 
-Assumption is that the user chooses which language to see the site in (English or Hebrew). If choosing Hebrew, user is shown only content in Hebrew.
+If the site is set up for multiple languages, the user interface and/or content may be translated into those languages.
+
+The assumption is that the user chooses which language to see the site in (English or Hebrew). If choosing Hebrew, user is shown the interface in Hebrew and the content of any fields that have been translated into Hebrew.
 
 If a site's default language is English, all non-translated content gets explicitly tagged in linked data as being in English. It also gets indexed as English, which may or may not have bad implications for retrieval. For example, without special tokenization, CJK content cannot reliably be found via full text search.
 
-This makes sense for a grocery store website, but because of the following, it does not work well for the metadata.
+This works very well for a lot of web content use cases. It can work very well for descriptive metadata if you are able to create a full metadata description in each language your site supports.
+
+One of our clients has metadata fields tagged as being in French, German, Hebrew, Hungarian, Latin, Polish, Russian, Spanish, and Yiddish. It is not feasible and probably does not serve actual user needs to translate all their metadata records (primarily in English) into all those languages. 
 
 === Metadata multilingual assumptions
 
-==== Basic
+Cultural heritage institutions collect and describe resources in a wide array of languages. LYRASIS Islandora clients have not historically translated our entire discovery systems or the records that populate them into all those languages.
 
-Cultural heritage institutions collect and describe resources in a wide array of languages. We do not typically translate our entire discovery systems or the records that populate them into all those languages. Yet many of those languages are in our discovery systems and need to be displayed and retrieved in ways that make sense. 
+The kinds of data systems from which our clients tend to come into Islandora do not tend to support separate, entire records in different languages for the same resource. Interesting work is being done to leverage auto-translation services to generate full metadata in multiple languages in the migration process footnote:[This was mentioned in the 2021-06-16 Islandora Tech Call (I believe by Don Richards) as something Mark Jordan is experimenting with supporting in Islandora Workbench], however we are not in a position to pay for translation services, require our clients to do so, or make decisions about whether the translation quality is acceptable to our clients.
+
+The metadata we are responsible for migrating to I8 for our clients is covered by the assumptions of more traditional metadata management and discovery systems as outlined below. 
+
+==== Basic
 
 A metadata record has a "language of cataloging." This indicates the language used to record all data in the record that was not transcribed literally from the item.
 
@@ -35,9 +43,11 @@ You are going to transcribe the title as-is, in French.
 
 The transcribed title is not a translation of anything.
 
-You probably are not going to translate the title into English, though if "Tea: a complicated history" appears prominently on the book, you are going to record it somewhere in the record.
+You do not typically provide a translation of the actually-in-French title into English, though if "Tea: a complicated history" appears prominently on the book, you are going to record it somewhere in the record as a "parallel title".
 
-You are _certainly_ not going to translate the entire record into French.
+===== Mismatch here with I8?
+
+There is no mechanism for indicating that values you are recording in given fields are in language other than your default language. I cannot specify that the second variant title field value and the first note value are in French (for accurate indexing and linked data statement generation) and still display those fields as part of my overall English description.
 
 Outputting this title in linked data as follows is wrong:
 
@@ -68,7 +78,7 @@ Some systems that could deal with UTF-8 might just want to ignore the romanized 
 
 That's how we ended up with `altRepGroup`. With the MODS below, you could say, "Use the second `titleInfo` value for display of the main title. Index it and give it the highest relevance rank boost. Index the first `titleInfo` value as main title, but with slightly lower relevance boost. Do not display it." Because the second `titleInfo` is tagged as being Russian language in Cyrillic script, our system should be able to apply the correct indexing/query processing to that value. 
 
-The third `titleInfo` value is a uniform title (separate explanation of _that_ required), so it is not transcribed from the item and appears in our language of cataloging. It gets displayed separately, and it's clear it's not related to main title.
+The third `titleInfo` value is a uniform title footnote:[a whole separate explanation of _that_ is required and I'm not going into it here!], so it is not transcribed from the item and appears in our language of cataloging. It gets displayed as a separate field, and it's clear it's not related to main title.
 
 [source,xml]
 ----
@@ -82,6 +92,12 @@ The third `titleInfo` value is a uniform title (separate explanation of _that_ r
     <title>Frequently asked questions about COVID-19 vaccines in Oregon. Russian</title>
   </titleInfo>
 ----
+
+===== Mismatch here with I8?
+
+Similar to the above. There isn't a way to tag the Cyrillic script version as such without adding translation into Cyrillic to the site across the board.
+
+We also lose the ability to explicity indicate that title 1 and title 2 are the same title, represented in different scripts/transliteration schemes.
 
 == In LYRASIS-hosted Islandora 7
 
