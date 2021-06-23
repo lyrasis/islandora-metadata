@@ -1,6 +1,83 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
 = LYRASIS Islandora 8 metadata documentation
 
-== Structure overview
+[IMPORTANT]
+====
+Everything in this repo is currently DRAFT - TENTATIVE - WORK IN PROGRESS.
+
+Where there are screenshots of field configuration and behavior, the code to make said fields and behavior *does* exist.
+
+How we use and configure these fields, and how we map data into them, is currently in the planning stages, and may change as we begin to actually migrate client data.
+====
+
+toc::[]
+
+== What is this about and why?
+
+=== Background
+
+LYRASIS currently hosts ~20 Islandora 7 (I7) clients. With end-of-support approaching for I7, we need to migrate them to Islandora 8 (I8).
+
+In general, most of the descriptive metadata in our clients' I7 repositories is stored in MODS. Different clients have used different MODS patterns/practices. footnote:[A glance at the examples in the http://www.loc.gov/standards/mods/userguide/index.html[MODS User Guidelines] shows the wide variations in usage that may be found in valid MODS.]
+
+I8 comes with no support for MODS or hierarchical XML metadata formats. The default out of the box I8 assumption is that most descriptive metadata will be captured in core Drupal fields, which are simple key-value pairs. Translating a hierarchical XML structure where elements may have attributes and types into flat key-value pairs requires either:
+
+- defining/maintaining an excessively large number of fields footnote:[For example, defining a separate field for each type of identifier: ISBN, ISSN, etc. At last check, our client data contained 54 different identifier types. So that would be 54 separate fields, just for identifiers.]
+- throwing away much of the information in the MODS metadata -- the literal values of the MODS elements will be migrated, but context and granularity from the XML structure and attributes will be lost
+
+Neither of these feels acceptable to us, so we need to figure out a better way to support common metadata patterns in I8.
+
+==== Common metadata patterns?
+
+There are a number of data patterns that show up in different ways across many metadata standards. Examples include:
+
+- contextualizing label for data recorded in a field that should be displayed but not indexed as part of the field value proper (MODS displayLabel attribute, MARC $3, EAD label attribute, etc.)
+- field/element (identifier, note, title) is defined for a general kind of information, but a more specific type can be expressed in the way the data is encoded (XML attributes, MARC indicators, etc). This is an allowance for specificity in our metadata without causing our metadata schema to become bloated with fields/elements
+- recording several titles, names, and/or dates associated with an object, but being able to specify which of these should be used for sorting and citation
+
+=== Our approach
+
+* Create Drupal field types that support the common metadata patterns in our clients' MODS
+** Some of these are quite abstract, like "Typed, Labeled Text"
+** Others are more specific, like "Typed, Labeled Title"
+** The field types define display, indexing, and linked data behavior for the data stored in these fields.
+* Define fields using these and other Drupal field types (These field definitions make up our default content type)
+** The field definitions will need to be customized for some clients
+* Determine general migration mappings from MODS to our fields
+** The exact mappings will vary per client (sometimes per collection), due to variation in MODS patterns used
+** "Migration" actually will have to be a series of migrations: 
+*** Values controlled as taxonomy terms need to be extracted from the MODS and migrated into their respective I8 vocabularies
+*** Related item descriptions need to be extracted, deduplicated, and loaded as separate metadata-only nodes that can be referenced from our main description
+*** The remaining descriptive data is migrated onto the relevant I8 nodes, and uses entity references to link to the appropriate taxonomy terms/related objects
+
+==== Other
+* Dates need to be converted to EDTF where possible and handled as text/note date values where they cannot be converted
+* "Uniform titles" (name/title combinations or just titles) are extracted as Works taxonomy terms
+* Migrations populating our type taxonomy vocabularies (Identifier types, Note types, etc.) will be provided 
+* Going forward, metadata managers will be able to customize the "type values" available for their fields (and the linked data predicate URIs for each type value) as terms in taxonomy vocabularies
+
+=== How can you use our approach?
+
+Maybe you like our idea. But there is no code in this repo! How can you do what we are doing?
+
+We still feel like this is all a big experiment.
+
+If it works, and if there is interest, we intend to release our field types as a Drupal module (or set of Drupal modules).
+
+You would need to install that module in your I8.
+
+Our current assumption is that then you would need to set up your own taxonomy vocabularies for type values, populate those vocabularies, and define your own fields using our field types. 
+
+My intent is that this repo will eventually give you all the info you need to be able to do that.
+
+As the place where the field type behavior is being specified, it may eventually serve as documentation of the field types.
+
+This repo will eventually contain (or link out to) code, CSVs, and YAML configs for migrations to support this approach.
+
+== Repo overview
 
 field_types:: specs for custom field types to support cultural heritage metadata needs
 images:: storage for any images included in documents
