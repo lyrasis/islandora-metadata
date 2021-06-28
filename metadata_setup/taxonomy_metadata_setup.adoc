@@ -92,7 +92,76 @@ Islandora Media Use:: Islandora internal use
 Vocabulary Sources:: this vocabulary supports a limited internal use case and does not need much of the functionality that will be built on these fields
 
 
-TODO: @kspurgin Actually implement these fields on all other vocabularies. Currently I have been working to build them out on the `identifier_types` vocabulary.
+TODO: @kspurgin Actually implement these fields on all other vocabularies. Previously, I was working to build these all out on the `identifier_types` vocabulary, but have switched to trying to implement them in an `authority_control` module which will automatically add these fields (and some specific behavior related to them) to all vocabularies in an Islandora instance except those listed in the module settings. 
+
+==== Alternate Term
+
+* Defined by LYRASIS
+* Text
+
+Variant forms of the term as recorded in the name field.
+
+Increase discoverability of the term. Included in entity reference view to ensure metadata creators can find the "ISBN" identifier type even if they start typing "International..." Included in Solr indexto help end users get to the term that is used in the repository.
+
+==== Authorized Form?
+
+* Defined by LYRASIS
+* list_string field type
+* allowed values:
+** y : Yes
+*** Authority work has been done on this term, and what is in the name is the form chosen for use. This work may have been done by maintainers of an external vocabulary, or locally
+** n : No
+*** Authority work is known to NOT have been done on this term. This is a way to flag terms for future review. This might be set manually, but typically would be set in a migration from a data source where variant forms of terms have been used in the data and these terms are going to be mapped into the I8 taxonomy
+** u : Unknown (<- the default value)
+*** Authority status of the term is unknown. Another way to flag terms for future review. The purpose of this review would be determine and set the actual authority status
+** r : Conflicting data; needs review
+*** May be manually set, but generally it is assumed this will be set by the auto-behavior explained below. Yet another way to flag terms for review.
+
+In the future, I am envisioning some views where this field will be used to produce lists of different categories to support vocabulary management work. 
+
+
+This field has some special behavior built in:
+
+* If its value is `u` and `Term URI` or `External Vocabulary Source` fields are populated, its value will be automatically set to `y` on save.
+** This is based on the assumption that guidelines for using these fields are being followed, in which case the term is an authorized form of a term from an external vocabulary.
+* If `Term URI` or `External Vocabulary Source` fields are populated and someone manually sets the value of this field to `n`, the value of the field will be reset to `r` on save.
+** If the guidelines are being followed, you should not have `Term URI` or `External Vocabulary Source` populated for a non-authorized form. The value(s) in those field(s) should be moved to other fields if you want to treat this in a custom way.
+
+==== Deprecated Term?
+
+* Defined by LYRASIS
+* Boolean/checkbox field type
+* Default value is false/0/unchecked/"No"
+
+Used to create an entity reference view that includes only non-deprecated fields. Fields that may be populated with links to taxonomy terms can be optionally configured to use this view, so that metadata creators cannot assign deprecated terms in new metadata or revisions of existing metadata.
+
+==== Description
+
+* Defined by Core Drupal
+* Plain text or HTML
+
+Shown on the taxonomy term page. Use as an optional scope note or explanation of term meaning or usage
+
+==== External Vocabulary Code
+
+* Defined by LYRASIS
+* Plain text
+* Should be populated for terms from external vocabularies where either a term or a code gets used to record the value (example: MARC Relator term = author, code = aut.
+
+In I8 we are using the _term_ as the main value, but recording the code means we can:
+
+* Update our entity reference view so that the term can be found by typing in the code while populating a field
+* Migrations of data that used the code rather than the term can insert the proper entity reference
+
+==== External Vocabulary Source
+
+* Defined by LYRASIS
+* Entity reference, linked to Vocabulary Sources taxonomy
+* Should always be populated for terms in Category 2a. Optionally, may be populated for terms in Category 1.
+
+CAUTION:  The above is not required/validated by the system, which does not make a distinction between the term categories
+
+This field is intended to support metadata managers in the retrieval, review, and management of terms from external vocabularies.
 
 ==== Name
 
@@ -102,12 +171,15 @@ TODO: @kspurgin Actually implement these fields on all other vocabularies. Curre
 
 The primary value used to display the term within Islandora. 
 
-==== Description
+==== Superseded by Term
 
-* Defined by Core Drupal
-* Plain text or HTML
+* Defined by LYRASIS
+* Entity reference to taxonomy term, linked to the vocabulary each term belongs to
+* Only non-deprecated terms may be selected
 
-Shown on the taxonomy term page. Use as an optional scope note or explanation of term meaning or usage
+Recommended to populate this field when a term is deprecated in favor of a new term.
+
+Can provide guidance to metadata creators, and inform future metadata remediation activity or functionality.
 
 ==== Term URI
 
@@ -191,25 +263,6 @@ What we lose (or gain?) with this is the centralized control over namespaces tha
 
 I think that process does need to automagically change `https:` to `http:` in URIs being serialized to JSON-LD/RDF (for obscure linked data reasons).
 
-==== External Vocabulary Source
-
-* Defined by LYRASIS
-* Entity reference, linked to Vocabulary Sources taxonomy
-* Should always be populated for terms in Category 2a. Optionally, may be populated for terms in Category 1.
-
-CAUTION:  The above is not required/validated by the system, which does not make a distinction between the term categories
-
-This field is intended to support metadata managers in the retrieval, review, and management of terms from external vocabularies.
-
-==== Alternate Term
-
-* Defined by LYRASIS
-* Text
-
-Variant forms of the term as recorded in the name field.
-
-Increase discoverability of the term. Included in entity reference view to ensure metadata creators can find the "ISBN" identifier type even if they start typing "International..." Included in Solr indexto help end users get to the term that is used in the repository.
-
 ==== Term Synonym URI
 
 * Defined by LYRASIS
@@ -221,21 +274,3 @@ May be used in linked data emitted by Islandora, depending on how fields using t
 TODO: @kspurgin examples
 
 If used in linked data, enriches the linkages between repository data and the larger linked data ecosystem.
-
-==== Deprecated Term?
-
-* Defined by LYRASIS
-* Boolean/checkbox field type
-* Default value is false/0/unchecked/"No"
-
-Used to create an entity reference view that includes only non-deprecated fields. Fields that may be populated with links to taxonomy terms can be optionally configured to use this view, so that metadata creators cannot assign deprecated terms in new metadata or revisions of existing metadata.
-
-==== Superseded by Term
-
-* Defined by LYRASIS
-* Entity reference to taxonomy term, linked to the vocabulary each term belongs to
-* Only non-deprecated terms may be selected
-
-Recommended to populate this field when a term is deprecated in favor of a new term.
-
-Can provide guidance to metadata creators, and inform future metadata remediation activity or functionality.
