@@ -1,0 +1,56 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+= MODS name pattern examples
+
+toc::[]
+
+Here I'm trying to identify known patterns of data within the `name` element, and clarify how those patterns should be handled in migration.
+
+I'm also noting non-standard patterns that should maybe be bounced back to clients for clarification/fix up.
+
+As of this writing, note that I don't have any data on the frequency of any of these patterns. They have been identifed in the manual process of spot checking things. 
+
+== Normal patterns
+
+== Non-standard patterns
+
+=== `name/role/roleTerm` has terminal period
+
+==== Example(s)
+
+.client12:214060 
+[source,xml]
+----
+<name type="personal" authority="naf">
+    <namePart>Patnode, E.</namePart>
+    <role>
+        <roleTerm type="text">author.</roleTerm>
+    </role>
+</name>
+<name type="personal" authority="naf">
+    <namePart>DeZeeuw, Dick</namePart>
+    <role>
+        <roleTerm type="text">author.</roleTerm>
+    </role>
+</name>
+<name type="corporate" authority="naf">
+    <namePart>Oregon</namePart>
+    <namePart>Dry Cleaner Program,</namePart>
+    <role>
+        <roleTerm type="text">issuing body.</roleTerm>
+    </role>
+</name>
+----    
+
+==== Possible treatment/algorithm
+
+* strip terminal period from `roleTerm` element before mapping/matching to Agent role taxonomy
+
+==== Results
+
+* client12:214060 -> `author; issuing body`
+
+
+

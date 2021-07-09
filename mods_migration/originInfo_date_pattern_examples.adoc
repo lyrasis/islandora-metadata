@@ -1,0 +1,48 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+= MODS originInfo date pattern examples
+
+toc::[]
+
+Here I'm trying to identify known patterns of date data within the `originInfo` element, and clarify how those patterns should be handled in migration.
+
+I'm also noting non-standard patterns that should maybe be bounced back to clients for clarification/fix up.
+
+As of this writing, note that I don't have any data on the frequency of any of these patterns. They have been identifed in the manual process of spot checking things. 
+
+== Normal patterns
+
+== Non-standard patterns
+
+=== Two elements with the same xpath signature in the same originInfo element; one includes the entire content of the other
+
+==== Example(s)
+
+.client12:214060 
+[source,xml]
+----
+<originInfo>
+    <place>
+        <placeTerm type="code" authority="marccountry">oru</placeTerm>
+    </place>
+    <dateIssued encoding="marc">2002-2017</dateIssued>
+    <dateIssued encoding="marc">2017</dateIssued>
+    <issuance>monographic</issuance>
+</originInfo>
+----    
+
+==== Possible treatment/algorithm
+
+* order the values by length ascending
+* shift the first value off the array
+* if any remaining elements in the array includes the shifted value, drop the shifted value
+* retain unique/not-included in other array elements values
+
+==== Results
+
+* client12:214060 -> `<dateIssued encoding="marc">2002-2017</dateIssued>`
+
+
+

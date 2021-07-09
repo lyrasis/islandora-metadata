@@ -1,0 +1,99 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+= MODS language pattern examples
+
+toc::[]
+
+Here I'm trying to identify known patterns of data within the `language` element, and clarify how those patterns should be handled in migration.
+
+I'm also noting non-standard patterns that should maybe be bounced back to clients for clarification/fix up.
+
+As of this writing, note that I don't have any data on the frequency of any of these patterns. They have been identifed in the manual process of spot checking things.
+
+== Assumptions
+
+=== Default population of Language taxonomy vocabulary
+
+Language taxonomy vocabulary will be populated from the https://id.loc.gov/vocabulary/iso639-2.html[ISO639-2 linked data vocabulary maintained by LOC]. TODO: @kspurgin
+
+The taxonomy term name will be the English textual expression.
+
+The taxonomy term will record the ISO639-2 code per language.
+
+TODO: @kspurgin - how to model the bibliographic vs terminological codes (alb/sqi) and the codes from other vocabularies? 
+
+
+== Normal patterns
+
+=== Only code in one `language` element
+
+==== Examples
+
+.MODS user guide example
+[source,xml]
+----
+<language>
+  <languageTerm type="code" authority="iso639-2b">fre</languageTerm>
+</language>
+----
+
+==== Treatment/algorithm
+
+* Map the code to English text expression for extration to I8 language taxonomy vocabulary
+
+==== Results
+
+* MODS user guide example -> `Language of content: French`
+
+=== Code and text expression of the same language in one `language` element
+
+==== Examples
+
+.MODS user guide example
+[source,xml]
+----
+<language>
+  <languageTerm type="text">French</languageTerm>
+  <languageTerm type="code" authority="iso639-2b">fre</languageTerm>
+</language>
+----
+
+==== Treatment/algorithm
+
+* Map the code to English text expression for extration to I8 language taxonomy vocabulary
+* Deduplicate the values
+
+==== Results
+
+* MODS user guide example -> `Language of content: French`
+
+== Non-standard patterns
+
+=== `languageTerm@type="code"` and `languageTerm@type="text"` in same `language` element; the code and text are for different languages
+
+==== Example(s)
+
+.client12:214060 
+[source,xml]
+----
+<language>
+    <languageTerm authority="iso639-2b" type="code">kor</languageTerm>
+    <languageTerm type="text" authority="iso639-2b">English</languageTerm>
+</language>    
+----    
+
+==== Possible treatment/algorithm
+
+* Flag for client review/remediation pre-migration
+* If client does not fix, take them literally, and:
+** Map codes to their English text expression for extraction to I8 Language taxonomy vocabulary
+** Both languages get mapped to Language of content in I8 node description
+
+==== Results
+
+* client12:214060 -> `Language of content: Korean, English` 
+
+
+
