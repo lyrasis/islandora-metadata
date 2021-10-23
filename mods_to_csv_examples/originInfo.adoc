@@ -1,0 +1,461 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+= originInfo MODS examples
+
+== Drupal metadata config/setup assumptions
+
+In this model, much of the complexity is eliminated by using text fields to capture the compound statements (place + agent + date, with indications of supplied vs. transcribed information, etc.)
+
+None of the original data that typically got mapped into MODS `originInfo/place/placeTerm[@type=text]` or `originInfo/publisher` was ever controlled, mapping it to taxonomy terms in Islandora will create a huge mess.
+
+To achieve this I am banking on being able to reconstruct the ISBD punctuation that was probably leveraged to split the original data into MODS in the first place.
+
+If a client has created MODS 3.7-compliant data that includes valueURIs in the publisher subelement, that data could be used to also a) create/match on a taxonomy term (probably Corporate Body, but would need to use data from the URI to verify and add an Associated Names value with entity reference to agent name and appropriate agent role.
+
+`originInfo/place/placeTerm[@type=code]` values are mapped to relevant controlled Place fields.
+
+
+=== Content type field definitions
+
+==== Publication statement
+
+machine name:: field_publication_stmt
+field type:: text (plain, long)
+help text:: Free text representation of a full publication statement. Publication is the publication, release, or issuing of a resource.
+required:: no
+allowed number of values:: unlimited
+
+==== Creation statement
+
+machine name:: field_creation_stmt
+field type:: text (plain, long)
+help text:: Free text representation of a full creation statement. Creation is the generation of the original or derived content of a work.
+required:: no
+allowed number of values:: unlimited
+
+==== Production statement
+
+machine name:: field_production_stmt
+field type:: text (plain, long)
+help text:: Free text representation of a full production statement. Production is the inscription, fabrication, construction, etc., of a resource in an unpublished form.
+required:: no
+allowed number of values:: unlimited
+
+==== Manufacture statement
+
+machine name:: field_manufacture_stmt
+field type:: text (plain, long)
+help text:: Free text representation of a full manufacture statement. Manufacture is the printing, duplicating, casting, etc., of a resource in a published form.
+required:: no
+allowed number of values:: unlimited
+
+==== Distribution statement
+
+machine name:: field_distribution_stmt
+field type:: text (plain, long)
+help text:: Free text representation of a full distribution statement. Distribution applies only to resources in published form.
+required:: no
+allowed number of values:: unlimited
+
+==== Date issued
+
+machine name:: field_date_issued
+field type:: edtf
+help text:: Date of issuance or publication
+required:: no
+allowed number of values:: unlimited
+
+==== Date created
+
+machine name:: field_date_created
+field type:: edtf
+help text:: Date of original content creation
+required:: no
+allowed number of values:: unlimited
+
+==== Date digitized
+
+machine name:: field_date_digitized
+field type:: edtf
+help text:: Date digitized derivative representation of object was created
+required:: no
+allowed number of values:: unlimited
+
+==== Copyright date
+
+machine name:: field_date_copyright
+field type:: edtf
+help text:: Date associated with a claim of protection under copyright or a similar regime. Do not record "c" or "©" in this field.
+required:: no
+allowed number of values:: unlimited
+
+==== Mode of issuance
+
+machine name:: field_issuance_mode
+field type:: entity reference
+reference type:: default
+vocabulary:: issuance_mode (prepopulated from https://id.loc.gov/vocabulary/issuance.html)
+help text:: Designation of how the resource was issued. Applies only to published resources. 
+required:: no
+allowed number of values:: unlimited
+
+Could also be a (modified) Linked Data Lookup field to the vocabulary referenced above
+
+IMPORTANT: the appropriate LC Issuance terms should be able to be looked up during migration/import or UI-based metadata editing via any `field_alt_form` values assigned to a term. The exact values that appear in source metadata will vary somewhat.
+
+==== Creation place
+
+machine name:: field_place_creation
+field type:: entity reference
+reference type:: default
+vocabulary:: countries (populated from https://id.loc.gov/vocabulary/countries.html), geo_location
+help text:: Controlled term for place where content was created
+required:: no
+allowed number of values:: unlimited
+
+IMPORTANT: marc_countries term (name = Oregon) must be able to be looked up in the migration via the taxonomy term's `field_code` value (code = oru). For initial migration, I could handle the lookup to name, but for longer term support of clients preparing and batch importing their own data, lookup by code during import will be important
+
+==== Publication place
+
+machine name:: field_place_publication
+field type:: entity reference
+reference type:: default
+vocabulary:: countries (populated from https://id.loc.gov/vocabulary/countries.html), geo_location
+help text:: Controlled term for place where content was published
+required:: no
+allowed number of values:: unlimited
+
+IMPORTANT: marc_countries term (name = Oregon) must be able to be looked up in the migration via the taxonomy term's `field_code` value (code = oru). For initial migration, I could handle the lookup to name, but for longer term support of clients preparing and batch importing their own data, lookup by code during import will be important
+
+==== Sort date
+
+machine name:: field_date_sort
+field type:: edtf
+help text:: Date on which the object should be sorted or faceted
+required:: n
+allowed number of values:: 1
+
+Not sure if it should be required. If an object does not have any dates, it's going to date-sort either in front of everything that has a date or after. After is preferred. 
+
+For migrations in, I will have to write code that will automatically extract the appropriate value from MODS or other data, warning when it cannot do so
+
+For metadata added via forms in the UI, Nigel and I discussed implementing the following:
+
+* If one date field is populated, and it has a single value, map that value to field_date_sort
+* If one date field is populated, and it has multiple values, map the first occurring value to field_date_sort
+* If more than one date field is populated, a conditional form field appears. This conditional field lists the names of the populated date fields and requires the user to select one of them as the source of the sort date before the record can be saved. The message tells the user that the first value in the selected field will be used as the sort date.
+
+Can such an approach deal with the following sequences of events? Not sure when such a conditional field would appear---upon population of a second date field during the editing process, or after initiating form save (at a more finalized record state)
+
+If conditional field appears at population of second date field:
+
+* User is creating new record via form
+* User enters Date created = 2001
+* User enters Date issued = 2005
+* Conditional field appears and user selects Date issued
+* Before saving record, user realizes they were mistaken in recording a Date issued value and deletes 2005 from Date issued field, leaving it blank
+* **Sort date should = 2001** - User did not have to select a sort date field name again via conditional field because at save there is only one date field populated
+
+* User edits existing record via form
+* Existing Date created = 1990
+* Existing Date issued = 1995
+* Existing Sort date was saved as 1995
+* User realizes they were mistaken in originally recording a Date issued value and deletes 1995 from Date issued field, leaving it blank
+* **Sort date should = 1990** - User did not have to select a sort date field name again via conditional field because at save there is only one date field populated and the sort date is updated to use it.
+
+* User edits existing record via form
+* Existing Date created = 1990
+* Existing Date issued = 1995
+* Existing Sort date was saved as 1995
+* User has realized item was actually published in 1994 and is here to correct that -- changes Date issued to 1994
+* **Sort date should = 1994** - User did not have to select a sort date field name again via conditional field because the originally selected sort date field is still populated, and sort date is updated using its value
+
+* User edits existing record via form
+* Existing Date created = 1990
+* Existing Date issued = 1995
+* Existing Sort date was saved as 1995
+* User realizes they were mistaken in originally recording a printing date as a Date issued value and deletes 1995 from Date issued field, leaving it blank
+* User adds 1995 to Date manufactured field
+* Before save the conditional field requires the user to indicate the Sort Date field name, since there are two date fields populated, but the originally selected Sort Date field name is not among them.
+* User selects Date manufactured as Sort Date field name
+* **Sort date should = 1995**
+
+This implies that each object will need a persisted `field_date_sort_field_name` (field from which `field_date_sort` value was derived) in addition to `field_date_sort` (the actual sort date value)
+
+==== Associated names
+
+machine name:: field_associated_name
+field type:: entity reference
+reference type:: default
+content type:: agent_in_role
+required:: no
+allowed number of values:: unlimited
+
+[NOTE]
+====
+For a lot of reasons (outlined https://3.basecamp.com/3410311/buckets/12903981/messages/3054423983[here]) I don't like the Typed Entity field type that ships out of the box, which is used for the Agent field (was Linked Agent) in islandora-defaults.
+
+Nigel had worked on the https://github.com/lyrasis/ecs/blob/metadata-config-with-fields/docker/lyrasis-drupal/drupal/web/modules/custom/lyrasis_module/modules/metadata/src/Plugin/Field/FieldType/TypedLabeledEntityReference.php[TypedLabeledEntityReference] field type, but he was gone before I could get him to fix the fact that it will not be workable to have the `value` property of that field only populatable via a drop-down. I have no idea how easy/hard that is to change.
+
+Also, I don't think that field type was going to address my concern about there not being a way to retrieve objects created by John Doe, vs. objects donated by John Doe.
+
+So, here I am playing with the idea of a simple content type `agent_in_role` that can be referenced.
+====
+
+== Object MODS examples
+
+=== 1
+
+[source,xml]
+====
+<originInfo>
+  <place>
+    <placeTerm type="code" authority="marccountry">oru</placeTerm>
+  </place>
+  <dateIssued encoding="marc">1911</dateIssued>
+  <issuance>monographic</issuance>
+</originInfo>
+<originInfo displayLabel="publisher">
+  <place>
+    <placeTerm type="text">[Salem, Oregon] :[Office of the Governor],[1911]</placeTerm>
+  </place>
+  <publisher>[Office of the Governor],</publisher>
+  <dateIssued>[1911]</dateIssued>
+</originInfo>
+<originInfo displayLabel="manufacturer">
+  <place>
+    <placeTerm>Salem, Oregon :</placeTerm>
+  </place>
+  <publisher>Willis S. Duniway, State Printer,</publisher>
+  <dateOther type="manufacture">1911</dateOther>
+</originInfo>
+ ====
+
+=== 2
+
+[source,xml]
+====
+<originInfo>
+  <place>
+    <placeTerm type="code" authority="marccountry">idu</placeTerm>
+  </place>
+  <place>
+    <placeTerm type="text">[Moscow, Idaho]</placeTerm>
+  </place>
+  <place>
+    <placeTerm type="text">[Corvallis, Or.]</placeTerm>
+  </place>
+  <place>
+    <placeTerm type="text">[Pullman, Wash.]</placeTerm>
+  </place>
+  <place>
+    <placeTerm type="text">[Washington, D.C.]</placeTerm>
+  </place>
+  <publisher>University of Idaho Cooperative Extension System</publisher>
+  <publisher>Oregon State University Extension Service</publisher>
+  <publisher>Washington State University Cooperative Extension</publisher>
+  <publisher>U.S. Dept. of Agriculture</publisher>
+  <dateIssued>c2006</dateIssued>
+  <dateIssued encoding="marc">2006</dateIssued>
+  <issuance>monographic</issuance>
+</originInfo>
+====
+
+=== 3
+
+[source,xml]
+====
+<originInfo>
+  <dateIssued>1995-01-10</dateIssued>
+</originInfo>
+<originInfo>
+  <publisher>Municipal University of Omaha</publisher>
+</originInfo>
+<originInfo>
+  <publisher>University of Nebraska at Omaha</publisher>
+</originInfo>
+<originInfo>
+  <publisher>University of Omaha (1908-1931)</publisher>
+</originInfo>
+<originInfo>
+  <publisher>Municipal University of Omaha</publisher>
+</originInfo>
+<originInfo>
+  <publisher>University of Nebraska at Omaha</publisher>
+</originInfo>
+====
+
+=== 4
+
+[source,xml]
+====
+<originInfo>
+  <dateOther>1996</dateOther>
+  <copyrightDate>1996</copyrightDate>
+  <dateCreated>1996</dateCreated>
+</originInfo>
+<originInfo>
+  <publisher>Alabama Agricultural and Mechanical University</publisher>
+</originInfo>
+<originInfo>
+  <publisher>Alabama Agricultural and Mechanical University</publisher>
+</originInfo>
+<originInfo>
+  <publisher>Alabama Agricultural and Mechanical University</publisher>
+</originInfo>
+====
+
+=== 5
+
+This example, from a different client whose metadata looks like this pretty consistently, illustrates how I will make different decisions in deriving migration CSVs from MODS, on a per-client basis depending on analysis of their data.
+
+I know this client is creating simple metadata directly in Islandora using the basic form. They are using creation place terms from a locally managed vocabulary and they are clean.
+
+So I skip manufacturing a weird textual creation statement for them.
+
+[source,xml]
+====
+<originInfo>
+  <dateCreated>2002-02-24</dateCreated>
+  <place>
+    <placeTerm type="text">Proscenium Thrust, Performance Place</placeTerm>
+  </place>
+</originInfo>
+====
+
+=== 6
+
+Another client, whose metadata was migrated in from CONTENTdm, and I know they were using local controlled vocabularies for both placeTerms and publisher names
+
+[source,xml]
+====
+  <originInfo>
+    <dateCaptured>2008</dateCaptured>
+    <dateIssued keyDate="yes">1973-04</dateIssued>
+    <publisher>Virginia Commonwealth University</publisher>
+    <place>
+      <placeTerm type="text">Richmond, Va</placeTerm>
+    </place>
+  </originInfo>
+====
+
+=== 7
+
+[source,xml]
+====
+<name type="corporate">
+  <namePart>VCU Libraries</namePart>
+  <role>
+    <roleTerm authority="marcrelator" type="text">publisher</roleTerm>
+  </role>
+</name>
+<originInfo>
+  <dateIssued keyDate="yes">1905-1915</dateIssued>
+  <publisher>A. Gibian; American News Company; American News Company</publisher>
+</originInfo>
+====
+
+=== 8
+
+[source,xml]
+====
+<originInfo script="Latn" altRepGroup="00">
+  <place>
+    <placeTerm type="code" authority="marccountry">mr</placeTerm>
+  </place>
+  <place>
+    <placeTerm type="text">פאס</placeTerm>
+  </place>
+  <place>
+    <placeTerm type="text">Fez</placeTerm>
+  </place>
+  <publisher>: שמואל נדיבות</publisher>
+  <dateIssued>רע"ז, 1516]</dateIssued>
+  <publisher>Shemuʼel Nedivot</publisher>
+  <dateIssued>277, 1516]</dateIssued>
+  <dateIssued encoding="marc">1516</dateIssued>
+  <issuance>monographic</issuance>
+</originInfo>
+====
+
+== MODS pre-processing prep for migration notes
+
+=== Default event type assumption
+
+If no specific event type (publication, creation, etc.) can be programmatically determined, we will default to treating the data as publication info.
+
+=== Determining event type
+
+If there is an explicit `eventType` or `displayLabel` attribute that expresses the event type, use it.
+
+.`displayLabel` expressing event type
+[source,xml]
+====
+<originInfo displayLabel="publisher">
+  <place>
+    <placeTerm type="text">[Salem, Oregon] :[Office of the Governor],[1911]</placeTerm>
+  </place>
+  <publisher>[Office of the Governor],</publisher>
+  <dateIssued>[1911]</dateIssued>
+</originInfo>
+====
+
+In the above example, event type = publication.
+
+If there is no explicit event type encoded in an attribute, and there is one date field recorded in the element, and it is a specific kind of date, use the event type expressed by the date type recorded.
+
+.Deriving event type from single date type
+[source,xml]
+====
+<originInfo>
+  <place>
+    <placeTerm type="code" authority="marccountry">oru</placeTerm>
+  </place>
+  <dateIssued encoding="marc">1911</dateIssued>
+  <issuance>monographic</issuance>
+</originInfo>
+
+<originInfo>
+  <place>
+    <placeTerm type="code" authority="marccountry">oru</placeTerm>
+  </place>
+  <dateIssued>1911</dateIssued>
+  <dateIssued encoding="marc">1911</dateIssued>
+  <issuance>monographic</issuance>
+</originInfo>
+====
+
+In both the above examples, event type = publication, because the only date type recorded is `dateIssued`
+
+=== Determining sort date
+
+Get all date elements from within all `originInfo` elements.
+
+If any date has a `@keyDate="yes"` attribute, use this date as the sort date.
+
+
+How many date elements have an `@encoding="marc"` attribute?
+
+If only one, this was the date used as main system/sort date in original data, so use it as sort date.
+
+=== Checking for copyright dates assigned to wrong fields
+
+`dateIssued`, etc. element values beginning with `c` should have the `c` removed and the remainder migrated as `field_date_copyright` value
+
+=== General processing notes
+
+Example 1 demonstrates: one `originInfo` element contains the coded/encoded data that was likely extracted from MARC fixed fields via the standard MARC-to-MODS XSLT. The other `originInfo` statements would have been derived from MARC variable fields and should be mapped into the textual statement fields.
+
+Example 2 demonstrates where the coded/encoded data elements are mixed into one `originInfo` element and need to be identified from within it.
+
+Examples 3 and 4 demonstrate the notion of: if each `originInfo` element contains only one kind of element (dates, or publisher), we will combine them together to create one statement. 
