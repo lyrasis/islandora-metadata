@@ -12,6 +12,8 @@ endif::[]
 
 = originInfo MODS examples
 
+toc::[]
+
 == Drupal metadata config/setup assumptions
 
 In this model, much of the complexity is eliminated by using text fields to capture the compound statements (place + agent + date, with indications of supplied vs. transcribed information, etc.)
@@ -166,6 +168,8 @@ If conditional field appears at population of second date field:
 * Before saving record, user realizes they were mistaken in recording a Date issued value and deletes 2005 from Date issued field, leaving it blank
 * **Sort date should = 2001** - User did not have to select a sort date field name again via conditional field because at save there is only one date field populated
 
+Or:
+
 * User edits existing record via form
 * Existing Date created = 1990
 * Existing Date issued = 1995
@@ -173,12 +177,16 @@ If conditional field appears at population of second date field:
 * User realizes they were mistaken in originally recording a Date issued value and deletes 1995 from Date issued field, leaving it blank
 * **Sort date should = 1990** - User did not have to select a sort date field name again via conditional field because at save there is only one date field populated and the sort date is updated to use it.
 
+Or:
+
 * User edits existing record via form
 * Existing Date created = 1990
 * Existing Date issued = 1995
 * Existing Sort date was saved as 1995
 * User has realized item was actually published in 1994 and is here to correct that -- changes Date issued to 1994
 * **Sort date should = 1994** - User did not have to select a sort date field name again via conditional field because the originally selected sort date field is still populated, and sort date is updated using its value
+
+Or:
 
 * User edits existing record via form
 * Existing Date created = 1990
@@ -217,7 +225,7 @@ So, here I am playing with the idea of a simple content type `agent_in_role` tha
 === 1
 
 [source,xml]
-====
+----
 <originInfo>
   <place>
     <placeTerm type="code" authority="marccountry">oru</placeTerm>
@@ -239,12 +247,12 @@ So, here I am playing with the idea of a simple content type `agent_in_role` tha
   <publisher>Willis S. Duniway, State Printer,</publisher>
   <dateOther type="manufacture">1911</dateOther>
 </originInfo>
- ====
+----
 
 === 2
 
 [source,xml]
-====
+----
 <originInfo>
   <place>
     <placeTerm type="code" authority="marccountry">idu</placeTerm>
@@ -269,12 +277,12 @@ So, here I am playing with the idea of a simple content type `agent_in_role` tha
   <dateIssued encoding="marc">2006</dateIssued>
   <issuance>monographic</issuance>
 </originInfo>
-====
+----
 
 === 3
 
 [source,xml]
-====
+----
 <originInfo>
   <dateIssued>1995-01-10</dateIssued>
 </originInfo>
@@ -293,12 +301,12 @@ So, here I am playing with the idea of a simple content type `agent_in_role` tha
 <originInfo>
   <publisher>University of Nebraska at Omaha</publisher>
 </originInfo>
-====
+----
 
 === 4
 
 [source,xml]
-====
+----
 <originInfo>
   <dateOther>1996</dateOther>
   <copyrightDate>1996</copyrightDate>
@@ -313,7 +321,7 @@ So, here I am playing with the idea of a simple content type `agent_in_role` tha
 <originInfo>
   <publisher>Alabama Agricultural and Mechanical University</publisher>
 </originInfo>
-====
+----
 
 === 5
 
@@ -324,21 +332,21 @@ I know this client is creating simple metadata directly in Islandora using the b
 So I skip manufacturing a weird textual creation statement for them.
 
 [source,xml]
-====
+----
 <originInfo>
   <dateCreated>2002-02-24</dateCreated>
   <place>
     <placeTerm type="text">Proscenium Thrust, Performance Place</placeTerm>
   </place>
 </originInfo>
-====
+----
 
 === 6
 
 Another client, whose metadata was migrated in from CONTENTdm, and I know they were using local controlled vocabularies for both placeTerms and publisher names
 
 [source,xml]
-====
+----
   <originInfo>
     <dateCaptured>2008</dateCaptured>
     <dateIssued keyDate="yes">1973-04</dateIssued>
@@ -347,12 +355,12 @@ Another client, whose metadata was migrated in from CONTENTdm, and I know they w
       <placeTerm type="text">Richmond, Va</placeTerm>
     </place>
   </originInfo>
-====
+----
 
 === 7
 
 [source,xml]
-====
+----
 <name type="corporate">
   <namePart>VCU Libraries</namePart>
   <role>
@@ -363,12 +371,12 @@ Another client, whose metadata was migrated in from CONTENTdm, and I know they w
   <dateIssued keyDate="yes">1905-1915</dateIssued>
   <publisher>A. Gibian; American News Company; American News Company</publisher>
 </originInfo>
-====
+----
 
 === 8
 
 [source,xml]
-====
+----
 <originInfo script="Latn" altRepGroup="00">
   <place>
     <placeTerm type="code" authority="marccountry">mr</placeTerm>
@@ -386,7 +394,7 @@ Another client, whose metadata was migrated in from CONTENTdm, and I know they w
   <dateIssued encoding="marc">1516</dateIssued>
   <issuance>monographic</issuance>
 </originInfo>
-====
+----
 
 == MODS pre-processing prep for migration notes
 
