@@ -302,9 +302,7 @@ b123456x
 BQW982
 |===
 
-== Indexing options
-
-These are easier to demonstrate with examples so I'm not going to try to write out descriptions of the options. I will just enumerate them here.
+== Indexing
 
 [IMPORTANT]
 ====
@@ -320,35 +318,26 @@ One problem we have in I7 is that the XSLT that created Solr fields from MODS wa
 The ones with spaces don't even work at all in Solr!
 ====
 
-=== Index under field + type?
+[NOTE]
+====
+As of 2021-12-02, we are removing the ability to define the following specific indexing options per field, to simplify the requirements:
 
-Boolean/checkbox
+Index under field + type?:: will now happen by default if there is a non-null type value
+Index under field + label?:: will now happen by default if there is a non-null label value
+Index under field + type + label?:: will now happen by default if there are non-null values for both type and value
+Include field value label in indexed value?:: will now be false by default. Finding "Vol. 1 999" will require a phrase search in rendered view of content type
+====
 
-*Recommended default value:* 1/true/Yes
+IMPORTANT: Make sure "rendered_view" of content type for indexing includes field value labels, so that phrase searching of the "whole node" will find these
 
-=== Index under field + label?
 
-Boolean/checkbox
+Assuming:
 
-*Recommended default value:* 0/false/No
-
-=== Index under field + type + label?
-
-Boolean/checkbox
-
-*Recommended default value:* 0/false/No
-
-=== Include field value label in indexed value?
-
-Boolean/checkbox
-
-*Recommended default value:* 0/false/No
-
-IMPORTANT: Make sure "rendered_view" of content type for indexing does include field value labels, so that phrase searching of the "whole node" will find these even with this option turned off. (This option will only really affect stuff using advanced search-y stuff anyway.)
-
-== Indexing option examples
-
-Each context below shows the Solr fields (-ish) that would be output, given the outlined settings
+* A field `field_identifier` is defined using `TypedLabeledTestShort` field type
+* The `type` property is configured to be populated from a taxonomy vocabulary `identifier_types`
+* `identifier_types` taxonomy vocabulary contains terms with the following `name` values:
+** `ISBN`
+** `Local identifier`
 
 .Field values
 [cols=3*,options=header]
@@ -362,34 +351,7 @@ Each context below shows the Solr fields (-ish) that would be output, given the 
 | Local identifier | | 444
 |===
 
-=== With recommended defaults
-
-identifier_*: "999", "888", "777", "666", "555", "444"
-
-identifier_isbn_*: "999", "777"
-
-identifier_local_identifier_*: "555", "444"
-
-identifier_nulltype_*: "888", "666"
-
-=== Defaults, except do include field value label in indexed value
-
-This can re-use whatever logic/internal field property gets set for handling the display. Whatever gets displayed as field value label (_emphasized_ in the display formatter option examples) is used here.
-
-The following assumes we've used the recommended default display formatter values:
-
-- Field label source: Type value
-- Field value label source: Label value
-
-identifier_*: "Vol. 1: 999", "Vol. 2: 888", "777", "666", "Vol. 1: 555", "444"
-
-identifier_isbn_*: "Vol. 1: 999", "777"
-
-identifier_local_identifier_*: "Vol. 1: 555", "444"
-
-identifier_nulltype_*: "Vol. 2: 888", "666"
-
-=== Defaults, except also index under field + label
+The expected fields and values in the Solr document for a node containing the above field values:
 
 
 identifier_*: "999", "888", "777", "666", "555", "444"
@@ -398,32 +360,12 @@ identifier_vol_1_*: "999", "555"
 
 identifier_vol_2_*: "888"
 
-identifier_null_label_*: "777", "666", "444"
-
-=== Yes to everything except inclusion of field label value in indexed value
-
-identifier_*: "999", "888", "777", "666", "555", "444"
-
 identifier_isbn_*: "999", "777"
-
-identifier_local_identifier_*: "555", "444"
-
-identifier_null_type_*: "888", "666"
-
-identifier_vol_1_*: "999", "555"
-
-identifier_vol_2_*: "888"
-
-identifier_null_label_*: "777", "666", "444"
 
 identifier_isbn_vol_1_*: "999"
 
-identifier_isbn_null_label_*: "777"
+identifier_isbn_vol_2_*: "888"
+
+identifier_local_identifier_*: "555", "444"
 
 identifier_local_identifier_vol_1_*: "555"
-
-identifier_local_identifier_null_label_*: "444"
-
-identifier_null_type_vol_2_*: "888"
-
-identifier_null_type_null_label_*: "666"
