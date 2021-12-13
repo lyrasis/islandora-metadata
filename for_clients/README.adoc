@@ -19,6 +19,9 @@ endif::[]
 * ILegacy = your current version of Islandora. Previously branded by the Islandora Foundation as "Islandora 7"
 * Islandora = the new version of Islandora. Previously branded by the Islandora Foundation as "Islandora 8", and now just being branded as "Islandora" 
 ====
+
+toc::[]
+
 == Overview of the situation
 
 Though the new Islandora (Islandora) has been presented as an "upgrade" or "new version", the truth from a metadata standpoint is that Islandora is a completely different system. footnote:[Migrating the actual digital objects from one version to the next has proven fairly straightforward, along the lines you might expect for an upgrade.] The reason for this is two-fold: 
