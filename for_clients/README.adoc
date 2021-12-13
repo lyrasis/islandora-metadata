@@ -115,7 +115,7 @@ https://github.com/lyrasis/islandora-metadata[This entire Github repository] is 
 
 Using out-of-the-box functionality, you can record this data as:
 
-image::oob_title_and_identifier.png[]
+image::oob_title_and_identifier.png[width=250,height=358]
 
 The simple field types available by default in Drupal give us no way to express:
 
