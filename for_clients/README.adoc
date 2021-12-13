@@ -120,10 +120,10 @@ Using out-of-the-box functionality, you can record this data as:
 
 image::oob_title_and_identifier.png[width=250,height=358]
 
-The simple field types available by default in Drupal give us no way to express:
+The simple field types available by default in Drupal (shown above) give us no way to express:
 
 * "On weekends, title is printed on issues as: " without recording it as an actual part of our title (which it really isn't)
-* That an identifier value is of a particular identifer type. footnote:[We can define a new, separate field for each possible identifier type, note type, etc., but this becomes unwieldy to maintain in content types, forms, indexing rules, data serializations, and so on.]
+* That an identifier value is of a particular identifer type.footnote:[We can define a new, separate field for each possible identifier type, note type, etc., but this becomes unwieldy to maintain in content types, forms, indexing rules, data serializations, and so on.]
 
 The development work we are doing footnote:[These screenshots are of rough initial results] is focused on building new Drupal field types that will allow us to enter data like:
 
