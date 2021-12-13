@@ -75,7 +75,7 @@ We are seeing this process require significant resources at an individual instit
 
 === What to expect as a LYRASIS-hosted Islandora client
 
-==== FIRST: you will NOT to have to do all the steps described above!
+==== You will NOT to have to do all the steps described above!
 
 We understand that many of our clients have opted for LYRASIS-hosting because they don't want to (or are unable to) dedicate resources to managing and maintaining a self-hosted Islandora instance. For many of you, that includes staff resources dedicated to managing metadata in Islandora.
 
@@ -83,7 +83,7 @@ We also recognize that, in order to keep our risks, costs, and price low, we do 
 
 __**We intend to provide a migration path for our clients into the new Islandora that requires little to no effort on their part.**__
 
-==== SECOND: LYRASIS is conducting ongoing, significant development work in attempt to build more robust metadata support into the new Islandora in a way that works for both our hosting infrastructure and our client needs
+==== LYRASIS is conducting ongoing, significant development work in attempt to build more robust metadata support into the new Islandora in a way that works for both our hosting infrastructure and our client needs
 
 Because this work is **ongoing**, we cannot yet show you what anything will look like in the LYRASIS-hosted new Islandora. There is no set metadata schema that comes with the new Islandora; as I described above, most institutions are building their own custom content types.
 
@@ -95,7 +95,7 @@ There are some significant technical challenges in adding more complex metadata 
 
 https://github.com/lyrasis/islandora-metadata[This entire Github repository] is devoted to transparency about what we are attempting to build, and you are welcome to explore any and all of it. Just please remember that nothing here is set in stone at this point. 
 
-==== THIRD: Some MODS metadata patterns are not translateable into the new Islandora
+==== Some MODS metadata patterns are not translateable into the new Islandora
 
 **Examples of MODS patterns that we have determined __cannot be replicated__ in the new Islandora include:**
 
@@ -144,12 +144,36 @@ Supporting more complex field types in data entry forms and item display is fair
 * RDF mapping
 * mapping to records for OAI-PMH
 
-**Depending on the patterns used in your MODS and the metadata support that is technically feasible to implement, some granularity and detail from MODS may be lost in the migration process.**
+__**Depending on the patterns used in your MODS and the metadata support that is technically feasible to implement, some granularity and detail from MODS may be lost in the migration process. If any of your MODS data will be lost, prior to the migration, LYRASIS will provide you with a report of this data. **__
 
-==== FOUTH: Some MODS metadata will need to be modified for migration into the new Islandora
+==== Some MODS metadata will need to be modified for migration into the new Islandora
 
-A known example of this is date metadata. MODS allowed you to 
+A known example of this is date metadata. MODS allowed you to record dates in multiple encoding formats (MARC, ISO-8601, EDTF), or following no standard format.
 
+The new Islandora has fairly advanced https://www.loc.gov/standards/datetime/[EDTF] support, and date format options are either EDTF or none (recorded in a separate date note field, displayed as input, and not treated as a date for sorting or faceting.
 
+Prior to your migration to the new Islandora, LYRASIS will prepare a mapping (where possible) of your existing date formats to EDTF. Dates that cannot be mapped to EDTF will be migrated into date note fields.
 
+**__Prior to your migration, LYRASIS will provide you with reports of any of your MODS data that will be transformed/modified in the migration process, for your review.__**
 
+==== If your institution has the staff/resources and the desire to engage in pre-migration metadata remediation, we can work with you to support that
+
+Because we are still working on developing our hosting infrastructure and data models for new Islandora, we do not have firm date timelines in place for any specific client migrations.
+
+This means we are far from ready for any "export the MODS, remediate it externally, and migrate the remediated data directly to new Islandora" workflows.
+
+We can, however, think about working on incremental remediation that fixes existing metadata up in legacy Islandora to prepare for a smoother eventual migration.
+
+If you are interested in this, reach out to us via a Zendesk ticket. Put "Islandora metadata remediation" in the subject.
+
+==== Consider getting involved in the Islandora community
+
+Open source software is created and maintained via community involvement.
+
+Becoming involved in the Islandora community is the most powerful way to influence the direction of the application.
+
+While LYRASIS staff do participate in the Islandora community in an attempt to represent the needs and perspectives of our clients, the voices of actual Islandora users carry so much more weight than ours.
+
+Becoming involved in the community is also a great way to learn more about the new Islandora.
+
+https://github.com/Islandora/documentation/wiki[This page] lists various ways you can connect with the community (including mailing lists and Slack), as well as links out to the User calls and Tech/Development calls that occur regularly. Information about the different Islandora Interest Groups can be found https://github.com/islandora-interest-groups[here]. 
