@@ -1,0 +1,152 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+:imagesdir: https://raw.githubusercontent.com/lyrasis/islandora-metadata/main/images
+
+= Metadata in the new Islandora: information for LYRASIS-hosted Islandora clients
+
+[INFO]
+====
+* ILegacy = your current version of Islandora. Previously branded by the Islandora Foundation as "Islandora 7"
+* Islandora = the new version of Islandora. Previously branded by the Islandora Foundation as "Islandora 8", and now just being branded as "Islandora" 
+====
+== Overview of the situation
+
+Though the new Islandora (Islandora) has been presented as an "upgrade" or "new version", the truth from a metadata standpoint is that Islandora is a completely different system. footnote:[Migrating the actual digital objects from one version to the next has proven fairly straightforward, along the lines you might expect for an upgrade.] The reason for this is two-fold: 
+
+=== 1. Completely different underlying data model
+ILegacy came with add-ons supporting the ingest of descriptive metadata in standard metadata formats such as MODS, MARC-XML, and Dublin Core. The metadata was stored as MODS, and could be emitted via OAI-PMH as MODS or Dublin Core. 
+
+Islandora out-of-the-box provides no support for ingesting and storing descriptive metadata in standard metadata formats. Add-ons to provide that support do not yet exist.
+
+The fundamental assumptions about how metadata works made by Drupal (the application Islandora is built on top of) are incompatible with many of the data structures, patterns, and practices used and expected in standard metadata formats (with the exception of unqualified Dublin Core). footnote:[LYRASIS Data Migration Specialist Kristina Spurgin gave a presentation on the fundamental data model difference and its implications. The https://www.youtube.com/watch?v=9Oe0_noa-Go&t=4s[recorded presentation is on YouTube] and the slides are available https://docs.google.com/presentation/d/1VGBqBMDOlzVnNKLxO-n7WdeZpHPjY_LGrdwKTqeMt7Y/edit?usp=sharing[here] if you want more information on this.]
+
+This means there are some challenging limitations in how descriptive metadata can be expressed and stored in out-of-the-box Islandora.
+
+A concrete example of this will be given below (TODO: link), with some information on how LYRASIS is hoping to be able to address it.
+
+[NOTE]
+====
+LYRASIS will be migrating the current ILegacy MODS record for each object into Islandora as a media file attached to each Islandora "resource node". footnote:[See https://islandora.github.io/documentation/user-documentation/objects_to_resource_nodes/["From Objects to Resource Nodes: Shifting Concepts from Islandora 7 to 8"] in the Islandora documentation]
+
+The MODS XML will be stored, but Islandora cannot do anything with it in the system. You can only view it by navigating to the media files for your object and opening the XML file. The data in that file will not be used by Islandora for display or indexing, and you may not edit the file within Islandora.
+====
+
+=== 2. Use of Drupal taxonomy vocabularies
+
+In ILegacy MODs, names, subjects, and other values from controlled vocabularies were recorded as strings (possibly with associated URIs) in the MODS.
+
+In Islandora, heavy use is made of taxonomy vocabularies footnote:["Taxonomy vocabulary" is _sort of_ the Drupal version of a simple controlled vocabulary, but it certainly does not offer all the affordances associated with real authority control as metadata folks understand it. For more details, see https://docs.google.com/presentation/d/1LfpU6H4qxXtnYQPFntwMNtsgtU30yzp2MxwKKAllUOc/edit?usp=sharing[this presentation].] to store names or terms that can be referenced in the descriptive metadata on of resource nodes. 
+
+So, even without the completely different data model to contend with, a migration to the new Islandora involves extracting names/terms, ingesting them as taxonomy terms in taxonomy vocabularies, and using references to the taxonomy terms in the descriptive metadata for each node.
+
+== What is the metadata migration path from ILegacy to Islandora?
+
+=== What we are seeing in the community
+
+LYRASIS Data Migration Specialist Kristina Spurgin is one of the co-conveners of the Islandora Metadata Interest Group, so we regularly hear about how institutions are handling this transition.
+
+In general, we are seeing that institutions moving MODS metadata into Islandora:
+
+* Carry out intensive metadata profiling projects, to gain understanding of what MODS elements have been used and how each element has been used
+* Use that information to develop a Drupal content type (or content types) for recording and storing descriptive metadata.
+** This involves defining and naming the fields that can be used, determining how they will display, and designing forms.
+** Different institutions are doing very different things here. Some have very simple MODS and the process is fairly straightforward. Those with more complex MODS may be developing some custom solutions to support particular high-priority metadata needs, if they have the development resources to do so. Others with complex MODS, but without the resources to develop any custom solutions, must decide how to simplify and flatten the data that will migrate into new Islandora.
+** Depending on their required use cases, mapping the fields of their Drupal content types to RDF and/or standard metadata formats for providing records via OAI-PMH
+* Completing significant metadata remediation projects focused on:
+** Preparing names/terms for extraction to taxonomy vocabularies
+** Preparing other data for cleaner mapping into that institution's Islandora content types (converting various date formats to https://www.loc.gov/standards/datetime/[EDTF], standardizing MODS `type` attributes, etc.)
+* Working with IT to develop mapping/migration procedures and ensure they are working as expected
+* Carrying out the actual migration
+
+We are seeing this process require significant resources at an individual institution for lengthy periods of time---6 months to well over a year is not uncommon. 
+
+=== What to expect as a LYRASIS-hosted Islandora client
+
+==== FIRST: you will NOT to have to do all the steps described above!
+
+We understand that many of our clients have opted for LYRASIS-hosting because they don't want to (or are unable to) dedicate resources to managing and maintaining a self-hosted Islandora instance. For many of you, that includes staff resources dedicated to managing metadata in Islandora.
+
+We also recognize that, in order to keep our risks, costs, and price low, we do not give our clients the level of access to backend tools they would need to carry out the large scale metadata profiling and remediation projects described above.
+
+__**We intend to provide a migration path for our clients into the new Islandora that requires little to no effort on their part.**__
+
+==== SECOND: LYRASIS is conducting ongoing, significant development work in attempt to build more robust metadata support into the new Islandora in a way that works for both our hosting infrastructure and our client needs
+
+Because this work is **ongoing**, we cannot yet show you what anything will look like in the LYRASIS-hosted new Islandora. There is no set metadata schema that comes with the new Islandora; as I described above, most institutions are building their own custom content types.
+
+Our current assessment is that it is unsustainable for LYRASIS to develop and maintain custom content types for each client, so we are working to develop one or more general content types that can accommodate the metadata patterns currently found in our clients' metadata.
+
+The metadata-related questions in the Islandora Migration Assessment communication you recently received from us were intended to help us understand your needs around some specific metadata patterns.
+
+There are some significant technical challenges in adding more complex metadata modeling to a base system (Drupal) built for blog posts and "web content management." We do not yet know if it is actually realistically possible to make everything work as we hope it will, but we are doing our best.
+
+https://github.com/lyrasis/islandora-metadata[This entire Github repository] is devoted to transparency about what we are attempting to build, and you are welcome to explore any and all of it. Just please remember that nothing here is set in stone at this point. 
+
+==== THIRD: Some MODS metadata patterns are not translateable into the new Islandora
+
+**Examples of MODS patterns that we have determined __cannot be replicated__ in the new Islandora include:**
+
+* the `script` and `lang` attributes associated with individual field values, and `altRepGroup` linkages. See https://github.com/lyrasis/islandora-metadata/blob/main/mods_migration/altRepGroup_script_lang.adoc[this writeup] for more details.
+* structured `relatedItem` descriptions that can recursively contain other `relatedItem` descriptions. In MODS it is possible to reflect entire object hierarchies with detailed descriptions of each level, by nesting `relatedItem` elements in the XML. The Drupal field-based data model of the new Islandora does not support this type of nested relationship of undetermined depth.
+
+
+**A simple example of two MODS patterns that are not supported in new Islandora out of the box, for which we are attempting to add support:**
+
+[source,xml]
+----
+<titleInfo>
+  <title>City News</title>
+<titleInfo>
+<titleInfo type="alternative" displayLabel="On weekends, title is printed on issues as">
+  <title>City Express News</title>
+<titleInfo>
+<identifier type="wikidata-item">1234567</identifier>
+----
+
+Using out-of-the-box functionality, you can record this data as:
+
+image::oob_title_and_identifier.png[]
+
+The simple field types available by default in Drupal give us no way to express:
+
+* "On weekends, title is printed on issues as: " without recording it as an actual part of our title (which it really isn't)
+* That an identifier value is of a particular identifer type. footnote:[We can define a new, separate field for each possible identifier type, note type, etc., but this becomes unwieldy to maintain in content types, forms, indexing rules, data serializations, and so on.]
+
+The development work we are doing footnote:[These screenshots are of rough initial results] is focused on building new Drupal field types that will allow us to enter data like:
+
+image::fieldtype_proofconcept_maintitle.png[]
+
+image::fieldtype_proofconcept_alttitle.png[]
+
+image::fieldtype_proofconcept_identifier.png[]
+
+With a resulting display like:
+
+image::fieldtype_proofconcept_display.png[]
+
+Supporting more complex field types in data entry forms and item display is fairly straightforward, however, ensuring that data in these field types behaves as expected in the rest of the system is proving very challenging:
+
+* indexing
+* batch import/export support
+* RDF mapping
+* mapping to records for OAI-PMH
+
+**Depending on the patterns used in your MODS and the metadata support that is technically feasible to implement, some granularity and detail from MODS may be lost in the migration process.**
+
+==== FOUTH: Some MODS metadata will need to be modified for migration into the new Islandora
+
+A known example of this is date metadata. MODS allowed you to 
+
+
+
+
