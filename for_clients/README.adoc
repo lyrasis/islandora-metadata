@@ -24,18 +24,24 @@ toc::[]
 
 == Overview of the situation
 
-Though the new Islandora (Islandora) has been presented as an "upgrade" or "new version", the truth from a metadata standpoint is that Islandora is a completely different system. footnote:[Migrating the actual digital objects from one version to the next has proven fairly straightforward, along the lines you might expect for an upgrade.] The reason for this is two-fold: 
+Though the new Islandora (Islandora) has been presented as an "upgrade" or "new version", the truth from a metadata standpoint is that Islandora is a completely different system. footnote:[Migrating the actual digital objects from one version to the next has proven fairly straightforward, along the lines you might expect for an upgrade. Support for robust, standards-based descriptive metadata from those objects is currently lacking from the  ] The reason for this is two-fold: 
 
 === 1. Completely different underlying data model
 ILegacy came with add-ons supporting the ingest of descriptive metadata in standard metadata formats such as MODS, MARC-XML, and Dublin Core. The metadata was stored as MODS, and could be emitted via OAI-PMH as MODS or Dublin Core. 
 
-Islandora out-of-the-box provides no support for ingesting and storing descriptive metadata in standard metadata formats. Add-ons to provide that support do not yet exist.
+*Islandora out-of-the-box provides no support for ingesting and storing descriptive metadata in standard metadata formats.* Add-ons to provide that support do not yet exist.
 
 The fundamental assumptions about how metadata works made by Drupal (the application Islandora is built on top of) are incompatible with many of the data structures, patterns, and practices used and expected in standard metadata formats (with the exception of unqualified Dublin Core). footnote:[LYRASIS Data Migration Specialist Kristina Spurgin gave a presentation on the fundamental data model difference and its implications. The https://www.youtube.com/watch?v=9Oe0_noa-Go&t=4s[recorded presentation is on YouTube] and the slides are available https://docs.google.com/presentation/d/1VGBqBMDOlzVnNKLxO-n7WdeZpHPjY_LGrdwKTqeMt7Y/edit?usp=sharing[here] if you want more information on this.]
 
-This means there are some challenging limitations in how descriptive metadata can be expressed and stored in out-of-the-box Islandora.
+This means there are some challenging limitations in how descriptive metadata can be expressed and stored within in out-of-the-box Islandora.
 
-A concrete example of this will be given below (TODO: link), with some information on how LYRASIS is hoping to be able to address it.
+[NOTE]
+====
+Once your descriptive metadata is mapped into Drupal data structures, those Drupal fields can be mapped to Dublin Core or MODS XML (or many other metadata formats) for publishing via OAI-PMH. However, if any granularity/complexity of your ILegacy MODS was flattened or removed in order to get it into Drupal, it cannot be replaced when you map that flattened data back out to MODS again. Here's an example:
+
+image::legacy_and_remapped_mods.png[]
+
+====
 
 [NOTE]
 ====
@@ -137,12 +143,12 @@ With a resulting display like:
 
 image::fieldtype_proofconcept_display.png[]
 
-Supporting more complex field types in data entry forms and item display is fairly straightforward, however, ensuring that data in these field types behaves as expected in the rest of the system is proving very challenging:
+Supporting more complex field types in data entry forms and item display is fairly straightforward, however, it is proving challenging to ensure that data in these field types behaves as expected in the rest of the system, such as:
 
 * indexing
 * batch import/export support
 * RDF mapping
-* mapping to records for OAI-PMH
+* mapping to records for OAI-PMH harvest
 
 __**Depending on the patterns used in your MODS and the metadata support that is technically feasible to implement, some granularity and detail from MODS may be lost in the migration process. If any of your MODS data will be lost, prior to the migration, LYRASIS will provide you with a report of this data. **__
 
