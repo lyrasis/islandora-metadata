@@ -14,6 +14,8 @@ endif::[]
 
 = Metadata in the new Islandora: information for LYRASIS-hosted Islandora clients
 
+Date: 2021-12-14
+
 [INFO]
 ====
 * ILegacy = your current version of Islandora. Previously branded by the Islandora Foundation as "Islandora 7"
