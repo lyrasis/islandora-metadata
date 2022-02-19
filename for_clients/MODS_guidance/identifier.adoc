@@ -18,6 +18,8 @@ endif::[]
 - The default new Islandora assumption is there will be a separate field for every specific type of identifier. To migrate, your MODS identifiers will have to be assigned to those fields based on the type you've specified.
 - You don't want your ILS record numbers eventually ending up in separate `Bib Number`, `Catalog Number`, and `OPAC Number` fields, so it is critical to maintain consistency in how you specify the identifier types.
 
+toc::[]
+
 == Slightly preferable: `type` attribute
 
 - More technically correct

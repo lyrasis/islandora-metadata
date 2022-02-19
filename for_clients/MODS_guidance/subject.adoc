@@ -14,6 +14,8 @@ endif::[]
 
 = subject
 
+toc::[]
+
 == General
 === Use one `<subject>` element per subject expressed
 

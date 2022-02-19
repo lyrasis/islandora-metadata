@@ -16,6 +16,8 @@ endif::[]
 
 NOTE: Out of the box new Islandora does not have a Title taxonomy set up. In a migration to such a system, title subjects will probably get mapped to the main Subject taxonomy.
 
+toc::[]
+
 == Do not indicate title type
 
 Record the primary/authorized/uniform title of a work as a subject

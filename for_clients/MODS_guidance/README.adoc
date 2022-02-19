@@ -22,6 +22,8 @@ PRIMARY TARGET AUDIENCE: Those creating new MODS metadata for use (for some peri
 
 **This is not a list of MODS remediation that needs to be carried out by folks with existing metadata in I7**
 
+toc::[]
+
 [NOTE]
 ====
 Some of these recommendations result in less-than optimal/weird MODS from a metadata standards perspective. This is due to needing to work around multiple layers of current and potential system limitations.

@@ -14,6 +14,8 @@ endif::[]
 
 = Collection name
 
+toc::[]
+
 == Digital collection
 === Islandora collection
 When you add an item to a collection in I7, that relationship is captured in the RELS-EXT (Fedora Object to Object Relationship Metadata) datastream automatically by the system:

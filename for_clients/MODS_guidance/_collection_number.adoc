@@ -14,6 +14,7 @@ endif::[]
 
 = Collection number
 
+
 How you represent this depends on how you have represented the collection. See the `_collection_name.adoc` page for examples of those options.
 
 I haven't seen any data model/content type designed for new Islandora yet that handles this particular information, but it is probabaly a matter of creating/defining a new "Collection number" field and mapping the proper data into it. So which of these one used is less important than:
@@ -22,6 +23,8 @@ I haven't seen any data model/content type designed for new Islandora yet that h
 - not using the same pattern to express something else (could be a problem for specific physical collection option 2)
 
 Note that the OAI-PMH DC output from I7 doesn't surface this piece of data for any of these. The MODS metadataPrefix would, but users of the data would need to know how to parse/extract the collection number. 
+
+toc::[]
 
 == As identifier value for object
 

@@ -13,6 +13,9 @@ endif::[]
 :imagesdir: https://raw.githubusercontent.com/lyrasis/islandora-metadata/main/images
 
 = subject/name
+
+toc::[]
+
 == Name type must be indicated
 
 .Bad

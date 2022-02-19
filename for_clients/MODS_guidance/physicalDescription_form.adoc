@@ -14,6 +14,8 @@ endif::[]
 
 = physicalDescription/form
 
+toc::[]
+
 == If using an established controlled vocabulary
 
 Record vocabulary in `authority` attribute
