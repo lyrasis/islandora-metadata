@@ -98,6 +98,20 @@ Record vocabulary in `authority` attribute of `subject` element:
 </subject>
 ----
 
+== If using local vocabularies
+
+Record `local` or a consistent term/code for multiple local vocabular in `authority` attribute of `subject` element:
+
+[source,xml]
+----
+<subject authority="local_subjects">
+  <topic>Local topic</topic>
+</subject>
+<subject authority="local_places">
+  <topic>Local place name</topic>
+</subject>
+----
+
 == If established controlled vocabulary terms are not unique
 
 Record vocabulary `authority` and `valueURI` on the `subject` element:

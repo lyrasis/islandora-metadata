@@ -41,6 +41,3 @@ Titles are an extremely important access point for digital library resources and
 This will result in the following display:
 
 image::titleInfo_long_title.png[]
-
-
-
