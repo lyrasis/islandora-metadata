@@ -1,0 +1,45 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+:imagesdir: https://raw.githubusercontent.com/lyrasis/islandora-metadata/main/images
+
+= README - MODS Guidance
+
+The recommendations in this section are predicated on the assumption that we eventually determine there's no feasible way to build the improved metadata handling we hoped for into new Islandora, and that I7 MODS will need to eventually be translated into the data structures available in an out-of-the-box Drupal/Islandora.
+
+If we are not able to feasibly implement metadata improvements, we will not have pointed people in the wrong direction. If we are, having followed these guidelines should not cause any problems.
+
+PRIMARY TARGET AUDIENCE: Those creating new MODS metadata for use (for some period of time) in I7, looking forward to this metadata migrating into a new system that does not support MODS.
+
+**This is not a list of MODS remediation that needs to be carried out by folks with existing metadata in I7**
+
+[NOTE]
+====
+Some of these recommendations result in less-than optimal/weird MODS from a metadata standards perspective. This is due to needing to work around multiple layers of current and potential system limitations.
+====
+
+== Multiple recommendations?
+
+In some cases there is no clear recommendation to be made, but several possible ways to handle the metadata. This is often because of tensions between:
+
+- how well it works in I7 (whether the pattern is supported by the forms used by a client, if it displays as desired, etc.)
+- how complex it will be to identify/separate/handle the pattern and map it in a future migration to non-MODS data model
+- expections/requirements of users of the I7 metadata
+
+In such cases I will try to give pros and cons to each pattern.
+
+**The most important thing for these is to choose the pattern you wish to use, and use it consistently**
+
+== General guidelines
+=== Some MODS attributes cannot be represented in the new Islandora data model
+* Do not use the following attributes in your MODS:
+** `lang`, `xml:lang`, `script`, `transliteration`, `altRepGroup`, `nameTitleGroup`

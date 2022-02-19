@@ -1,0 +1,43 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+:imagesdir: https://raw.githubusercontent.com/lyrasis/islandora-metadata/main/images
+
+= titleInfo
+== Length of title in initial `titleInfo/title` element
+
+[IMPORTANT]
+====
+The title string in the first `title/titleInfo` element in the MODS record must be no more than 128 characters long.
+
+The first `title/titleInfo` element is mapped to a special Drupal property used for display. This property has a maximum length. In I7, it is 128 characters.footnote:[Importing MODS with an initial title up to 255 characters is possible in I7, but if you ever edit the object using the form in the UI, it will not let you save the record without truncating the title to less than 255 characters. The Drupal title property will also look ok on initial import, but you cannot save an update to it longer than 128 characters.] In the new Islandora, it is 255 characters.
+====
+
+== If actual title is longer than 128 characters
+
+- In the `titleInfo/title`, record an abbreviated form of title that will adequately identify the object in collection display and search results
+- Do not set `titleInfo/title@usage` attribute to `primary` in this case
+- Record the full title in a note element encoded as shown below
+
+[source,xml]
+----
+<titleInfo>
+  <title>One hundred twenty eight characters or less title example - full in note</title>
+</titleInfo>
+<note type="full_title" displayLabel="Full/transcribed title">
+Titles are an extremely important access point for digital library resources and are frequently used in brief record displays to assist end users in deciding whether to investigate a resource further. In supplying a title, consider expectations of end users for naming of resources. Choice and format of titles should be governed by a content standard such as the Anglo-American Cataloging Rules, 2nd edition (AACR2), Cataloguing Cultural Objects (CCO), Describing Archives: A Content Standard (DACS), or RDA, Resource Description &amp; Access.
+</note>
+----
+
+This will result in the following display:
+
+image::titleInfo_long_title.png[]

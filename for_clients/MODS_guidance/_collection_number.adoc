@@ -1,0 +1,111 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+:imagesdir: https://raw.githubusercontent.com/lyrasis/islandora-metadata/main/images
+
+= Collection number
+
+How you represent this depends on how you have represented the collection. See the `_collection_name.adoc` page for examples of those options.
+
+I haven't seen any data model/content type designed for new Islandora yet that handles this particular information, but it is probabaly a matter of creating/defining a new "Collection number" field and mapping the proper data into it. So which of these one used is less important than:
+
+- using the pattern consistently; and
+- not using the same pattern to express something else (could be a problem for specific physical collection option 2)
+
+Note that the OAI-PMH DC output from I7 doesn't surface this piece of data for any of these. The MODS metadataPrefix would, but users of the data would need to know how to parse/extract the collection number. 
+
+== As identifier value for object
+
+I don't like this one much because the the collection number is an identifier for the _collection_, not the object. I don't expect the same identifier values in multiple items. But it is a simple option, as long as make sure to use a consistent `type` value.
+
+[source,xml]
+----
+<identifier type="CollectionID">C.0012</identifier>
+----
+
+image::identifier_collection_id.png[]
+
+IMPORTANT: Do not include spaces in the `type` value, or it can mess up indexing in I7. You may not care about this if you never want to search specifically on just collection IDs.
+
+== Number assigned to digital collection
+=== relatedItem
+
+[source,xml]
+----
+<relatedItem type="host" displayLabel="Digital collection">
+  <titleInfo>
+    <title>Open Collection</title>
+  </titleInfo>
+  <identifier>C.0012</identifier>
+</relatedItem>
+----
+
+Results in this display in I7:
+
+image::relatedItem_host_collection_id.png[]
+
+The OAI_DC in I7 does not contain the collection identifier, however:
+
+[source,xml]
+----
+<dc:title>Host related item</dc:title>
+<dc:relation>Open Collection</dc:relation>
+----
+
+== Number assigned to a specific physical collection
+
+=== Option 1 - strict split between literal location info and "intellectual description" of collection
+
+Allows you to include literal location/contact info for the holding institution.
+
+[source,xml]
+----
+<location>
+  <physicalLocation>University of Whatever Special Collections</physicalLocation>
+  <holdingSimple>
+    <copyInformation>
+      <subLocation>123 My Street, MyTown, ST, 12345</subLocation>
+    </copyInformation>
+  </holdingSimple>
+</location> 
+<relatedItem type="host" displayLabel="Physical Collection">
+  <titleInfo>
+    <title>Local Historic Photos Collection</title>
+  </titleInfo>
+  <identifier type="CollectionID">C.0012</identifier>
+</relatedItem>
+----
+
+Displays as:
+
+image::phys_collection_number_opt_1.png[]
+
+=== Option 2
+
+To display more specific information about a sub-collection or part of a collection:
+
+[source,xml]
+----
+<location>
+  <physicalLocation>University of Whatever Special Collections</physicalLocation>
+  <holdingSimple>
+    <copyInformation>
+      <subLocation>Local Historic Photos Collection</subLocation>
+      <shelfLocator>C.0012</shelfLocator>
+    </copyInformation>
+  </holdingSimple>
+</location>
+----
+
+Which displays in I7 as:
+
+image::phys_collection_number_opt_2.png[]

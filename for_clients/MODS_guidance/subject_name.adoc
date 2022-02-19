@@ -1,0 +1,94 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+:imagesdir: https://raw.githubusercontent.com/lyrasis/islandora-metadata/main/images
+
+= subject/name
+== Name type must be indicated
+
+.Bad
+[source,xml]
+----
+<subject>
+  <name>
+    <namePart>Woolf, Virginia, 1882-1936</namePart>
+  </name>
+</subject>
+----
+
+.Good
+[source,xml]
+----
+<subject>
+  <name type="personal">
+    <namePart>Woolf, Virginia, 1882-1936</namePart>
+  </name>
+</subject>
+----
+
+This does not make a major difference in I7 for most folks, but in I8 these names will be split into different taxonomies. There is one taxonomy for person names, another for organization names, and another for family names. The `type` attribute will be important for ensuring your names end up in the proper taxonomy.
+
+== Sub-elements may be included
+
+.Good
+[source,xml]
+----
+<subject>
+  <name type="personal">
+    <namePart>Woolf, Virginia, 1882-1936</namePart>
+  </name>
+</subject>
+----
+
+.Also good
+[source,xml]
+----
+<subject>
+  <name type="personal">
+    <namePart type="family">Woolf</namePart>
+    <namePart type="given">Virginia</namePart>
+    <namePart type="date">1882-1936</namePart>
+  </name>
+</subject>
+----
+
+You can edit the sub-elements in the LYRASIS Detailed MODS form in the UI.
+
+That said, there is not much actual functionality benefit from recording the sub-elements in either the existing or new Islandoras, unless you are using Islandora Scholar with I7.
+
+== If using names from established controlled vocabularies
+
+Record vocabulary in `authority` attribute of `name` element:
+
+.Bad
+[source,xml]
+----
+<subject authority="lcnaf">
+  <name type="personal">
+    <namePart>Woolf, Virginia, 1882-1936</namePart>
+  </name>
+</subject>
+----
+
+.Good
+[source,xml]
+----
+<subject>
+  <name type="personal" authority="lcnaf">
+    <namePart>Woolf, Virginia, 1882-1936</namePart>
+  </name>
+</subject>
+----
+
+In new Islandora you would have one term for `Woolf, Virginia, 1882-1936` in the Person taxonomy. This value can be used to populate subject or creator/contributor/agent fields.
+
+Ensuring the authority is with the name value will allow names from top-level `name` and `subject/name` elements to be deduplicated more efficiently in migration

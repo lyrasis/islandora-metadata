@@ -1,0 +1,123 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+:imagesdir: https://raw.githubusercontent.com/lyrasis/islandora-metadata/main/images
+
+= subject
+
+== General
+=== Use one `<subject>` element per subject expressed
+
+.Bad
+[source,xml]
+----
+<subject>
+  <topic>Cats</topic>
+  <topic>Bats</topic>
+</subject>
+----
+
+.Good
+[source,xml]
+----
+<subject>
+  <topic>Cats</topic>
+</subject>
+<subject>
+  <topic>Bats</topic>
+</subject>
+----
+
+=== In general, do not record multiple sub-elements within a `subject` element
+
+The exceptions are name and title subjects.
+
+.Bad
+[source,xml]
+----
+<subject>
+  <topic>Bluegrass music</topic>
+  <temporal>1971-1980</temporal>
+</subject>
+----
+
+The above is valid MODs and fine metadata practice. It will display, index, and link as `Bluegrass music -- 1971-1980` in I7.
+
+However, you will not be able to edit this subject using forms in the UI, even to delete the subject. It is simply invisible in the form.
+
+I7's MODS-to-DC mapping results in:
+
+[source,xml]
+----
+<dc:subject>Bluegrass music</dc:subject>
+<dc:subject>Bluegrass music--1971-1980</dc:subject>
+<dc:coverage>1971-1980</dc:coverage>
+----
+
+New Islandora's (Drupal) data model will absolutely not support having one subject value where one part is topical and one part is temporal. Each Subject field value will need to just be a string, i.e. `Bluegrass music -- 1971-1980`.
+
+.Good
+[source,xml]
+----
+<subject>
+  <topic>Bluegrass music -- 1971-1980</topic>
+<subject>
+----
+
+.Also good
+[source,xml]
+----
+<subject>
+  <topic>Bluegrass music</topic>
+<subject>
+<subject>
+  <temporal>1971-1980</temporal>
+<subject>
+----
+
+== If using established controlled vocabularies
+
+Record vocabulary in `authority` attribute of `subject` element:
+
+[source,xml]
+----
+<subject authority="tgm">
+  <topic>Hats</topic>
+</subject>
+<subject authority="lcnaf">
+  <geographic>Durham (N.C.)</geographic>
+</subject>
+----
+
+== If established controlled vocabulary terms are not unique
+
+Record vocabulary `authority` and `valueURI` on the `subject` element:
+
+[source,xml]
+----
+<subject authority="tgn" valueURI="http://vocab.getty.edu/page/tgn/7013625">
+  <geographic>Durham</geographic>
+</subject>
+<subject authority="tgn" valueURI="http://vocab.getty.edu/page/tgn/7010027">
+  <geographic>Durham</geographic>
+</subject>
+<subject authority="tgn" valueURI="http://vocab.getty.edu/page/tgn/2001492">
+  <geographic>Durham</geographic>
+</subject>
+----
+
+Unfortunately, in I7 these will all just display as `Durham` and clicking on that term in the subject display will lead to search results for all subjects = Durham, whether in England, North Carolina, or elsewhere.
+
+The new Islandora does not handle this much better at present time, but it has the potential to in the future.
+
+What this recommendation is intended to protect against in a migration is those three subject values getting collapased into one "Durham" taxonomy term in new Islandora, forever losing the distinction between the different places represented. 
+

@@ -1,0 +1,61 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+:imagesdir: https://raw.githubusercontent.com/lyrasis/islandora-metadata/main/images
+
+= identifier
+
+- Clearly indicate the exact type of the identifier in a consistent manner. The two ways of doing this are shown below.
+- The default new Islandora assumption is there will be a separate field for every specific type of identifier. To migrate, your MODS identifiers will have to be assigned to those fields based on the type you've specified.
+- You don't want your ILS record numbers eventually ending up in separate `Bib Number`, `Catalog Number`, and `OPAC Number` fields, so it is critical to maintain consistency in how you specify the identifier types.
+
+== Slightly preferable: `type` attribute
+
+- More technically correct
+- Allows a specific search to be configured on just this ID type (i.e. "ISBN search", or "OCLC Number Search")
+- Leaves you the option to also add a display label if you need it (like if there's a "Vol. 1" and "Vol. 2" ISBN)
+- `type` attribute values cannot have spaces, or they can't be searched
+- Depending on preferences, you may or may not like the display better than the other
+
+[source,xml]
+----
+<identifier type="originalFileName">my_file_name</identifier>
+<identifier type="legacyDigitizedItem">XQ123</identifier>
+<identifier type="ILSBibRecord">b1234567</identifier>
+<identifier type="ISBN">01234567890</identifier>
+----
+
+Display:
+
+image::identifier_type.png[]
+
+== Also ok if done consistently: `displayLabel` attribute
+
+- You can still have an "Identifier Search," but no specific "ISBN Search"
+- If you have recorded "ISBN" as display label, this leaves you nowhere to record more specific contextualizing info for display if you need it (like if there's a "Vol. 1" and "Vol. 2" ISBN)
+- More human-friendly values can be used (i.e. with spaces)
+- Depending on preferences, you may or may not like the display better than the other
+
+[source,xml]
+----
+<identifier displayLabel="Original File Name">my_file_name</identifier>
+<identifier displayLabel="Legacy Digitized Item ID">XQ123</identifier>
+<identifier displayLabel="ILS Bib Record Number">b1234567</identifier>
+<identifier displayLabel="ISBN">01234567890</identifier>
+----
+
+Display:
+
+image::identifier_display_label.png[]
+
+
+

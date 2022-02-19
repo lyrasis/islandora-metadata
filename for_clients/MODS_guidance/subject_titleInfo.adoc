@@ -1,0 +1,75 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+:imagesdir: https://raw.githubusercontent.com/lyrasis/islandora-metadata/main/images
+
+= subject/titleInfo
+
+NOTE: Out of the box new Islandora does not have a Title taxonomy set up. In a migration to such a system, title subjects will probably get mapped to the main Subject taxonomy.
+
+== Do not indicate title type
+
+Record the primary/authorized/uniform title of a work as a subject
+
+.Bad
+[source,xml]
+----
+<subject>
+  <titleInfo type="alternative">
+    <title>Variant title form</title>
+  </titleInfo>
+</subject>
+----
+
+.Bad
+[source,xml]
+----
+<subject>
+  <titleInfo>
+    <title>Primary/authorized title</title>
+  </titleInfo>
+</subject>
+----
+
+== Sub-elements _may_ be included, but will probably end up concatenated into one string for new Islandora
+
+.Good
+[source,xml]
+----
+<subject>
+  <titleInfo>
+    <title>Olympics: a history. Part 1. Ancient</title>
+  </name>
+</subject>
+----
+
+.Ok
+[source,xml]
+----
+<subject>
+  <titleInfo>
+    <nonSort>The</nonSort>
+    <title>Olympics</title>
+    <subTitle>a history</subTitle>
+    <partNumber>Part 1</partNumber>
+    <partName>Ancient</partName>
+  </titleInfo>
+</subject>
+----
+
+You can edit the sub-elements in the LYRASIS Detailed MODS form in the UI.
+
+The new Islandora cannot model the `nonSort` element at all, so it will likely need to be dropped from title strings in a migration. Encoding it separately like this will at least make it easy to do that in the migration process.
+
+Functionality-wise you don't gain a lot by breaking this up into sub-elements in I7.
+
+For new Islandora, it will likely need to be concatenated into a string following the same patterns we use to generate I7 display.

@@ -1,0 +1,84 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+:imagesdir: https://raw.githubusercontent.com/lyrasis/islandora-metadata/main/images
+
+= originInfo date elements
+
+== General guidance
+
+* Refer to our https://lyrasis.zendesk.com/hc/en-us/articles/360041734211-Deep-dive-Best-practices-for-dates-in-Islandora-MODS-metadata[Deep dive: Best practices for dates in Islandora MODS metadata]
+
+== Special situations
+=== Metadata aggregator requires separate fields for exact/numeric dates vs. dates with textual expression (ranges, circa or other qualifiers)
+
+==== Option 1
+
+.Exact/numeric creation date
+[source,xml]
+----
+<originInfo>
+  <dateCreated encoding="edtf">2022-02-18</dateCreated>
+<originInfo>
+----
+
+.Textual expression of creation date, using LYRASIS pseudo-standard expression
+[source,xml]
+----
+<originInfo>
+  <dateCreated>2004-06 (uncertain and approximate)</dateCreated>
+<originInfo>
+----
+
+===== Benefits
+
+- The dates will all be handled within I7 as creation dates (searchable, sortable in the limited ways possible)
+- For migration to new Islandora, these can all be sent through the same processing to convert them to EDTF format
+- This can work if CSV metadata is sent to aggregator and used to generate MODS for I7
+
+===== Possible downsides
+
+- If aggregator is harvesting data from Islandora, they need to harvest MODS (not DC) and be able process based on presence of `encoding="edtf"` (Exact date field) or not (textual date field)
+
+==== Option 2
+
+.Exact/numeric creation date
+[source,xml]
+----
+<originInfo>
+  <dateCreated encoding="edtf">2022-02-18</dateCreated>
+<originInfo>
+----
+
+.Textual expression of creation date, using LYRASIS pseudo-standard expression
+[source,xml]
+----
+<originInfo>
+  <dateOther type='created_date_textual'>2004-06 (uncertain and approximate)</dateOther>
+<originInfo>
+----
+
+NOTE: The `created_textual` type value is made up and could be anything, but must be used consistently. You could also have `issued_textual`, `valid_textual` and similar types for textual versions of the other specific `originInfo` date elements.
+
+===== Benefits
+
+- You do not lose what kind of date has been recorded
+- Migration process to new Islandora can run the values through processor to convert then to EDTF and collapsing all into one field (i.e. the already EDTF exact dates and the converted textual dates will all just be in Date Created)
+- May be usable if aggregator is harvesting MODS from I7 and cannot do post-processing based on presence/absense of attribute values
+
+===== Possible downsides
+
+- `dateOther` is not mapped to DC record output in I7 by default
+- The dates (all representing creation dates) are not handled within I7 as the same kind of date
+- I7 display:
+
+image::originInfo_dateOther_with_type.png[]

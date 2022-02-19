@@ -1,0 +1,110 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+:imagesdir: https://raw.githubusercontent.com/lyrasis/islandora-metadata/main/images
+
+= Collection name
+
+== Digital collection
+=== Islandora collection
+When you add an item to a collection in I7, that relationship is captured in the RELS-EXT (Fedora Object to Object Relationship Metadata) datastream automatically by the system:
+
+[source,xml]
+----
+<rdf:RDF>
+  <rdf:Description rdf:about="info:fedora/ns:15472">
+    <fedora:isMemberOfCollection rdf:resource="info:fedora/ns:imgopen"/>
+    <fedora-model:hasModel rdf:resource="info:fedora/islandora:sp_basic_image"/>
+    <islandora:deferDerivatives>true</islandora:deferDerivatives>
+  </rdf:Description>
+</rdf:RDF>
+----
+
+This data powers the display pointed at by arrows in the image below, without you having to include anything in your descriptive metadata:
+
+image::rels-ext_collection.png[]
+
+This information will be migrated to new Islandora to retain collections structure, but there it actually becomes the value of just another field in your metadata---not stored in a separate place.
+
+In new Islandora this means the JSON LD generated for the object contains the "Member of" relationship to the parent collection.
+
+However neither the default OAI-PMH MODS (in I7) or DC (in I7 or new) contains this internal collection information.
+
+=== relatedItem
+
+If you need the name of the digital collection to be output in metadata emitted from OAI-PMH:
+
+[source,xml]
+----
+<titleInfo>
+  <title>Host related item</title>
+</titleInfo>
+<relatedItem type="host" displayLabel="Digital collection">
+  <titleInfo>
+    <title>Open Collection</title>
+  </titleInfo>
+</relatedItem>
+----
+
+Results in this display in I7:
+
+image::relatedItem_host_collection.png[]
+
+And this OAI_DC in I7:
+
+[source,xml]
+----
+<dc:title>Host related item</dc:title>
+<dc:relation>Open Collection</dc:relation>
+----
+
+There is not a clear migration path for this data to the new Islandora yet. It is possible that, if you want the collection name in the records emitted from OAI-PMH, you can just configure the OAI-PMH mapping to include the `Member of` field value.
+
+== Physical collection
+
+This may be a general collection like "University of Whatever Special Collections" or a specific physical collection.
+
+=== General collection
+
+For the general collection the following is recommended:
+
+[source,xml]
+----
+<location>
+  <physicalLocation>University of Whatever Special Collections</physicalLocation>
+</location>
+----
+
+In I7, this displays as:
+
+image::location_physicalLocation_simple.png[]
+
+=== Specific collection (or part of a collection) held in a larger physical collection
+
+To display more specific information about a sub-collection or part of a collection:
+
+[source,xml]
+----
+<location>
+  <physicalLocation>University of Whatever Special Collections</physicalLocation>
+  <holdingSimple>
+    <copyInformation>
+      <subLocation>Local Historic Photos Collection</subLocation>
+      <shelfLocator>Section 7, Boxes 2-23</shelfLocator>
+    </copyInformation>
+  </holdingSimple>
+</location>
+----
+
+Which displays in I7 as:
+
+image::location_holdingSimple.png[]
