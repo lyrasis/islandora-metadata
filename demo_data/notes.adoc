@@ -116,3 +116,24 @@ http://localhost:9876/solr/collection1/select?q=-fedora_datastreams_ms%3AOBJ%20A
 * lyrdemo:4568,info:fedora/islandora:sp_basic_image
 * lyrdemo:4573,info:fedora/islandora:collectionCModel
 * lyrdemo:4608,info:fedora/islandora:collectionCModel
+
+== Validation
+
+=== Initial
+
+[source]
+----
+19 invalid MODS files in /Users/kristina/data/islandora/demo_pilot/demo. See validation_log.txt for details.
+The unique error types found across the MODS files are:
+ - 7	Element '{http://www.loc.gov/mods/v3}name', attribute 'type': [facet 'enumeration'] The value '' is not an element of the set {'personal', 'corporate', 'conference', 'family'}.
+ - 7	Element '{http://www.loc.gov/mods/v3}format': This element is not expected. Expected is one of ( {http://www.loc.gov/mods/v3}form, {http://www.loc.gov/mods/v3}reformattingQuality, {http://www.loc.gov/mods/v3}internetMediaType, {http://www.loc.gov/mods/v3}extent, {http://www.loc.gov/mods/v3}digitalOrigin, {http://www.loc.gov/mods/v3}note ).
+ - 4	Element '{http://www.loc.gov/mods/v3}subject', attribute 'type': The attribute 'type' is not allowed.
+ - 4	Element '{http://www.loc.gov/mods/v3}digitalOrigin': This element is not expected.
+ - 2	Element '{http://www.loc.gov/mods/v3}url': This element is not expected. Expected is ( {http://www.loc.gov/mods/v3}holdingExternal ).
+ - 2	Element '{http://www.loc.gov/mods/v3}physicalDescription': Missing child element(s). Expected is one of ( {http://www.loc.gov/mods/v3}form, {http://www.loc.gov/mods/v3}reformattingQuality, {http://www.loc.gov/mods/v3}internetMediaType, {http://www.loc.gov/mods/v3}extent, {http://www.loc.gov/mods/v3}digitalOrigin, {http://www.loc.gov/mods/v3}note ).
+ - 2	Element '{http://www.loc.gov/mods/v3}physicalDescription': Character content other than whitespace is not allowed because the content type is 'element-only'.
+ - 2	Element '{http://www.loc.gov/mods/v3}physicalDescription', attribute 'authority': The attribute 'authority' is not allowed.
+ - 2	Element '{http://www.loc.gov/mods/v3}namePart': This element is not expected. Expected is one of ( {http://www.loc.gov/mods/v3}topic, {http://www.loc.gov/mods/v3}geographic, {http://www.loc.gov/mods/v3}temporal, {http://www.loc.gov/mods/v3}titleInfo, {http://www.loc.gov/mods/v3}name, {http://www.loc.gov/mods/v3}geographicCode, {http://www.loc.gov/mods/v3}hierarchicalGeographic, {http://www.loc.gov/mods/v3}cartographics, {http://www.loc.gov/mods/v3}occupation, {http://www.loc.gov/mods/v3}genre ).
+ - 2	Element '{http://www.loc.gov/mods/v3}name', attribute 'usage': The value '' does not match the fixed value constraint 'primary'.
+ ----
+ 
