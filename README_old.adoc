@@ -2,7 +2,7 @@
 :toc-placement!:
 :toclevels: 4
 
-= LYRASIS (new) Islandora metadata documentation
+= SUPERSEDED README
 
 [IMPORTANT]
 ====
