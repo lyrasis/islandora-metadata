@@ -10,5 +10,7 @@ Due to (1) underlying assumptions/limitations in the Drupal data model, and (2) 
 
 This project has been abandoned.
 
-The specifications and other information will be left in place as a record of what we were trying to accomplish, in case anyone finds it useful or informative. 
+The specifications and other information will be left in place as a record of what we were trying to accomplish, in case anyone finds it useful or informative.
+
+The old README (providing background and orientation) is https://github.com/lyrasis/islandora-metadata/blob/main/README_old.adoc[here].
 ====
