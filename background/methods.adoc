@@ -1,0 +1,86 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+= Developing I8 content model: metadata analysis methods
+
+toc::[]
+
+[NOTE]
+====
+Documents referenced/linked to on this page are only accessible to LYRASIS staff with relevant permissions.
+====
+
+Data is kept in a few places:
+
+* *migration server:islandora-7-to-8*
+** *i7_mods*: Harvested client metadata for analysis. Subdirectory per client.
+* https://lyrasis.sharepoint.com/sites/DataMigrations/_layouts/15/Doc.aspx?OR=teams&action=edit&sourcedoc={7D24FD70-C108-4000-A1C4-449C84F2C745}[*Data Migrations MS Teams Documents > General > Islandora > metadata_profiling.xlsx*]
+** TODO: link to section with more details on document
+* https://3.basecamp.com/3410311/buckets/12903981/vaults/3362404316[Basecamp > Islandora V8 Pilot > Docs & Files > Metadata and Data]
+** A usually-not-current version of `metadata_profiling.xlsx` usually updated when we need to refer to it in a meeting with folks without access to the Data Migrations MS Team
+** https://3.basecamp.com/3410311/buckets/12903981/documents/3721933509[Metadata issue examples] -- Gives examples/explanations of the "selected metadata complexities" presented in the `inst_summaries` tab of `metadata_profiling.xlsx`. They are intended to be understandable to non-metadata experts.
+
+== Setup for work
+
+The following assumes the bulk of the metadata profiling/analysis work will be carried out on the migration server, in the `islandora-7-to-8` directory.
+
+This is a little annoying because there's not a friendly way to work with CSV data on the server, but now that multiple people will be working on this, we all shouldn't be harvesting all the data and duplicating necessary profiling work on our individual machines.
+
+In your home directory on the migration server:
+
+ git clone git@github.com:lyrasis/islandora-data-tools.git
+
+If you already have that repo cloned:
+
+ git pull
+
+== Harvest, prepare, and gather general stats 
+=== Harvest existing client MODS from I7
+
+Use https://github.com/lyrasis/islandora-data-tools/blob/main/workflows/harvest_all_MODS.adoc[this workflow].
+
+Output folder should be: `/opt/migrations/islandora-7-to-8/i7_mods/{client}`
+
+Update `MODS retrieved` and `mods count` columns of `metadata_profiling.xlsx/profiling`
+
+=== Validate the harvested MODS
+
+Use https://github.com/lyrasis/islandora-data-tools/blob/main/mods/ruby/validate_mods_files_in_directory.rb[validate_mods_files_in_directory.rb] script
+
+ ruby validate_mods_files_in_directory.rb -i /opt/migrations/islandora-7-to-8/i7_mods/{client}
+
+Update `invalid MODS` column of `metadata_profiling.xlsx/profiling`
+
+=== Remove blank attributes from MODS
+
+Due to some issue at some point with XSLs, there are invalid blank attributes in lots of our client MODS.
+
+If you see "The value '' is not an element of the set" messages in the validation summary, run https://github.com/lyrasis/islandora-data-tools/blob/main/mods/ruby/remove_blank_attributes.rb[remove_blank_attributes.rb] script.
+
+ ruby remove_blank_attributes.rb -i /opt/migrations/islandora-7-to-8/i7_mods/{client} -o /opt/migrations/islandora-7-to-8/i7_mods/{client}_clean
+
+=== Validate the cleaned MODS
+
+ ruby validate_mods_files_in_directory.rb -i /opt/migrations/islandora-7-to-8/i7_mods/{client}_clean
+
+Update `invalid MODS after blank attr removed` column of `metadata_profiling.xlsx/profiling`
+
+=== Remove the initially harvested MODS folder
+
+ cd /opt/migrations/islandora-7-to-8/i7_mods
+ rm -rf {client}
+
+== Profile the cleaned MODS
+=== Run the profiler
+
+ ruby profile_xml.rb -i /opt/migrations/islandora-7-to-8/i7_mods/{client}_clean -s mods
+
+This creates:
+
+* `/opt/migrations/islandora-7-to-8/i7_mods/{client}_clean/profile` directory
+** 
+* `/opt/migrations/islandora-7-to-8/i7_mods/{client}_clean/profile/profile_log.txt`
+** Lists any XML files excluded from profiling due to parsing or other errors
+* `/opt/migrations/islandora-7-to-8/i7_mods/{client}_clean/profile/values` directory
+

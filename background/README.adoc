@@ -1,0 +1,13 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+= Background
+
+Notes on approach and methods used in this work
+
+toc::[]
+
+https://github.com/lyrasis/islandora8-metadata/blob/main/background/general_approach.adoc[General approach]:: guiding priorities/principles and a little philosophical noodling about how to handle the project
+
+https://github.com/lyrasis/islandora8-metadata/blob/main/background/methods.adoc[Methods]:: details on our metadata analysis methods

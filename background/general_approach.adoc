@@ -1,0 +1,43 @@
+:toc:
+:toc-placement!:
+:toclevels: 4
+
+= Developing I8 content model: general approach
+
+toc::[]
+
+LYRASIS currently hosts ~20 Islandora 7 (I7) clients.
+
+In general, most of the descriptive metadata in our clients' I7 repositories is stored in MODS. Different clients have used different MODS patterns/practices. footnote:[A glance at the examples in the http://www.loc.gov/standards/mods/userguide/index.html[MODS User Guidelines] shows the wide variations in usage that may be found in valid MODS.]
+
+ With end-of-support approaching for I7, we need to migrate our clients' objects and descriptive metadata to Islandora 8 (I8).
+
+Overall goals:
+
+* Do not throw our clients' descriptive metadata away. This metadata represents our clients' time, effort, expertise (and money).
+* Do not lose data functionality. If client could browse their wildflower collection by native vs. non-native plant in I7, they should be able to do so in I8
+* Support the previous goals /without/ building a custom content types from scratch for each client, as we do not have the resources to support this and it is not sustainable
+
+I8 comes with no support for MODS or hierarchical XML metadata formats. The default out of the box I8 assumption is that most descriptive metadata will be captured in core Drupal fields, which are simple key-value pairs. Translating a hierarchical XML structure where elements may have attributes and types into flat key-value pairs requires either:
+
+- defining/maintaining an excessively large number of fields footnote:[For example, defining a separate field for each type of identifier: ISBN, ISSN, etc. At last check, our client data contained 54 different identifier types. So that would be 54 separate fields, just for identifiers.]
+- throwing away much of the information in the MODS metadata -- the literal values of the MODS elements will be migrated, but context and granularity from the XML structure and attributes will be lost
+
+Neither of these feels acceptable to us, so we need to figure out a better way to support common metadata patterns in I8.
+
+== How do we do this?
+
+https://twitter.com/eaton/status/1418585833670643716[This Twitter thread] from Jeff Eaton footnote:[Thank you to Alexander O'Neill for bringing this thread to my attention] outlines three main approaches to content modeling: platonic, organic, and design first.
+
+Platonic:: "You start with a communication or publishing concept and iron out your content types, their properties, etc. in a way that best describes their essential nature. "We want to do interviews. What _is_ an interview, conceptually? Well, we'll need a subject, perhaps multiple subjects…" and so on."
+Organic:: "usually starts with a large body of existing "organic" content in a variety of forms. It works towards a model that will allow those different assets to be created, managed, and used consistently. We have four CMSs and two newsletters and a nontrivial number of print assets and also a video library… how do we unify them?" The model can't escape contending with the messiness of varied, real-world content, because that's where it starts."
+Design first:: "You start with visual artifacts and you look at them and say, "OK. What content elements and properties and relationships does this imply? What would need to exist to make this design real?" At its worst this makes your content model a kind of madlibs exercise. Each design variation becomes a content type, with "holes" cut into the design to be filled by content properties. That's how the first generation of templated, database driven web sites came to be, but on its own this approach is tremendously brittle — if your design changes, odds are there will be different "holes" to fill and your old data is unlikely to fit them."
+
+Eaton outlines some of the strengths and weaknesses of these approaches and how the most effective approach starts with the angle with the most certainty, and takes into consideration the other perspectives.
+
+We have our clients' existing metadata, so the most certain intial approach is **organic**. All the decision-making is grounded in the actual existing data. Details on how we have done this are in https://github.com/lyrasis/islandora8-metadata/blob/main/background/methods.adoc[Methods].
+
+However, we are abstracting up to generalizable patterns that should apply to most if not all other types of content description in the library-ish tradition. We want to be able to bring future clients into a hosted I8 solution where the metadata setup will basically meet their needs without customization. So it incorporates the **platonic** perspective.
+
+This work also centrally considers the function and behavior of the descriptive metadata within the system. To assume the metadata is only about an individual metadata description and how it displays to a human end user on a web page is folly. How this metadata is stored in Drupal, indexed in Solr, and mapped to other formats or functions has major impacts on what can be done with that data now and in the future. Our concern for this demonstrates incorporation of a **design** perspective.
+
