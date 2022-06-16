@@ -87,8 +87,6 @@ We are seeing this process require significant resources at an individual instit
 
 === What to expect as a LYRASIS-hosted Islandora client
 
-==== You will NOT to have to do all the steps described above!
-
 We understand that many of our clients have opted for LYRASIS-hosting because they don't want to (or are unable to) dedicate resources to managing and maintaining a self-hosted Islandora instance. For many of you, that includes staff resources dedicated to managing metadata in Islandora.
 
 We also recognize that, in order to keep our risks, costs, and price low, we do not give our clients the level of access to backend tools they would need to carry out the large scale metadata profiling and remediation projects described above.
@@ -97,21 +95,21 @@ __**+++<del>+++We intend to provide a migration path for our clients into the ne
 
 This intention was predicated on finding/building support for general/common metadata patterns into Islandora, in a way that would not preclude clients from taking advantage of new functionality and tooling in the community version of Islandora.
 
-Unfortunately, we determined that building such support does not appear to be possible. If it is possible, it would require more development resources than are available, and would result in significant deviation from the assumptions of the community version of Islandora.
+Unfortunately, we determined that building such support does not appear to be possible. If it is possible, it would require more development resources than are available at our current hosting prices.
 
-==== LYRASIS is conducting ongoing, significant development work in attempt to build more robust metadata support into the new Islandora in a way that works for both our hosting infrastructure and our client needs
+==== LYRASIS conducted significant development work in attempt to build more robust metadata support into the new Islandora in a way that works for both our hosting infrastructure and our client needs
 
-Because this work is **ongoing**, we cannot yet show you what anything will look like in the LYRASIS-hosted new Islandora. There is no set metadata schema that comes with the new Islandora; as I described above, most institutions are building their own custom content types.
+There is no set metadata schema that comes with the new Islandora; as I described above, most institutions are building their own custom content types.
 
-Our current assessment is that it is unsustainable for LYRASIS to develop and maintain custom content types for each client, so we are working to develop one or more general content types that can accommodate the metadata patterns currently found in our clients' metadata.
+It is unsustainable for LYRASIS to develop and maintain custom content types for each hosting client, so we attempted to develop one or more general content types that could accommodate the metadata patterns currently found in our clients' metadata.
 
-The metadata-related questions in the Islandora Migration Assessment communication you recently received from us were intended to help us understand your needs around some specific metadata patterns.
-
-There are some significant technical challenges in adding more complex metadata modeling to a base system (Drupal) built for blog posts and "web content management." +++<del>+++We do not yet know if it is actually realistically possible to make everything work as we hope it will, but we are doing our best.+++</del>+++
+The metadata-related questions in the Islandora Migration Assessment communication sent to clients in late 2021 were intended to help us understand your needs around some specific metadata patterns.
 
 Unfortunately, we determined that it is not realistically possible to make metadata work as we hoped in new Islandora.
 
-https://github.com/lyrasis/islandora-metadata[This entire Github repository] is devoted to transparency about what we were  attempting to build, and you are welcome to explore any and all of it. However, the functionalities described and planned have been abandoned.
+There are some significant technical challenges in adding more complex metadata modeling to a base system (Drupal) built for blog posts and "web content management."
+
+https://github.com/lyrasis/islandora-metadata[This entire Github repository] is devoted to transparency about what we were attempting to build, and you are welcome to explore any and all of it. However, the functionalities described and planned have been abandoned.
 
 ==== Some MODS metadata patterns are not translateable into the new Islandora
 
